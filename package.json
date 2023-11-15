@@ -1,0 +1,16 @@
+{
+  "name": "DSLDesign",
+  "version": "1.0.0",
+  "description": "A Bot Generator for Customer Service Bot",
+  "main": "index.ts",
+  "repository": "https://github.com/RowletQwQ/DSLDesign.git",
+  "author": "RowletQwQ",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "antlr4ts": "antlr4ts -visitor src/parser/csl.g4 -o src/parser"
+  },
+  "dependencies": {
+    "antlr4ts-cli": "^0.5.0-alpha.4"
+  }
+}

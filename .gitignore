@@ -1,2 +1,2 @@
-doc/
-parser/.antlr
+src/parser/.antlr
+node_modules/
