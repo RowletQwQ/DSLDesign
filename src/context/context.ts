@@ -1,0 +1,35 @@
+// 应用运行的上下文
+export class Context {
+    // 符号表
+    private symbol_table_: Map<string, any>;
+    private global_context_: Context | undefined;
+
+    constructor() {
+        this.symbol_table_ = new Map<string, any>();
+        this.global_context_ = undefined;
+    }
+
+    // 设置全局上下文
+    set_global_context(context: Context) {
+        this.global_context_ = context;
+    }
+
+    // 设置符号
+    set_symbol(name: string, value: any) {
+        this.symbol_table_.set(name, value);
+    }
+
+    // 获取符号
+    get_symbol(name: string): any {
+        // 从当前上下文中获取
+        let value = this.symbol_table_.get(name);
+        if (value != undefined) {
+            return value;
+        }
+        // 如果不在当前上下文中，则从全局上下文中获取
+        if (this.global_context_ != undefined) {
+            return this.global_context_.get_symbol(name);
+        }
+        return undefined;
+    }
+}
