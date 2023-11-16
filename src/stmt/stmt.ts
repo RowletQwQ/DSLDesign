@@ -1,23 +1,10 @@
 // Statement的类型，对应语法中涉及的所有语句类型
 export enum StmtType {
-    /* 相关函数 */
-    CONSTANCE_STMT,
-    HELLO_STMT,
-    CHATBOX_STMT,
-    TOPIC_STMT,
-    /* 相关命令语句 */
-    SAY_STMT,
-    GOTO_STMT,
-    MENU_STMT,
-    FETCH_STMT,
-    POST_STMT,
-    SET_STMT,
-    INPUT_STMT,
-    IF_STMT,
-    LOOP_STMT,
-    ASSERT_STMT,
-    WHEN_STMT,
-    MATCH_STMT,
+    CONSTANCE_STMT, //< 常量声明
+    HELLO_STMT,     //< 初始问候声明
+    CHATBOX_STMT,   //< 初始聊天回复声明
+    TOPIC_STMT,     //< 话题声明
+    COMMAND_STMT,   //< 命令语句
 }
 
 /**

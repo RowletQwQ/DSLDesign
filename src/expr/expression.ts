@@ -2,13 +2,14 @@ import { Context } from "../context/context"
 
 export enum ExprType {
     NONE,
-    ARITHMETIC,  //< 算术表达式
-    COMPARISON,  //< 比较表达式
-    CONJUNCTION, //< 逻辑连接表达式(AND OR)
-    FIELD,       //< 字段表达式,即变量
-    VALUE,       //< 值表达式,即常量
-    UNARY,       //< 一元表达式,包括not和负号
-    POSTFIX,     //< 后缀表达式,包括成员访问和数组下标访问
+    ARITHMETIC,         //< 算术表达式
+    COMPARISON,         //< 比较表达式
+    CONJUNCTION,        //< 逻辑连接表达式(AND OR)
+    FIELD,              //< 字段表达式,即变量
+    VALUE,              //< 值表达式,即常量
+    UNARY,              //< 一元表达式,包括not和负号
+    POSTFIX,            //< 后缀表达式,包括成员访问和数组下标访问
+    TEMPLATE_STRING,    //< 模板字符串表达式
 }
 
 
