@@ -4,12 +4,76 @@ options {
     caseInsensitive = false;
 }
 /* TOKENS (terminal) */
-import constance,operator,keyword;
+/* Keywords */
+CHATBOX: 'chatbox';
+HELLO: 'hello';
+TOPIC: 'topic';
+CONSTANCE: 'constance';
+GOTO: 'goto';
+DEFAULT: 'default';
+MENU: 'menu';
+SAY: 'say';
+EXIT: 'exit';
+INPUT: 'input';
+ASSERT: 'assert';
+IF: 'if';
+ELSE: 'else';
+ELIF: 'elif';
+LOOP: 'loop';
+WHEN: 'when';
+BREAK: 'break';
+CONTINUE: 'continue';
+SILENCE: 'silence';
+MATCH: 'match';
+SET: 'set';
+GLOBAL: 'global';
+FETCH: 'fetch';
+POST: 'post';
+OR: 'or';
+AND: 'and';
+NOT: 'not';
+/* constance */
+STRING: ('"' ('\\"'|~["])* '"' | '\'' ('\\\''|~['])* '\'');
+QUOTE: ('"' | '\'');
+DIGIT: [0-9]+;
+INTS: DIGIT+;
+FLOATS: DIGIT+ '.' DIGIT+;
+
+/* operator */
+ARROW: '=>';
+ASSIGN: ':=';
+EQUAL: '=';
+COLON: ':';
+SEMICOLON: ';';
+COMMA: ',';
+LPAREN: '(';
+RPAREN: ')';
+LBRACE: '{';
+RBRACE: '}';
+LBRACK: '[';
+RBRACK: ']';
+DOLLAR: '$';
+PLUS: '+';
+MINUS: '-';
+MULTIPLY: '*';
+DIVIDE: '/';
+GREATER: '>';
+GREATER_EQUAL: '>=';
+LESS: '<';
+LESS_EQUAL: '<=';
+NOT_EQUAL: '<>';
+BANG: '!';
+MOD: '%';
+DOT: '.';
+
 /* Symbols */
 ID: [a-zA-Z_][a-zA-Z_0-9]*;
 
 /* Ignored tokens */
 WS: [ \t\r\n]+ -> skip;
+
+/* Ignored Comments */
+COMMENT: '#' ~[\r\n]* -> skip;
 
 /* template string */
 
@@ -18,13 +82,13 @@ template_string: '`' template_string_part* '`';
 template_string_part: template_string_plain_text
                     | template_string_expr;
 
-template_string_plain_text: ~('`' | '$') .;
+template_string_plain_text: ~('`' | '$' | '\\') | '\\' '`' | '\\' '$';
 
 template_string_expr: '$' LBRACE expression RBRACE;
                     
 
 /* Non-terminal */
-scripts: ( constance_stmt | topic_stmt | chatbox_stmt | hello_stmt)*;
+scripts: ( constance_stmt | topic_stmt | chatbox_stmt | hello_stmt )+ EOF;
 
 hello_stmt: HELLO LBRACE command_sequnces RBRACE;
 
@@ -58,7 +122,7 @@ command_sequnces: command_sequnces command_stmt
 command_stmt: say_stmt | goto_stmt | input_stmt | menu_stmt | match_stmt 
             | if_stmt | when_silence_stmt | assign_stmt | assign_global_stmt
             | loop_stmt | continue_stmt | break_stmt | fetch_stmt
-            | post_stmt;
+            | post_stmt | exit_stmt;
 
 continue_stmt: CONTINUE;
 
@@ -70,7 +134,9 @@ assign_stmt: SET ID ASSIGN expression;
 
 assign_global_stmt: SET GLOBAL ID ASSIGN expression;
 
-goto_stmt: GOTO ID;
+goto_stmt: GOTO (ID | CHATBOX);
+
+exit_stmt: EXIT;
 
 input_stmt: INPUT ID assert_stmt* when_silence_stmt*;
 

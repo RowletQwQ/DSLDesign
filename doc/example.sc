@@ -1,4 +1,4 @@
-% 以下为所设计的用于特定领域语言的语法
+# 以下为所设计的用于特定领域语言的语法
 constance{
     name := "Ruby"
     version := "1.0.0"
@@ -33,15 +33,15 @@ topic Welcome{
 topic Main_Menu{
     menu{
         "What is your name?" => {
-            say "My name is ${name}"
+            say `My name is ${name}`
             goto Main_Menu
         }
         "What is your version?" => {
-            say "My version is ${version}"
+            say `My version is ${version}`
             goto Main_Menu
         }
         "Who is your author?" => {
-            say "My author is ${author}"
+            say `My author is ${author}`
             goto Main_Menu
         } 
         "Exit" => {
