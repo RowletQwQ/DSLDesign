@@ -1,15 +1,16 @@
+import { Expression } from "../../expr/expression.ts";
 import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
 import { StmtType } from "../stmt.ts";
 
 export class WhenSilenceStmt implements CommandStmt {
-    private timeout_: number;
+    private timeout_: Expression;
     private command_seq_: CommandStmt[];
-    constructor(timeout: number, command_seq: CommandStmt[]) {
+    constructor(timeout: Expression, command_seq: CommandStmt[]) {
         this.timeout_ = timeout;
         this.command_seq_ = command_seq;
     }
 
-    get_timeout(): number {
+    get_timeout(): Expression {
         return this.timeout_;
     }
 

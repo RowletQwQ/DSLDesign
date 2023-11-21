@@ -134,32 +134,24 @@ assign_stmt: SET ID ASSIGN expression;
 
 assign_global_stmt: SET GLOBAL ID ASSIGN expression;
 
-goto_stmt: GOTO (ID | CHATBOX);
+goto_stmt: GOTO ID;
 
-exit_stmt: EXIT;
+exit_stmt: EXIT | GOTO CHATBOX;
 
-input_stmt: INPUT ID assert_stmt* when_silence_stmt*;
+input_stmt: INPUT ID assert_stmt? when_silence_stmt?;
 
 assert_stmt: ASSERT expression;
 
 when_silence_stmt: WHEN SILENCE expression ARROW LBRACE command_sequnces RBRACE;
 
-match_stmt: MATCH INPUT LBRACE match_list RBRACE;
+match_stmt: MATCH INPUT LBRACE case_list default_branch? RBRACE when_silence_stmt?;
 
-match_list: match_list match_branch
-          | match_branch;
-
-match_branch: pattern ARROW LBRACE command_sequnces RBRACE
-            | default_branch
-            | when_silence_stmt;
-
-menu_stmt: MENU LBRACE case_list RBRACE;
+menu_stmt: MENU LBRACE case_list default_branch? RBRACE;
 
 case_list: case_list case_branch
          | case_branch;
 
-case_branch: expression ARROW LBRACE command_sequnces RBRACE
-           | default_branch;
+case_branch: expression ARROW LBRACE command_sequnces RBRACE;
 
 if_stmt: IF expression ARROW LBRACE command_sequnces RBRACE else_if_stmt? else_stmt?;
 

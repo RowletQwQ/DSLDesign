@@ -26,12 +26,11 @@ import { Say_stmtContext } from "./cslParser.js";
 import { Assign_stmtContext } from "./cslParser.js";
 import { Assign_global_stmtContext } from "./cslParser.js";
 import { Goto_stmtContext } from "./cslParser.js";
+import { Exit_stmtContext } from "./cslParser.js";
 import { Input_stmtContext } from "./cslParser.js";
 import { Assert_stmtContext } from "./cslParser.js";
 import { When_silence_stmtContext } from "./cslParser.js";
 import { Match_stmtContext } from "./cslParser.js";
-import { Match_listContext } from "./cslParser.js";
-import { Match_branchContext } from "./cslParser.js";
 import { Menu_stmtContext } from "./cslParser.js";
 import { Case_listContext } from "./cslParser.js";
 import { Case_branchContext } from "./cslParser.js";
@@ -291,6 +290,16 @@ export class cslListener implements ParseTreeListener {
      */
     exitGoto_stmt?: (ctx: Goto_stmtContext) => void;
     /**
+     * Enter a parse tree produced by `cslParser.exit_stmt`.
+     * @param ctx the parse tree
+     */
+    enterExit_stmt?: (ctx: Exit_stmtContext) => void;
+    /**
+     * Exit a parse tree produced by `cslParser.exit_stmt`.
+     * @param ctx the parse tree
+     */
+    exitExit_stmt?: (ctx: Exit_stmtContext) => void;
+    /**
      * Enter a parse tree produced by `cslParser.input_stmt`.
      * @param ctx the parse tree
      */
@@ -330,26 +339,6 @@ export class cslListener implements ParseTreeListener {
      * @param ctx the parse tree
      */
     exitMatch_stmt?: (ctx: Match_stmtContext) => void;
-    /**
-     * Enter a parse tree produced by `cslParser.match_list`.
-     * @param ctx the parse tree
-     */
-    enterMatch_list?: (ctx: Match_listContext) => void;
-    /**
-     * Exit a parse tree produced by `cslParser.match_list`.
-     * @param ctx the parse tree
-     */
-    exitMatch_list?: (ctx: Match_listContext) => void;
-    /**
-     * Enter a parse tree produced by `cslParser.match_branch`.
-     * @param ctx the parse tree
-     */
-    enterMatch_branch?: (ctx: Match_branchContext) => void;
-    /**
-     * Exit a parse tree produced by `cslParser.match_branch`.
-     * @param ctx the parse tree
-     */
-    exitMatch_branch?: (ctx: Match_branchContext) => void;
     /**
      * Enter a parse tree produced by `cslParser.menu_stmt`.
      * @param ctx the parse tree

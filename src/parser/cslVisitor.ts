@@ -26,12 +26,11 @@ import { Say_stmtContext } from "./cslParser.js";
 import { Assign_stmtContext } from "./cslParser.js";
 import { Assign_global_stmtContext } from "./cslParser.js";
 import { Goto_stmtContext } from "./cslParser.js";
+import { Exit_stmtContext } from "./cslParser.js";
 import { Input_stmtContext } from "./cslParser.js";
 import { Assert_stmtContext } from "./cslParser.js";
 import { When_silence_stmtContext } from "./cslParser.js";
 import { Match_stmtContext } from "./cslParser.js";
-import { Match_listContext } from "./cslParser.js";
-import { Match_branchContext } from "./cslParser.js";
 import { Menu_stmtContext } from "./cslParser.js";
 import { Case_listContext } from "./cslParser.js";
 import { Case_branchContext } from "./cslParser.js";
@@ -202,6 +201,12 @@ export class cslVisitor<Result> extends AbstractParseTreeVisitor<Result> {
      */
     visitGoto_stmt?: (ctx: Goto_stmtContext) => Result;
     /**
+     * Visit a parse tree produced by `cslParser.exit_stmt`.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    visitExit_stmt?: (ctx: Exit_stmtContext) => Result;
+    /**
      * Visit a parse tree produced by `cslParser.input_stmt`.
      * @param ctx the parse tree
      * @return the visitor result
@@ -225,18 +230,6 @@ export class cslVisitor<Result> extends AbstractParseTreeVisitor<Result> {
      * @return the visitor result
      */
     visitMatch_stmt?: (ctx: Match_stmtContext) => Result;
-    /**
-     * Visit a parse tree produced by `cslParser.match_list`.
-     * @param ctx the parse tree
-     * @return the visitor result
-     */
-    visitMatch_list?: (ctx: Match_listContext) => Result;
-    /**
-     * Visit a parse tree produced by `cslParser.match_branch`.
-     * @param ctx the parse tree
-     * @return the visitor result
-     */
-    visitMatch_branch?: (ctx: Match_branchContext) => Result;
     /**
      * Visit a parse tree produced by `cslParser.menu_stmt`.
      * @param ctx the parse tree
