@@ -1,6 +1,6 @@
-import { Expression } from "../../expr/expression";
-import { CommandStmtType,CommandStmt } from "../command_stmt"
-import { StmtType } from "../stmt";
+import { Expression } from "../../expr/expression.ts";
+import { CommandStmtType,CommandStmt } from "../command_stmt.ts"
+import { StmtType } from "../stmt.ts";
 
 export class SayStmt implements CommandStmt {
     private expr_: Expression;

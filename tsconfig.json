@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
         "declaration": true,
-        "module": "ESNext",
+        "module": "NodeNext",
         "typeRoots": ["types"],
         "target": "ES2022",
-        "moduleResolution": "node",
+        "moduleResolution": "Node16",
         "noEmit": false,
         "emitDeclarationOnly": true,
         "outDir": "lib",

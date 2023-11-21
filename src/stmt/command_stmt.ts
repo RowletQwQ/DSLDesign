@@ -1,5 +1,5 @@
-import { Context } from "../context/context";
-import { Stmt, StmtType } from "./stmt";
+import { Context } from "../context/context.ts";
+import { Stmt, StmtType } from "./stmt.ts";
 
 // 所有command stmt的基类
 export enum CommandStmtType {

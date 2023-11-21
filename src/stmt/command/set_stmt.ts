@@ -1,6 +1,6 @@
-import { Expression } from "../../expr/expression";
-import { CommandStmt, CommandStmtType } from "../command_stmt";
-import { StmtType } from "../stmt";
+import { Expression } from "../../expr/expression.ts";
+import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
+import { StmtType } from "../stmt.ts";
 
 export class SetStmt implements CommandStmt {
     private var_name_: string;

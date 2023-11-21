@@ -1,5 +1,5 @@
-import { CommandStmt } from "./command_stmt";
-import { Stmt, StmtType } from "./stmt";
+import { CommandStmt } from "./command_stmt.ts";
+import { Stmt, StmtType } from "./stmt.ts";
 
 export class TopicStmt implements Stmt {
     private name_: string;

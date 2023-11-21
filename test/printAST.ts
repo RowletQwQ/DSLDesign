@@ -1,6 +1,5 @@
 
-import { CommonTokenStream } from "antlr4ng/CommonTokenStream";
-import { cslVisitor } from "../src/parser/cslVisitor.js";
+import { CommonTokenStream } from "antlr4ng";
 import { cslLexer } from "../src/parser/cslLexer.js";
 import { cslParser } from "../src/parser/cslParser.js";
 import { CharStreams } from "antlr4ng";

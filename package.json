@@ -10,10 +10,13 @@
   "type": "module",
   "scripts": {
     "antlr4": "antlr4ng -Dlanguage=TypeScript -Werror -visitor -listener -o src/parser  src/parser/csl.g4",
-    "test_grammar": "antlr4ts -visitor src/parser/csl.g4 -o src/parser && ts-node src/parser/test.ts"
+    "test_grammar": "cd test && tsc && cd ../ && ts-node lib/test/printAST.js1"
   },
   "dependencies": {
     "antlr4ng": "^2.0.2",
     "antlr4ng-cli": "^1.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.3"
   }
 }

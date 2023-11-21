@@ -1,6 +1,6 @@
-import { CommandStmt, CommandStmtType } from "../command_stmt";
-import { StmtType } from "../stmt";
-import { WhenStmt } from "./when_stmt";
+import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
+import { StmtType } from "../stmt.ts";
+import { WhenStmt } from "./when_stmt.ts";
 
 export class LoopStmt implements CommandStmt {
     private command_seq_: CommandStmt[];

@@ -1,6 +1,6 @@
 import { AbstractParseTreeVisitor } from "antlr4ng";
 import { Command_sequncesContext, Command_stmtContext } from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor";
+import { cslVisitor } from "../parser/cslVisitor.ts";
 import { CommandStmt } from "../stmt/command_stmt.ts";
 
 export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
@@ -27,5 +27,5 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // 以下是对应语法
-    
+
 }

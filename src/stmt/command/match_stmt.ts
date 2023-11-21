@@ -1,7 +1,7 @@
-import { CommandStmt, CommandStmtType } from "../command_stmt";
-import { StmtType } from "../stmt";
-import { CaseStmt } from "./case_stmt";
-import { WhenSilenceStmt } from "./when_silence_stmt";
+import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
+import { StmtType } from "../stmt.ts";
+import { CaseStmt } from "./case_stmt.ts";
+import { WhenSilenceStmt } from "./when_silence_stmt.ts";
 
 export class MatchStmt implements CommandStmt {
     private patterns_: string[];

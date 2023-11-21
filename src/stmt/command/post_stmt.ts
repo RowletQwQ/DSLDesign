@@ -1,6 +1,6 @@
-import { TemplateStringExpr } from "../../expr/template_string_expr";
-import { CommandStmt, CommandStmtType } from "../command_stmt";
-import { StmtType } from "../stmt";
+import { TemplateStringExpr } from "../../expr/template_string_expr.ts";
+import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
+import { StmtType } from "../stmt.ts";
 
 export class PostStmt implements CommandStmt {
     private source_id_: string;

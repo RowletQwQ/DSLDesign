@@ -1,6 +1,6 @@
-import { CommandStmt, CommandStmtType } from "../command_stmt";
-import { StmtType } from "../stmt";
-import { CaseStmt } from "./case_stmt";
+import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
+import { StmtType } from "../stmt.ts";
+import { CaseStmt } from "./case_stmt.ts";
 
 export class MenuStmt implements CommandStmt {
     private cases_: CaseStmt[];

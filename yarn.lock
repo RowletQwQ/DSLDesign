@@ -2,12 +2,24 @@
 # yarn lockfile v1
 
 
-antlr4ng-cli@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npmmirror.com/antlr4ng-cli/-/antlr4ng-cli-1.0.4.tgz#e77dbf6048a49cab6c19698c12bdd20ac22bb8a2"
-  integrity sha512-O2Tff5nHs2qrqZJKDQEr2vZ6aDalmvWhynTFYosXE8jRMddtTVw6qFWvvtT/HhOnwbTTOQzXQrA2GQU90JQXWA==
+"@types/node@^20.9.3":
+  "integrity" "sha512-nk5wXLAXGBKfrhLB0cyHGbSqopS+nz0BUgZkUQqSHSSgdee0kssp1IAqlQOu333bW+gMNs2QREx7iynm19Abxw=="
+  "resolved" "https://registry.npmmirror.com/@types/node/-/node-20.9.3.tgz"
+  "version" "20.9.3"
+  dependencies:
+    "undici-types" "~5.26.4"
 
-antlr4ng@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npmmirror.com/antlr4ng/-/antlr4ng-2.0.2.tgz#31d224cc45e578b78ef77fccf9316d133d7cc81c"
-  integrity sha512-Fhs3AvhoGigRt3RpHw0wGA7n03j9BpskH9yCUViNB7NtKuCA+imy2orEZ8qcgPG98f7IryEPYlG9sx99f3ZOyw==
+"antlr4ng-cli@^1.0.4", "antlr4ng-cli@1.0.4":
+  "integrity" "sha512-O2Tff5nHs2qrqZJKDQEr2vZ6aDalmvWhynTFYosXE8jRMddtTVw6qFWvvtT/HhOnwbTTOQzXQrA2GQU90JQXWA=="
+  "resolved" "https://registry.npmmirror.com/antlr4ng-cli/-/antlr4ng-cli-1.0.4.tgz"
+  "version" "1.0.4"
+
+"antlr4ng@^2.0.2":
+  "integrity" "sha512-Fhs3AvhoGigRt3RpHw0wGA7n03j9BpskH9yCUViNB7NtKuCA+imy2orEZ8qcgPG98f7IryEPYlG9sx99f3ZOyw=="
+  "resolved" "https://registry.npmmirror.com/antlr4ng/-/antlr4ng-2.0.2.tgz"
+  "version" "2.0.2"
+
+"undici-types@~5.26.4":
+  "integrity" "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA=="
+  "resolved" "https://registry.npmmirror.com/undici-types/-/undici-types-5.26.5.tgz"
+  "version" "5.26.5"

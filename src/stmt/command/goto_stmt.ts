@@ -1,5 +1,5 @@
-import { CommandStmt, CommandStmtType } from "../command_stmt";
-import { StmtType } from "../stmt";
+import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
+import { StmtType } from "../stmt.ts";
 
 export class GotoStmt implements CommandStmt {
     private target_: string;

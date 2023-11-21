@@ -4,7 +4,9 @@
         "module": "NodeNext",
         "target": "ES2022",
         "moduleResolution": "node16",
-        "noEmit": true,
+        "rootDir": "../",
+        "outDir": "../lib",
+        "noEmit": false,
         "removeComments": false,
         "noImplicitAny": true,
         "noImplicitOverride": false,
@@ -12,8 +14,11 @@
         "inlineSources": true,
         "isolatedModules": false,
         "allowSyntheticDefaultImports": false,
-        "strictNullChecks": true
+        "allowImportingTsExtensions": false,
+        "strictNullChecks": true,
+        "typeRoots": ["types"],
     },
+    "compileOnSave": true,
     "include": [
         "**/*.ts",
     ],
