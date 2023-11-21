@@ -1,0 +1,33 @@
+
+import { CommonTokenStream } from "antlr4ng/CommonTokenStream";
+import { cslVisitor } from "../src/parser/cslVisitor.js";
+import { cslLexer } from "../src/parser/cslLexer.js";
+import { cslParser } from "../src/parser/cslParser.js";
+import { CharStreams } from "antlr4ng";
+
+
+// TODO 打印语法的 AST
+
+let code_str = `
+chatbox{
+    "Hello" => {
+        say "Hello, how are you?"
+    }
+    "What is your name?" => {
+        goto name
+    }
+    "What is your version?" => {
+        goto version
+    }
+}
+`
+
+let lexer = new cslLexer(CharStreams.fromString(code_str));
+
+let tokens = new CommonTokenStream(lexer);
+
+let parser = new cslParser(tokens);
+
+let tree = parser.scripts();
+
+console.log(tree)

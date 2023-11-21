@@ -1,11 +1,14 @@
 // 应用运行的上下文
+export interface JsonObj {
+    [key: string]: any;
+}
 export class Context {
     // 符号表
-    private symbol_table_: Map<string, any>;
+    private symbol_table_: Map<string, boolean | number | string | JsonObj | undefined>;
     private global_context_: Context | undefined;
 
     constructor() {
-        this.symbol_table_ = new Map<string, any>();
+        this.symbol_table_ = new Map<string, boolean | number | string | JsonObj | undefined>();
         this.global_context_ = undefined;
     }
 
@@ -20,7 +23,7 @@ export class Context {
     }
 
     // 获取符号
-    get_symbol(name: string): any {
+    get_symbol(name: string): boolean | number | string | JsonObj | undefined {
         // 从当前上下文中获取
         let value = this.symbol_table_.get(name);
         if (value != undefined) {

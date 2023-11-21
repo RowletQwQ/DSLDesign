@@ -1,5 +1,5 @@
-import { Expression,ExprType } from "./expression";
-import { Context } from "../context/context";
+import { Expression,ExprType } from "./expression.ts";
+import { Context } from "../context/context.ts";
 
 export enum ArithmeticExprType {
     ADD,

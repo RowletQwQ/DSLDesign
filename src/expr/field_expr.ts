@@ -1,5 +1,5 @@
-import { Expression,ExprType } from "./expression";
-import { Context } from "../context/context";
+import { Expression,ExprType } from "./expression.ts";
+import { Context } from "../context/context.ts";
 
 // 变量表达式
 export class FieldExpr implements Expression {
@@ -21,7 +21,7 @@ export class FieldExpr implements Expression {
     get_value(context: Context): string | number | boolean | undefined {
         let value = context.get_symbol(this.name_);
         this.value_type_ = typeof value;
-        if (typeof value == "undefined") {
+        if (typeof value == "undefined" || typeof value == "object") {
             return undefined;
         }
         return value;

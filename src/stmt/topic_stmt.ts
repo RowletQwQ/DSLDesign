@@ -4,9 +4,13 @@ import { Stmt, StmtType } from "./stmt";
 export class TopicStmt implements Stmt {
     private name_: string;
     private command_seq_: CommandStmt[];
-    constructor(name: string, command_seq: CommandStmt[]) {
+    constructor(name: string, command_seq: CommandStmt | CommandStmt[]) {
         this.name_ = name;
-        this.command_seq_ = command_seq;
+        if (command_seq instanceof Array) {
+            this.command_seq_ = command_seq;
+        } else {
+            this.command_seq_ = [command_seq];
+        }
     }
     
     get_name(): string {

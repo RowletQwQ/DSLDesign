@@ -1,9 +1,9 @@
-import { Expression,ExprType } from "./expression";
-import { Context } from "../context/context";
+import { Expression,ExprType } from "./expression.ts";
+import { Context,JsonObj } from "../context/context.ts";
 
 
 export class PostfixExpr implements Expression {
-    private item_: Array<any> | object | undefined;
+    private item_: boolean | number | string | JsonObj | undefined;
     private name_: string;
     constructor(name: string) {
         this.name_ = name;
@@ -22,7 +22,10 @@ export class PostfixExpr implements Expression {
         if (typeof this.item_ == "undefined") {
             return undefined;
         }
-        return this.item_[this.name_];
+        if (typeof this.item_ == "object") {
+            return this.item_[this.name_];
+        }
+        return undefined;
     }
 
     try_get_value(): string | number | boolean | undefined {

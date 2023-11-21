@@ -7,10 +7,13 @@
   "author": "RowletQwQ",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "scripts": {
-    "antlr4ts": "antlr4ts -visitor src/parser/csl.g4 -o src/parser"
+    "antlr4": "antlr4ng -Dlanguage=TypeScript -Werror -visitor -listener -o src/parser  src/parser/csl.g4",
+    "test_grammar": "antlr4ts -visitor src/parser/csl.g4 -o src/parser && ts-node src/parser/test.ts"
   },
   "dependencies": {
-    "antlr4ts-cli": "^0.5.0-alpha.4"
+    "antlr4ng": "^2.0.2",
+    "antlr4ng-cli": "^1.0.4"
   }
 }

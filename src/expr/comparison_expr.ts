@@ -1,5 +1,5 @@
-import { ExprType,Expression } from "./expression";
-import { Context } from "../context/context";
+import { ExprType,Expression } from "./expression.ts";
+import { Context } from "../context/context.ts";
 
 export enum ComparisonExprType {
     EQUAL,

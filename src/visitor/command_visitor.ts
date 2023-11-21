@@ -1,26 +1,31 @@
-import { Command_sequncesContext, Command_stmtContext } from "../parser/cslParser";
+import { AbstractParseTreeVisitor } from "antlr4ng";
+import { Command_sequncesContext, Command_stmtContext } from "../parser/cslParser.ts";
 import { cslVisitor } from "../parser/cslVisitor";
-import { CommandStmt } from "../stmt/command_stmt";
+import { CommandStmt } from "../stmt/command_stmt.ts";
 
-export class CommandVisitor implements cslVisitor<CommandStmt []> {
-    private instance_: CommandStmt [];
-    // TODO 等待实现
-    constructor(ctx: Command_sequncesContext) {
-        this.instance_ = this.visitCommand_sequnces(ctx);
-    }
+export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
 
-    get_instance(): CommandStmt [] {
-        return this.instance_;
-    }
-
-    visitCommand_sequnces(ctx: Command_sequncesContext): CommandStmt [] {
+    override visitCommand_sequnces = (ctx: Command_sequncesContext): CommandStmt [] =>{
         // 在这里实现访问 Command_sequnces 的逻辑
         let command_stmts = ctx.command_stmt();
-        let command_seq: CommandStmt [] = [];
-        for (let command_stmt of command_stmts) {
-            let command = new CommandVisitor(command_stmt);
-            command_seq.push(command.get_instance());
+        let seq_stmts = ctx.command_sequnces();
+        let command_seq = new Array<CommandStmt>();
+        if (seq_stmts != undefined) {
+            command_seq = this.visitCommand_sequnces(seq_stmts);
         }
+        let command = this.visitCommand_stmt(command_stmts);
+        command_seq.push(command);
         return command_seq;
     }
+    
+    override visitCommand_stmt = (ctx: Command_stmtContext): CommandStmt =>{
+        let command = this.visitChildren(ctx);
+        if (command instanceof Array || command == null) {
+            throw new Error("Command Parse error");
+        }
+        return command;
+    }
+
+    // 以下是对应语法
+    
 }

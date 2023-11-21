@@ -1,2 +1,5 @@
 src/parser/.antlr
 node_modules/
+*.d.ts
+*.js
+lib/

@@ -74,10 +74,7 @@ goto_stmt: GOTO ID;
 
 input_stmt: INPUT ID assert_stmt* when_silence_stmt*;
 
-assert_stmt: assert_stmt assert
-           | assert;
-
-assert: ASSERT expression;
+assert_stmt: ASSERT expression;
 
 when_silence_stmt: WHEN SILENCE expression ARROW LBRACE command_sequnces RBRACE;
 
