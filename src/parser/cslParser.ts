@@ -78,51 +78,48 @@ export class cslParser extends antlr.Parser {
     public static readonly RULE_template_string_part = 1;
     public static readonly RULE_template_string_plain_text = 2;
     public static readonly RULE_template_string_expr = 3;
-    public static readonly RULE_scripts = 4;
+    public static readonly RULE_script = 4;
     public static readonly RULE_hello_stmt = 5;
     public static readonly RULE_constance_stmt = 6;
     public static readonly RULE_constance_list = 7;
     public static readonly RULE_constance = 8;
     public static readonly RULE_chatbox_stmt = 9;
-    public static readonly RULE_chatbox_list = 10;
-    public static readonly RULE_chatbox_branch = 11;
-    public static readonly RULE_pattern = 12;
-    public static readonly RULE_default_branch = 13;
-    public static readonly RULE_topic_stmt = 14;
-    public static readonly RULE_command_sequnces = 15;
-    public static readonly RULE_command_stmt = 16;
-    public static readonly RULE_continue_stmt = 17;
-    public static readonly RULE_break_stmt = 18;
-    public static readonly RULE_say_stmt = 19;
-    public static readonly RULE_assign_stmt = 20;
-    public static readonly RULE_assign_global_stmt = 21;
-    public static readonly RULE_goto_stmt = 22;
-    public static readonly RULE_exit_stmt = 23;
-    public static readonly RULE_input_stmt = 24;
-    public static readonly RULE_assert_stmt = 25;
-    public static readonly RULE_when_silence_stmt = 26;
-    public static readonly RULE_match_stmt = 27;
-    public static readonly RULE_menu_stmt = 28;
-    public static readonly RULE_case_list = 29;
-    public static readonly RULE_case_branch = 30;
-    public static readonly RULE_if_stmt = 31;
-    public static readonly RULE_else_if_stmt = 32;
-    public static readonly RULE_else_stmt = 33;
-    public static readonly RULE_loop_stmt = 34;
-    public static readonly RULE_when_clause = 35;
-    public static readonly RULE_fetch_stmt = 36;
-    public static readonly RULE_post_stmt = 37;
-    public static readonly RULE_expression = 38;
-    public static readonly RULE_logical_or_expression = 39;
-    public static readonly RULE_logical_and_expression = 40;
-    public static readonly RULE_equality_expression = 41;
-    public static readonly RULE_relational_expression = 42;
-    public static readonly RULE_additive_expression = 43;
-    public static readonly RULE_multiplicative_expression = 44;
-    public static readonly RULE_unary_expression = 45;
-    public static readonly RULE_postfix_expression = 46;
-    public static readonly RULE_primary_expression = 47;
-    public static readonly RULE_value = 48;
+    public static readonly RULE_default_branch = 10;
+    public static readonly RULE_topic_stmt = 11;
+    public static readonly RULE_command_sequnces = 12;
+    public static readonly RULE_command_stmt = 13;
+    public static readonly RULE_continue_stmt = 14;
+    public static readonly RULE_break_stmt = 15;
+    public static readonly RULE_say_stmt = 16;
+    public static readonly RULE_assign_stmt = 17;
+    public static readonly RULE_assign_global_stmt = 18;
+    public static readonly RULE_goto_stmt = 19;
+    public static readonly RULE_exit_stmt = 20;
+    public static readonly RULE_input_stmt = 21;
+    public static readonly RULE_assert_stmt = 22;
+    public static readonly RULE_when_silence_stmt = 23;
+    public static readonly RULE_match_stmt = 24;
+    public static readonly RULE_menu_stmt = 25;
+    public static readonly RULE_case_list = 26;
+    public static readonly RULE_case_branch = 27;
+    public static readonly RULE_if_stmt = 28;
+    public static readonly RULE_else_if_stmt = 29;
+    public static readonly RULE_else_stmt = 30;
+    public static readonly RULE_loop_stmt = 31;
+    public static readonly RULE_when_clause = 32;
+    public static readonly RULE_fetch_stmt = 33;
+    public static readonly RULE_post_stmt = 34;
+    public static readonly RULE_expression = 35;
+    public static readonly RULE_logical_or_expression = 36;
+    public static readonly RULE_logical_and_expression = 37;
+    public static readonly RULE_equality_expression = 38;
+    public static readonly RULE_relational_expression = 39;
+    public static readonly RULE_additive_expression = 40;
+    public static readonly RULE_multiplicative_expression = 41;
+    public static readonly RULE_unary_expression = 42;
+    public static readonly RULE_postfix_expression = 43;
+    public static readonly RULE_primary_expression = 44;
+    public static readonly RULE_value = 45;
 
     public static readonly literalNames = [
         null, "'`'", "'\\'", "'chatbox'", "'hello'", "'topic'", "'constance'", 
@@ -148,14 +145,14 @@ export class cslParser extends antlr.Parser {
     ];
     public static readonly ruleNames = [
         "template_string", "template_string_part", "template_string_plain_text", 
-        "template_string_expr", "scripts", "hello_stmt", "constance_stmt", 
-        "constance_list", "constance", "chatbox_stmt", "chatbox_list", "chatbox_branch", 
-        "pattern", "default_branch", "topic_stmt", "command_sequnces", "command_stmt", 
-        "continue_stmt", "break_stmt", "say_stmt", "assign_stmt", "assign_global_stmt", 
-        "goto_stmt", "exit_stmt", "input_stmt", "assert_stmt", "when_silence_stmt", 
-        "match_stmt", "menu_stmt", "case_list", "case_branch", "if_stmt", 
-        "else_if_stmt", "else_stmt", "loop_stmt", "when_clause", "fetch_stmt", 
-        "post_stmt", "expression", "logical_or_expression", "logical_and_expression", 
+        "template_string_expr", "script", "hello_stmt", "constance_stmt", 
+        "constance_list", "constance", "chatbox_stmt", "default_branch", 
+        "topic_stmt", "command_sequnces", "command_stmt", "continue_stmt", 
+        "break_stmt", "say_stmt", "assign_stmt", "assign_global_stmt", "goto_stmt", 
+        "exit_stmt", "input_stmt", "assert_stmt", "when_silence_stmt", "match_stmt", 
+        "menu_stmt", "case_list", "case_branch", "if_stmt", "else_if_stmt", 
+        "else_stmt", "loop_stmt", "when_clause", "fetch_stmt", "post_stmt", 
+        "expression", "logical_or_expression", "logical_and_expression", 
         "equality_expression", "relational_expression", "additive_expression", 
         "multiplicative_expression", "unary_expression", "postfix_expression", 
         "primary_expression", "value",
@@ -182,23 +179,23 @@ export class cslParser extends antlr.Parser {
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 98;
+            this.state = 92;
             this.match(cslParser.T__0);
-            this.state = 102;
+            this.state = 96;
             this.errorHandler.sync(this);
             _la = this.tokenStream.LA(1);
             while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 4294967292) !== 0) || ((((_la - 32)) & ~0x1F) === 0 && ((1 << (_la - 32)) & 2147483647) !== 0)) {
                 {
                 {
-                this.state = 99;
+                this.state = 93;
                 this.template_string_part();
                 }
                 }
-                this.state = 104;
+                this.state = 98;
                 this.errorHandler.sync(this);
                 _la = this.tokenStream.LA(1);
             }
-            this.state = 105;
+            this.state = 99;
             this.match(cslParser.T__0);
             }
         }
@@ -220,7 +217,7 @@ export class cslParser extends antlr.Parser {
         let localContext = new Template_string_partContext(this.context, this.state);
         this.enterRule(localContext, 2, cslParser.RULE_template_string_part);
         try {
-            this.state = 109;
+            this.state = 103;
             this.errorHandler.sync(this);
             switch (this.tokenStream.LA(1)) {
             case cslParser.T__1:
@@ -285,14 +282,14 @@ export class cslParser extends antlr.Parser {
             case cslParser.COMMENT:
                 this.enterOuterAlt(localContext, 1);
                 {
-                this.state = 107;
+                this.state = 101;
                 this.template_string_plain_text();
                 }
                 break;
             case cslParser.DOLLAR:
                 this.enterOuterAlt(localContext, 2);
                 {
-                this.state = 108;
+                this.state = 102;
                 this.template_string_expr();
                 }
                 break;
@@ -319,13 +316,13 @@ export class cslParser extends antlr.Parser {
         this.enterRule(localContext, 4, cslParser.RULE_template_string_plain_text);
         let _la: number;
         try {
-            this.state = 116;
+            this.state = 110;
             this.errorHandler.sync(this);
             switch (this.interpreter.adaptivePredict(this.tokenStream, 2, this.context) ) {
             case 1:
                 this.enterOuterAlt(localContext, 1);
                 {
-                this.state = 111;
+                this.state = 105;
                 _la = this.tokenStream.LA(1);
                 if(_la<=0 || _la === 1 || _la === 2 || _la === 47) {
                 this.errorHandler.recoverInline(this);
@@ -339,18 +336,18 @@ export class cslParser extends antlr.Parser {
             case 2:
                 this.enterOuterAlt(localContext, 2);
                 {
-                this.state = 112;
+                this.state = 106;
                 this.match(cslParser.T__1);
-                this.state = 113;
+                this.state = 107;
                 this.match(cslParser.T__0);
                 }
                 break;
             case 3:
                 this.enterOuterAlt(localContext, 3);
                 {
-                this.state = 114;
+                this.state = 108;
                 this.match(cslParser.T__1);
-                this.state = 115;
+                this.state = 109;
                 this.match(cslParser.DOLLAR);
                 }
                 break;
@@ -376,13 +373,13 @@ export class cslParser extends antlr.Parser {
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 118;
+            this.state = 112;
             this.match(cslParser.DOLLAR);
-            this.state = 119;
+            this.state = 113;
             this.match(cslParser.LBRACE);
-            this.state = 120;
+            this.state = 114;
             this.expression();
-            this.state = 121;
+            this.state = 115;
             this.match(cslParser.RBRACE);
             }
         }
@@ -400,42 +397,42 @@ export class cslParser extends antlr.Parser {
         }
         return localContext;
     }
-    public scripts(): ScriptsContext {
-        let localContext = new ScriptsContext(this.context, this.state);
-        this.enterRule(localContext, 8, cslParser.RULE_scripts);
+    public script(): ScriptContext {
+        let localContext = new ScriptContext(this.context, this.state);
+        this.enterRule(localContext, 8, cslParser.RULE_script);
         let _la: number;
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 127;
+            this.state = 121;
             this.errorHandler.sync(this);
             _la = this.tokenStream.LA(1);
             do {
                 {
-                this.state = 127;
+                this.state = 121;
                 this.errorHandler.sync(this);
                 switch (this.tokenStream.LA(1)) {
                 case cslParser.CONSTANCE:
                     {
-                    this.state = 123;
+                    this.state = 117;
                     this.constance_stmt();
                     }
                     break;
                 case cslParser.TOPIC:
                     {
-                    this.state = 124;
+                    this.state = 118;
                     this.topic_stmt();
                     }
                     break;
                 case cslParser.CHATBOX:
                     {
-                    this.state = 125;
+                    this.state = 119;
                     this.chatbox_stmt();
                     }
                     break;
                 case cslParser.HELLO:
                     {
-                    this.state = 126;
+                    this.state = 120;
                     this.hello_stmt();
                     }
                     break;
@@ -443,11 +440,11 @@ export class cslParser extends antlr.Parser {
                     throw new antlr.NoViableAltException(this);
                 }
                 }
-                this.state = 129;
+                this.state = 123;
                 this.errorHandler.sync(this);
                 _la = this.tokenStream.LA(1);
             } while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 120) !== 0));
-            this.state = 131;
+            this.state = 125;
             this.match(cslParser.EOF);
             }
         }
@@ -471,13 +468,13 @@ export class cslParser extends antlr.Parser {
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 133;
+            this.state = 127;
             this.match(cslParser.HELLO);
-            this.state = 134;
+            this.state = 128;
             this.match(cslParser.LBRACE);
-            this.state = 135;
+            this.state = 129;
             this.command_sequnces(0);
-            this.state = 136;
+            this.state = 130;
             this.match(cslParser.RBRACE);
             }
         }
@@ -501,13 +498,13 @@ export class cslParser extends antlr.Parser {
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 138;
+            this.state = 132;
             this.match(cslParser.CONSTANCE);
-            this.state = 139;
+            this.state = 133;
             this.match(cslParser.LBRACE);
-            this.state = 140;
+            this.state = 134;
             this.constance_list(0);
-            this.state = 141;
+            this.state = 135;
             this.match(cslParser.RBRACE);
             }
         }
@@ -544,11 +541,11 @@ export class cslParser extends antlr.Parser {
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 144;
+            this.state = 138;
             this.constance();
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 150;
+            this.state = 144;
             this.errorHandler.sync(this);
             alternative = this.interpreter.adaptivePredict(this.tokenStream, 5, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
@@ -561,16 +558,16 @@ export class cslParser extends antlr.Parser {
                     {
                     localContext = new Constance_listContext(parentContext, parentState);
                     this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_constance_list);
-                    this.state = 146;
+                    this.state = 140;
                     if (!(this.precpred(this.context, 2))) {
                         throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                     }
-                    this.state = 147;
+                    this.state = 141;
                     this.constance();
                     }
                     }
                 }
-                this.state = 152;
+                this.state = 146;
                 this.errorHandler.sync(this);
                 alternative = this.interpreter.adaptivePredict(this.tokenStream, 5, this.context);
             }
@@ -596,11 +593,11 @@ export class cslParser extends antlr.Parser {
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 153;
+            this.state = 147;
             this.match(cslParser.ID);
-            this.state = 154;
+            this.state = 148;
             this.match(cslParser.ASSIGN);
-            this.state = 155;
+            this.state = 149;
             this.expression();
             }
         }
@@ -625,171 +622,24 @@ export class cslParser extends antlr.Parser {
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 157;
+            this.state = 151;
             this.match(cslParser.CHATBOX);
-            this.state = 158;
+            this.state = 152;
             this.match(cslParser.LBRACE);
-            this.state = 162;
+            this.state = 154;
             this.errorHandler.sync(this);
             _la = this.tokenStream.LA(1);
-            while (_la === 8 || _la === 30 || _la === 60) {
+            if (((((_la - 29)) & ~0x1F) === 0 && ((1 << (_la - 29)) & 2148536371) !== 0)) {
                 {
-                {
-                this.state = 159;
-                this.chatbox_list(0);
+                this.state = 153;
+                this.case_list(0);
                 }
-                }
-                this.state = 164;
-                this.errorHandler.sync(this);
-                _la = this.tokenStream.LA(1);
             }
-            this.state = 165;
+
+            this.state = 156;
+            this.default_branch();
+            this.state = 157;
             this.match(cslParser.RBRACE);
-            }
-        }
-        catch (re) {
-            if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
-                this.errorHandler.reportError(this, re);
-                this.errorHandler.recover(this, re);
-            } else {
-                throw re;
-            }
-        }
-        finally {
-            this.exitRule();
-        }
-        return localContext;
-    }
-
-    public chatbox_list(): Chatbox_listContext;
-    public chatbox_list(_p: number): Chatbox_listContext;
-    public chatbox_list(_p?: number): Chatbox_listContext {
-        if (_p === undefined) {
-            _p = 0;
-        }
-
-        let parentContext = this.context;
-        let parentState = this.state;
-        let localContext = new Chatbox_listContext(this.context, parentState);
-        let previousContext = localContext;
-        let _startState = 20;
-        this.enterRecursionRule(localContext, 20, cslParser.RULE_chatbox_list, _p);
-        try {
-            let alternative: number;
-            this.enterOuterAlt(localContext, 1);
-            {
-            {
-            this.state = 168;
-            this.chatbox_branch();
-            }
-            this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 174;
-            this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 7, this.context);
-            while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
-                if (alternative === 1) {
-                    if (this._parseListeners != null) {
-                        this.triggerExitRuleEvent();
-                    }
-                    previousContext = localContext;
-                    {
-                    {
-                    localContext = new Chatbox_listContext(parentContext, parentState);
-                    this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_chatbox_list);
-                    this.state = 170;
-                    if (!(this.precpred(this.context, 2))) {
-                        throw this.createFailedPredicateException("this.precpred(this.context, 2)");
-                    }
-                    this.state = 171;
-                    this.chatbox_branch();
-                    }
-                    }
-                }
-                this.state = 176;
-                this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 7, this.context);
-            }
-            }
-        }
-        catch (re) {
-            if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
-                this.errorHandler.reportError(this, re);
-                this.errorHandler.recover(this, re);
-            } else {
-                throw re;
-            }
-        }
-        finally {
-            this.unrollRecursionContexts(parentContext);
-        }
-        return localContext;
-    }
-    public chatbox_branch(): Chatbox_branchContext {
-        let localContext = new Chatbox_branchContext(this.context, this.state);
-        this.enterRule(localContext, 22, cslParser.RULE_chatbox_branch);
-        try {
-            this.state = 184;
-            this.errorHandler.sync(this);
-            switch (this.tokenStream.LA(1)) {
-            case cslParser.STRING:
-            case cslParser.ID:
-                this.enterOuterAlt(localContext, 1);
-                {
-                this.state = 177;
-                this.pattern();
-                this.state = 178;
-                this.match(cslParser.ARROW);
-                this.state = 179;
-                this.match(cslParser.LBRACE);
-                this.state = 180;
-                this.command_sequnces(0);
-                this.state = 181;
-                this.match(cslParser.RBRACE);
-                }
-                break;
-            case cslParser.DEFAULT:
-                this.enterOuterAlt(localContext, 2);
-                {
-                this.state = 183;
-                this.default_branch();
-                }
-                break;
-            default:
-                throw new antlr.NoViableAltException(this);
-            }
-        }
-        catch (re) {
-            if (re instanceof antlr.RecognitionException) {
-                localContext.exception = re;
-                this.errorHandler.reportError(this, re);
-                this.errorHandler.recover(this, re);
-            } else {
-                throw re;
-            }
-        }
-        finally {
-            this.exitRule();
-        }
-        return localContext;
-    }
-    public pattern(): PatternContext {
-        let localContext = new PatternContext(this.context, this.state);
-        this.enterRule(localContext, 24, cslParser.RULE_pattern);
-        let _la: number;
-        try {
-            this.enterOuterAlt(localContext, 1);
-            {
-            this.state = 186;
-            _la = this.tokenStream.LA(1);
-            if(!(_la === 30 || _la === 60)) {
-            this.errorHandler.recoverInline(this);
-            }
-            else {
-                this.errorHandler.reportMatch(this);
-                this.consume();
-            }
             }
         }
         catch (re) {
@@ -808,19 +658,19 @@ export class cslParser extends antlr.Parser {
     }
     public default_branch(): Default_branchContext {
         let localContext = new Default_branchContext(this.context, this.state);
-        this.enterRule(localContext, 26, cslParser.RULE_default_branch);
+        this.enterRule(localContext, 20, cslParser.RULE_default_branch);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 188;
+            this.state = 159;
             this.match(cslParser.DEFAULT);
-            this.state = 189;
+            this.state = 160;
             this.match(cslParser.ARROW);
-            this.state = 190;
+            this.state = 161;
             this.match(cslParser.LBRACE);
-            this.state = 191;
+            this.state = 162;
             this.command_sequnces(0);
-            this.state = 192;
+            this.state = 163;
             this.match(cslParser.RBRACE);
             }
         }
@@ -840,19 +690,19 @@ export class cslParser extends antlr.Parser {
     }
     public topic_stmt(): Topic_stmtContext {
         let localContext = new Topic_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 28, cslParser.RULE_topic_stmt);
+        this.enterRule(localContext, 22, cslParser.RULE_topic_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 194;
+            this.state = 165;
             this.match(cslParser.TOPIC);
-            this.state = 195;
+            this.state = 166;
             this.match(cslParser.ID);
-            this.state = 196;
+            this.state = 167;
             this.match(cslParser.LBRACE);
-            this.state = 197;
+            this.state = 168;
             this.command_sequnces(0);
-            this.state = 198;
+            this.state = 169;
             this.match(cslParser.RBRACE);
             }
         }
@@ -882,20 +732,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Command_sequncesContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 30;
-        this.enterRecursionRule(localContext, 30, cslParser.RULE_command_sequnces, _p);
+        let _startState = 24;
+        this.enterRecursionRule(localContext, 24, cslParser.RULE_command_sequnces, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 201;
+            this.state = 172;
             this.command_stmt();
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 207;
+            this.state = 178;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 9, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 7, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -906,18 +756,18 @@ export class cslParser extends antlr.Parser {
                     {
                     localContext = new Command_sequncesContext(parentContext, parentState);
                     this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_command_sequnces);
-                    this.state = 203;
+                    this.state = 174;
                     if (!(this.precpred(this.context, 2))) {
                         throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                     }
-                    this.state = 204;
+                    this.state = 175;
                     this.command_stmt();
                     }
                     }
                 }
-                this.state = 209;
+                this.state = 180;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 9, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 7, this.context);
             }
             }
         }
@@ -937,113 +787,113 @@ export class cslParser extends antlr.Parser {
     }
     public command_stmt(): Command_stmtContext {
         let localContext = new Command_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 32, cslParser.RULE_command_stmt);
+        this.enterRule(localContext, 26, cslParser.RULE_command_stmt);
         try {
-            this.state = 225;
+            this.state = 196;
             this.errorHandler.sync(this);
-            switch (this.interpreter.adaptivePredict(this.tokenStream, 10, this.context) ) {
+            switch (this.interpreter.adaptivePredict(this.tokenStream, 8, this.context) ) {
             case 1:
                 this.enterOuterAlt(localContext, 1);
                 {
-                this.state = 210;
+                this.state = 181;
                 this.say_stmt();
                 }
                 break;
             case 2:
                 this.enterOuterAlt(localContext, 2);
                 {
-                this.state = 211;
+                this.state = 182;
                 this.goto_stmt();
                 }
                 break;
             case 3:
                 this.enterOuterAlt(localContext, 3);
                 {
-                this.state = 212;
+                this.state = 183;
                 this.input_stmt();
                 }
                 break;
             case 4:
                 this.enterOuterAlt(localContext, 4);
                 {
-                this.state = 213;
+                this.state = 184;
                 this.menu_stmt();
                 }
                 break;
             case 5:
                 this.enterOuterAlt(localContext, 5);
                 {
-                this.state = 214;
+                this.state = 185;
                 this.match_stmt();
                 }
                 break;
             case 6:
                 this.enterOuterAlt(localContext, 6);
                 {
-                this.state = 215;
+                this.state = 186;
                 this.if_stmt();
                 }
                 break;
             case 7:
                 this.enterOuterAlt(localContext, 7);
                 {
-                this.state = 216;
+                this.state = 187;
                 this.when_silence_stmt();
                 }
                 break;
             case 8:
                 this.enterOuterAlt(localContext, 8);
                 {
-                this.state = 217;
+                this.state = 188;
                 this.assign_stmt();
                 }
                 break;
             case 9:
                 this.enterOuterAlt(localContext, 9);
                 {
-                this.state = 218;
+                this.state = 189;
                 this.assign_global_stmt();
                 }
                 break;
             case 10:
                 this.enterOuterAlt(localContext, 10);
                 {
-                this.state = 219;
+                this.state = 190;
                 this.loop_stmt();
                 }
                 break;
             case 11:
                 this.enterOuterAlt(localContext, 11);
                 {
-                this.state = 220;
+                this.state = 191;
                 this.continue_stmt();
                 }
                 break;
             case 12:
                 this.enterOuterAlt(localContext, 12);
                 {
-                this.state = 221;
+                this.state = 192;
                 this.break_stmt();
                 }
                 break;
             case 13:
                 this.enterOuterAlt(localContext, 13);
                 {
-                this.state = 222;
+                this.state = 193;
                 this.fetch_stmt();
                 }
                 break;
             case 14:
                 this.enterOuterAlt(localContext, 14);
                 {
-                this.state = 223;
+                this.state = 194;
                 this.post_stmt();
                 }
                 break;
             case 15:
                 this.enterOuterAlt(localContext, 15);
                 {
-                this.state = 224;
+                this.state = 195;
                 this.exit_stmt();
                 }
                 break;
@@ -1065,11 +915,11 @@ export class cslParser extends antlr.Parser {
     }
     public continue_stmt(): Continue_stmtContext {
         let localContext = new Continue_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 34, cslParser.RULE_continue_stmt);
+        this.enterRule(localContext, 28, cslParser.RULE_continue_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 227;
+            this.state = 198;
             this.match(cslParser.CONTINUE);
             }
         }
@@ -1089,11 +939,11 @@ export class cslParser extends antlr.Parser {
     }
     public break_stmt(): Break_stmtContext {
         let localContext = new Break_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 36, cslParser.RULE_break_stmt);
+        this.enterRule(localContext, 30, cslParser.RULE_break_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 229;
+            this.state = 200;
             this.match(cslParser.BREAK);
             }
         }
@@ -1113,13 +963,13 @@ export class cslParser extends antlr.Parser {
     }
     public say_stmt(): Say_stmtContext {
         let localContext = new Say_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 38, cslParser.RULE_say_stmt);
+        this.enterRule(localContext, 32, cslParser.RULE_say_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 231;
+            this.state = 202;
             this.match(cslParser.SAY);
-            this.state = 234;
+            this.state = 205;
             this.errorHandler.sync(this);
             switch (this.tokenStream.LA(1)) {
             case cslParser.NOT:
@@ -1130,13 +980,13 @@ export class cslParser extends antlr.Parser {
             case cslParser.MINUS:
             case cslParser.ID:
                 {
-                this.state = 232;
+                this.state = 203;
                 this.expression();
                 }
                 break;
             case cslParser.T__0:
                 {
-                this.state = 233;
+                this.state = 204;
                 this.template_string();
                 }
                 break;
@@ -1161,17 +1011,17 @@ export class cslParser extends antlr.Parser {
     }
     public assign_stmt(): Assign_stmtContext {
         let localContext = new Assign_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 40, cslParser.RULE_assign_stmt);
+        this.enterRule(localContext, 34, cslParser.RULE_assign_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 236;
+            this.state = 207;
             this.match(cslParser.SET);
-            this.state = 237;
+            this.state = 208;
             this.match(cslParser.ID);
-            this.state = 238;
+            this.state = 209;
             this.match(cslParser.ASSIGN);
-            this.state = 239;
+            this.state = 210;
             this.expression();
             }
         }
@@ -1191,19 +1041,19 @@ export class cslParser extends antlr.Parser {
     }
     public assign_global_stmt(): Assign_global_stmtContext {
         let localContext = new Assign_global_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 42, cslParser.RULE_assign_global_stmt);
+        this.enterRule(localContext, 36, cslParser.RULE_assign_global_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 241;
+            this.state = 212;
             this.match(cslParser.SET);
-            this.state = 242;
+            this.state = 213;
             this.match(cslParser.GLOBAL);
-            this.state = 243;
+            this.state = 214;
             this.match(cslParser.ID);
-            this.state = 244;
+            this.state = 215;
             this.match(cslParser.ASSIGN);
-            this.state = 245;
+            this.state = 216;
             this.expression();
             }
         }
@@ -1223,13 +1073,13 @@ export class cslParser extends antlr.Parser {
     }
     public goto_stmt(): Goto_stmtContext {
         let localContext = new Goto_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 44, cslParser.RULE_goto_stmt);
+        this.enterRule(localContext, 38, cslParser.RULE_goto_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 247;
+            this.state = 218;
             this.match(cslParser.GOTO);
-            this.state = 248;
+            this.state = 219;
             this.match(cslParser.ID);
             }
         }
@@ -1249,24 +1099,24 @@ export class cslParser extends antlr.Parser {
     }
     public exit_stmt(): Exit_stmtContext {
         let localContext = new Exit_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 46, cslParser.RULE_exit_stmt);
+        this.enterRule(localContext, 40, cslParser.RULE_exit_stmt);
         try {
-            this.state = 253;
+            this.state = 224;
             this.errorHandler.sync(this);
             switch (this.tokenStream.LA(1)) {
             case cslParser.EXIT:
                 this.enterOuterAlt(localContext, 1);
                 {
-                this.state = 250;
+                this.state = 221;
                 this.match(cslParser.EXIT);
                 }
                 break;
             case cslParser.GOTO:
                 this.enterOuterAlt(localContext, 2);
                 {
-                this.state = 251;
+                this.state = 222;
                 this.match(cslParser.GOTO);
-                this.state = 252;
+                this.state = 223;
                 this.match(cslParser.CHATBOX);
                 }
                 break;
@@ -1290,30 +1140,30 @@ export class cslParser extends antlr.Parser {
     }
     public input_stmt(): Input_stmtContext {
         let localContext = new Input_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 48, cslParser.RULE_input_stmt);
+        this.enterRule(localContext, 42, cslParser.RULE_input_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 255;
+            this.state = 226;
             this.match(cslParser.INPUT);
-            this.state = 256;
+            this.state = 227;
             this.match(cslParser.ID);
-            this.state = 258;
+            this.state = 229;
             this.errorHandler.sync(this);
-            switch (this.interpreter.adaptivePredict(this.tokenStream, 13, this.context) ) {
+            switch (this.interpreter.adaptivePredict(this.tokenStream, 11, this.context) ) {
             case 1:
                 {
-                this.state = 257;
+                this.state = 228;
                 this.assert_stmt();
                 }
                 break;
             }
-            this.state = 261;
+            this.state = 232;
             this.errorHandler.sync(this);
-            switch (this.interpreter.adaptivePredict(this.tokenStream, 14, this.context) ) {
+            switch (this.interpreter.adaptivePredict(this.tokenStream, 12, this.context) ) {
             case 1:
                 {
-                this.state = 260;
+                this.state = 231;
                 this.when_silence_stmt();
                 }
                 break;
@@ -1336,13 +1186,13 @@ export class cslParser extends antlr.Parser {
     }
     public assert_stmt(): Assert_stmtContext {
         let localContext = new Assert_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 50, cslParser.RULE_assert_stmt);
+        this.enterRule(localContext, 44, cslParser.RULE_assert_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 263;
+            this.state = 234;
             this.match(cslParser.ASSERT);
-            this.state = 264;
+            this.state = 235;
             this.expression();
             }
         }
@@ -1362,23 +1212,23 @@ export class cslParser extends antlr.Parser {
     }
     public when_silence_stmt(): When_silence_stmtContext {
         let localContext = new When_silence_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 52, cslParser.RULE_when_silence_stmt);
+        this.enterRule(localContext, 46, cslParser.RULE_when_silence_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 266;
+            this.state = 237;
             this.match(cslParser.WHEN);
-            this.state = 267;
+            this.state = 238;
             this.match(cslParser.SILENCE);
-            this.state = 268;
+            this.state = 239;
             this.expression();
-            this.state = 269;
+            this.state = 240;
             this.match(cslParser.ARROW);
-            this.state = 270;
+            this.state = 241;
             this.match(cslParser.LBRACE);
-            this.state = 271;
+            this.state = 242;
             this.command_sequnces(0);
-            this.state = 272;
+            this.state = 243;
             this.match(cslParser.RBRACE);
             }
         }
@@ -1398,37 +1248,37 @@ export class cslParser extends antlr.Parser {
     }
     public match_stmt(): Match_stmtContext {
         let localContext = new Match_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 54, cslParser.RULE_match_stmt);
+        this.enterRule(localContext, 48, cslParser.RULE_match_stmt);
         let _la: number;
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 274;
+            this.state = 245;
             this.match(cslParser.MATCH);
-            this.state = 275;
+            this.state = 246;
             this.match(cslParser.INPUT);
-            this.state = 276;
+            this.state = 247;
             this.match(cslParser.LBRACE);
-            this.state = 277;
+            this.state = 248;
             this.case_list(0);
-            this.state = 279;
+            this.state = 250;
             this.errorHandler.sync(this);
             _la = this.tokenStream.LA(1);
             if (_la === 8) {
                 {
-                this.state = 278;
+                this.state = 249;
                 this.default_branch();
                 }
             }
 
-            this.state = 281;
+            this.state = 252;
             this.match(cslParser.RBRACE);
-            this.state = 283;
+            this.state = 254;
             this.errorHandler.sync(this);
-            switch (this.interpreter.adaptivePredict(this.tokenStream, 16, this.context) ) {
+            switch (this.interpreter.adaptivePredict(this.tokenStream, 14, this.context) ) {
             case 1:
                 {
-                this.state = 282;
+                this.state = 253;
                 this.when_silence_stmt();
                 }
                 break;
@@ -1451,28 +1301,28 @@ export class cslParser extends antlr.Parser {
     }
     public menu_stmt(): Menu_stmtContext {
         let localContext = new Menu_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 56, cslParser.RULE_menu_stmt);
+        this.enterRule(localContext, 50, cslParser.RULE_menu_stmt);
         let _la: number;
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 285;
+            this.state = 256;
             this.match(cslParser.MENU);
-            this.state = 286;
+            this.state = 257;
             this.match(cslParser.LBRACE);
-            this.state = 287;
+            this.state = 258;
             this.case_list(0);
-            this.state = 289;
+            this.state = 260;
             this.errorHandler.sync(this);
             _la = this.tokenStream.LA(1);
             if (_la === 8) {
                 {
-                this.state = 288;
+                this.state = 259;
                 this.default_branch();
                 }
             }
 
-            this.state = 291;
+            this.state = 262;
             this.match(cslParser.RBRACE);
             }
         }
@@ -1502,20 +1352,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Case_listContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 58;
-        this.enterRecursionRule(localContext, 58, cslParser.RULE_case_list, _p);
+        let _startState = 52;
+        this.enterRecursionRule(localContext, 52, cslParser.RULE_case_list, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 294;
+            this.state = 265;
             this.case_branch();
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 300;
+            this.state = 271;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 18, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 16, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -1526,18 +1376,18 @@ export class cslParser extends antlr.Parser {
                     {
                     localContext = new Case_listContext(parentContext, parentState);
                     this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_case_list);
-                    this.state = 296;
+                    this.state = 267;
                     if (!(this.precpred(this.context, 2))) {
                         throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                     }
-                    this.state = 297;
+                    this.state = 268;
                     this.case_branch();
                     }
                     }
                 }
-                this.state = 302;
+                this.state = 273;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 18, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 16, this.context);
             }
             }
         }
@@ -1557,19 +1407,19 @@ export class cslParser extends antlr.Parser {
     }
     public case_branch(): Case_branchContext {
         let localContext = new Case_branchContext(this.context, this.state);
-        this.enterRule(localContext, 60, cslParser.RULE_case_branch);
+        this.enterRule(localContext, 54, cslParser.RULE_case_branch);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 303;
+            this.state = 274;
             this.expression();
-            this.state = 304;
+            this.state = 275;
             this.match(cslParser.ARROW);
-            this.state = 305;
+            this.state = 276;
             this.match(cslParser.LBRACE);
-            this.state = 306;
+            this.state = 277;
             this.command_sequnces(0);
-            this.state = 307;
+            this.state = 278;
             this.match(cslParser.RBRACE);
             }
         }
@@ -1589,38 +1439,38 @@ export class cslParser extends antlr.Parser {
     }
     public if_stmt(): If_stmtContext {
         let localContext = new If_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 62, cslParser.RULE_if_stmt);
+        this.enterRule(localContext, 56, cslParser.RULE_if_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 309;
+            this.state = 280;
             this.match(cslParser.IF);
-            this.state = 310;
+            this.state = 281;
             this.expression();
-            this.state = 311;
+            this.state = 282;
             this.match(cslParser.ARROW);
-            this.state = 312;
+            this.state = 283;
             this.match(cslParser.LBRACE);
-            this.state = 313;
+            this.state = 284;
             this.command_sequnces(0);
-            this.state = 314;
+            this.state = 285;
             this.match(cslParser.RBRACE);
-            this.state = 316;
+            this.state = 287;
             this.errorHandler.sync(this);
-            switch (this.interpreter.adaptivePredict(this.tokenStream, 19, this.context) ) {
+            switch (this.interpreter.adaptivePredict(this.tokenStream, 17, this.context) ) {
             case 1:
                 {
-                this.state = 315;
+                this.state = 286;
                 this.else_if_stmt();
                 }
                 break;
             }
-            this.state = 319;
+            this.state = 290;
             this.errorHandler.sync(this);
-            switch (this.interpreter.adaptivePredict(this.tokenStream, 20, this.context) ) {
+            switch (this.interpreter.adaptivePredict(this.tokenStream, 18, this.context) ) {
             case 1:
                 {
-                this.state = 318;
+                this.state = 289;
                 this.else_stmt();
                 }
                 break;
@@ -1643,28 +1493,28 @@ export class cslParser extends antlr.Parser {
     }
     public else_if_stmt(): Else_if_stmtContext {
         let localContext = new Else_if_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 64, cslParser.RULE_else_if_stmt);
+        this.enterRule(localContext, 58, cslParser.RULE_else_if_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 321;
+            this.state = 292;
             this.match(cslParser.ELIF);
-            this.state = 322;
+            this.state = 293;
             this.expression();
-            this.state = 323;
+            this.state = 294;
             this.match(cslParser.ARROW);
-            this.state = 324;
+            this.state = 295;
             this.match(cslParser.LBRACE);
-            this.state = 325;
+            this.state = 296;
             this.command_sequnces(0);
-            this.state = 326;
+            this.state = 297;
             this.match(cslParser.RBRACE);
-            this.state = 328;
+            this.state = 299;
             this.errorHandler.sync(this);
-            switch (this.interpreter.adaptivePredict(this.tokenStream, 21, this.context) ) {
+            switch (this.interpreter.adaptivePredict(this.tokenStream, 19, this.context) ) {
             case 1:
                 {
-                this.state = 327;
+                this.state = 298;
                 this.else_if_stmt();
                 }
                 break;
@@ -1687,19 +1537,19 @@ export class cslParser extends antlr.Parser {
     }
     public else_stmt(): Else_stmtContext {
         let localContext = new Else_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 66, cslParser.RULE_else_stmt);
+        this.enterRule(localContext, 60, cslParser.RULE_else_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 330;
+            this.state = 301;
             this.match(cslParser.ELSE);
-            this.state = 331;
+            this.state = 302;
             this.match(cslParser.ARROW);
-            this.state = 332;
+            this.state = 303;
             this.match(cslParser.LBRACE);
-            this.state = 333;
+            this.state = 304;
             this.command_sequnces(0);
-            this.state = 334;
+            this.state = 305;
             this.match(cslParser.RBRACE);
             }
         }
@@ -1719,28 +1569,28 @@ export class cslParser extends antlr.Parser {
     }
     public loop_stmt(): Loop_stmtContext {
         let localContext = new Loop_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 68, cslParser.RULE_loop_stmt);
+        this.enterRule(localContext, 62, cslParser.RULE_loop_stmt);
         let _la: number;
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 336;
+            this.state = 307;
             this.match(cslParser.LOOP);
-            this.state = 338;
+            this.state = 309;
             this.errorHandler.sync(this);
             _la = this.tokenStream.LA(1);
             if (_la === 18) {
                 {
-                this.state = 337;
+                this.state = 308;
                 this.when_clause();
                 }
             }
 
-            this.state = 340;
+            this.state = 311;
             this.match(cslParser.LBRACE);
-            this.state = 341;
+            this.state = 312;
             this.command_sequnces(0);
-            this.state = 342;
+            this.state = 313;
             this.match(cslParser.RBRACE);
             }
         }
@@ -1760,13 +1610,13 @@ export class cslParser extends antlr.Parser {
     }
     public when_clause(): When_clauseContext {
         let localContext = new When_clauseContext(this.context, this.state);
-        this.enterRule(localContext, 70, cslParser.RULE_when_clause);
+        this.enterRule(localContext, 64, cslParser.RULE_when_clause);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 344;
+            this.state = 315;
             this.match(cslParser.WHEN);
-            this.state = 345;
+            this.state = 316;
             this.expression();
             }
         }
@@ -1786,33 +1636,33 @@ export class cslParser extends antlr.Parser {
     }
     public fetch_stmt(): Fetch_stmtContext {
         let localContext = new Fetch_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 72, cslParser.RULE_fetch_stmt);
+        this.enterRule(localContext, 66, cslParser.RULE_fetch_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 347;
+            this.state = 318;
             this.match(cslParser.FETCH);
-            this.state = 350;
+            this.state = 321;
             this.errorHandler.sync(this);
             switch (this.tokenStream.LA(1)) {
             case cslParser.STRING:
                 {
-                this.state = 348;
+                this.state = 319;
                 this.match(cslParser.STRING);
                 }
                 break;
             case cslParser.T__0:
                 {
-                this.state = 349;
+                this.state = 320;
                 this.template_string();
                 }
                 break;
             default:
                 throw new antlr.NoViableAltException(this);
             }
-            this.state = 352;
+            this.state = 323;
             this.match(cslParser.ARROW);
-            this.state = 353;
+            this.state = 324;
             this.match(cslParser.ID);
             }
         }
@@ -1832,28 +1682,28 @@ export class cslParser extends antlr.Parser {
     }
     public post_stmt(): Post_stmtContext {
         let localContext = new Post_stmtContext(this.context, this.state);
-        this.enterRule(localContext, 74, cslParser.RULE_post_stmt);
+        this.enterRule(localContext, 68, cslParser.RULE_post_stmt);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 355;
+            this.state = 326;
             this.match(cslParser.POST);
-            this.state = 356;
+            this.state = 327;
             this.match(cslParser.ID);
-            this.state = 357;
+            this.state = 328;
             this.match(cslParser.ARROW);
-            this.state = 360;
+            this.state = 331;
             this.errorHandler.sync(this);
             switch (this.tokenStream.LA(1)) {
             case cslParser.STRING:
                 {
-                this.state = 358;
+                this.state = 329;
                 this.match(cslParser.STRING);
                 }
                 break;
             case cslParser.T__0:
                 {
-                this.state = 359;
+                this.state = 330;
                 this.template_string();
                 }
                 break;
@@ -1878,11 +1728,11 @@ export class cslParser extends antlr.Parser {
     }
     public expression(): ExpressionContext {
         let localContext = new ExpressionContext(this.context, this.state);
-        this.enterRule(localContext, 76, cslParser.RULE_expression);
+        this.enterRule(localContext, 70, cslParser.RULE_expression);
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 362;
+            this.state = 333;
             this.logical_or_expression(0);
             }
         }
@@ -1912,20 +1762,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Logical_or_expressionContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 78;
-        this.enterRecursionRule(localContext, 78, cslParser.RULE_logical_or_expression, _p);
+        let _startState = 72;
+        this.enterRecursionRule(localContext, 72, cslParser.RULE_logical_or_expression, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 365;
+            this.state = 336;
             this.logical_and_expression(0);
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 372;
+            this.state = 343;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 25, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 23, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -1936,20 +1786,20 @@ export class cslParser extends antlr.Parser {
                     {
                     localContext = new Logical_or_expressionContext(parentContext, parentState);
                     this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_logical_or_expression);
-                    this.state = 367;
+                    this.state = 338;
                     if (!(this.precpred(this.context, 2))) {
                         throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                     }
-                    this.state = 368;
+                    this.state = 339;
                     this.match(cslParser.OR);
-                    this.state = 369;
+                    this.state = 340;
                     this.logical_and_expression(0);
                     }
                     }
                 }
-                this.state = 374;
+                this.state = 345;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 25, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 23, this.context);
             }
             }
         }
@@ -1979,20 +1829,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Logical_and_expressionContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 80;
-        this.enterRecursionRule(localContext, 80, cslParser.RULE_logical_and_expression, _p);
+        let _startState = 74;
+        this.enterRecursionRule(localContext, 74, cslParser.RULE_logical_and_expression, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 376;
+            this.state = 347;
             this.equality_expression(0);
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 383;
+            this.state = 354;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 26, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 24, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -2003,20 +1853,20 @@ export class cslParser extends antlr.Parser {
                     {
                     localContext = new Logical_and_expressionContext(parentContext, parentState);
                     this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_logical_and_expression);
-                    this.state = 378;
+                    this.state = 349;
                     if (!(this.precpred(this.context, 2))) {
                         throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                     }
-                    this.state = 379;
+                    this.state = 350;
                     this.match(cslParser.AND);
-                    this.state = 380;
+                    this.state = 351;
                     this.equality_expression(0);
                     }
                     }
                 }
-                this.state = 385;
+                this.state = 356;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 26, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 24, this.context);
             }
             }
         }
@@ -2046,20 +1896,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Equality_expressionContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 82;
-        this.enterRecursionRule(localContext, 82, cslParser.RULE_equality_expression, _p);
+        let _startState = 76;
+        this.enterRecursionRule(localContext, 76, cslParser.RULE_equality_expression, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 387;
+            this.state = 358;
             this.relational_expression(0);
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 397;
+            this.state = 368;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 28, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 26, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -2067,20 +1917,20 @@ export class cslParser extends antlr.Parser {
                     }
                     previousContext = localContext;
                     {
-                    this.state = 395;
+                    this.state = 366;
                     this.errorHandler.sync(this);
-                    switch (this.interpreter.adaptivePredict(this.tokenStream, 27, this.context) ) {
+                    switch (this.interpreter.adaptivePredict(this.tokenStream, 25, this.context) ) {
                     case 1:
                         {
                         localContext = new Equality_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_equality_expression);
-                        this.state = 389;
+                        this.state = 360;
                         if (!(this.precpred(this.context, 3))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 3)");
                         }
-                        this.state = 390;
+                        this.state = 361;
                         this.match(cslParser.EQUAL);
-                        this.state = 391;
+                        this.state = 362;
                         this.relational_expression(0);
                         }
                         break;
@@ -2088,22 +1938,22 @@ export class cslParser extends antlr.Parser {
                         {
                         localContext = new Equality_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_equality_expression);
-                        this.state = 392;
+                        this.state = 363;
                         if (!(this.precpred(this.context, 2))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                         }
-                        this.state = 393;
+                        this.state = 364;
                         this.match(cslParser.NOT_EQUAL);
-                        this.state = 394;
+                        this.state = 365;
                         this.relational_expression(0);
                         }
                         break;
                     }
                     }
                 }
-                this.state = 399;
+                this.state = 370;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 28, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 26, this.context);
             }
             }
         }
@@ -2133,20 +1983,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Relational_expressionContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 84;
-        this.enterRecursionRule(localContext, 84, cslParser.RULE_relational_expression, _p);
+        let _startState = 78;
+        this.enterRecursionRule(localContext, 78, cslParser.RULE_relational_expression, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 401;
+            this.state = 372;
             this.additive_expression(0);
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 417;
+            this.state = 388;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 30, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 28, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -2154,20 +2004,20 @@ export class cslParser extends antlr.Parser {
                     }
                     previousContext = localContext;
                     {
-                    this.state = 415;
+                    this.state = 386;
                     this.errorHandler.sync(this);
-                    switch (this.interpreter.adaptivePredict(this.tokenStream, 29, this.context) ) {
+                    switch (this.interpreter.adaptivePredict(this.tokenStream, 27, this.context) ) {
                     case 1:
                         {
                         localContext = new Relational_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_relational_expression);
-                        this.state = 403;
+                        this.state = 374;
                         if (!(this.precpred(this.context, 5))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 5)");
                         }
-                        this.state = 404;
+                        this.state = 375;
                         this.match(cslParser.GREATER);
-                        this.state = 405;
+                        this.state = 376;
                         this.additive_expression(0);
                         }
                         break;
@@ -2175,13 +2025,13 @@ export class cslParser extends antlr.Parser {
                         {
                         localContext = new Relational_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_relational_expression);
-                        this.state = 406;
+                        this.state = 377;
                         if (!(this.precpred(this.context, 4))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 4)");
                         }
-                        this.state = 407;
+                        this.state = 378;
                         this.match(cslParser.GREATER_EQUAL);
-                        this.state = 408;
+                        this.state = 379;
                         this.additive_expression(0);
                         }
                         break;
@@ -2189,13 +2039,13 @@ export class cslParser extends antlr.Parser {
                         {
                         localContext = new Relational_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_relational_expression);
-                        this.state = 409;
+                        this.state = 380;
                         if (!(this.precpred(this.context, 3))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 3)");
                         }
-                        this.state = 410;
+                        this.state = 381;
                         this.match(cslParser.LESS);
-                        this.state = 411;
+                        this.state = 382;
                         this.additive_expression(0);
                         }
                         break;
@@ -2203,22 +2053,22 @@ export class cslParser extends antlr.Parser {
                         {
                         localContext = new Relational_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_relational_expression);
-                        this.state = 412;
+                        this.state = 383;
                         if (!(this.precpred(this.context, 2))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                         }
-                        this.state = 413;
+                        this.state = 384;
                         this.match(cslParser.LESS_EQUAL);
-                        this.state = 414;
+                        this.state = 385;
                         this.additive_expression(0);
                         }
                         break;
                     }
                     }
                 }
-                this.state = 419;
+                this.state = 390;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 30, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 28, this.context);
             }
             }
         }
@@ -2248,20 +2098,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Additive_expressionContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 86;
-        this.enterRecursionRule(localContext, 86, cslParser.RULE_additive_expression, _p);
+        let _startState = 80;
+        this.enterRecursionRule(localContext, 80, cslParser.RULE_additive_expression, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 421;
+            this.state = 392;
             this.multiplicative_expression(0);
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 431;
+            this.state = 402;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 32, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 30, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -2269,20 +2119,20 @@ export class cslParser extends antlr.Parser {
                     }
                     previousContext = localContext;
                     {
-                    this.state = 429;
+                    this.state = 400;
                     this.errorHandler.sync(this);
-                    switch (this.interpreter.adaptivePredict(this.tokenStream, 31, this.context) ) {
+                    switch (this.interpreter.adaptivePredict(this.tokenStream, 29, this.context) ) {
                     case 1:
                         {
                         localContext = new Additive_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_additive_expression);
-                        this.state = 423;
+                        this.state = 394;
                         if (!(this.precpred(this.context, 3))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 3)");
                         }
-                        this.state = 424;
+                        this.state = 395;
                         this.match(cslParser.PLUS);
-                        this.state = 425;
+                        this.state = 396;
                         this.multiplicative_expression(0);
                         }
                         break;
@@ -2290,22 +2140,22 @@ export class cslParser extends antlr.Parser {
                         {
                         localContext = new Additive_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_additive_expression);
-                        this.state = 426;
+                        this.state = 397;
                         if (!(this.precpred(this.context, 2))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                         }
-                        this.state = 427;
+                        this.state = 398;
                         this.match(cslParser.MINUS);
-                        this.state = 428;
+                        this.state = 399;
                         this.multiplicative_expression(0);
                         }
                         break;
                     }
                     }
                 }
-                this.state = 433;
+                this.state = 404;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 32, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 30, this.context);
             }
             }
         }
@@ -2335,20 +2185,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Multiplicative_expressionContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 88;
-        this.enterRecursionRule(localContext, 88, cslParser.RULE_multiplicative_expression, _p);
+        let _startState = 82;
+        this.enterRecursionRule(localContext, 82, cslParser.RULE_multiplicative_expression, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 435;
+            this.state = 406;
             this.unary_expression();
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 448;
+            this.state = 419;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 34, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 32, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -2356,20 +2206,20 @@ export class cslParser extends antlr.Parser {
                     }
                     previousContext = localContext;
                     {
-                    this.state = 446;
+                    this.state = 417;
                     this.errorHandler.sync(this);
-                    switch (this.interpreter.adaptivePredict(this.tokenStream, 33, this.context) ) {
+                    switch (this.interpreter.adaptivePredict(this.tokenStream, 31, this.context) ) {
                     case 1:
                         {
                         localContext = new Multiplicative_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_multiplicative_expression);
-                        this.state = 437;
+                        this.state = 408;
                         if (!(this.precpred(this.context, 4))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 4)");
                         }
-                        this.state = 438;
+                        this.state = 409;
                         this.match(cslParser.MULTIPLY);
-                        this.state = 439;
+                        this.state = 410;
                         this.unary_expression();
                         }
                         break;
@@ -2377,13 +2227,13 @@ export class cslParser extends antlr.Parser {
                         {
                         localContext = new Multiplicative_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_multiplicative_expression);
-                        this.state = 440;
+                        this.state = 411;
                         if (!(this.precpred(this.context, 3))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 3)");
                         }
-                        this.state = 441;
+                        this.state = 412;
                         this.match(cslParser.DIVIDE);
-                        this.state = 442;
+                        this.state = 413;
                         this.unary_expression();
                         }
                         break;
@@ -2391,22 +2241,22 @@ export class cslParser extends antlr.Parser {
                         {
                         localContext = new Multiplicative_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_multiplicative_expression);
-                        this.state = 443;
+                        this.state = 414;
                         if (!(this.precpred(this.context, 2))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                         }
-                        this.state = 444;
+                        this.state = 415;
                         this.match(cslParser.MOD);
-                        this.state = 445;
+                        this.state = 416;
                         this.unary_expression();
                         }
                         break;
                     }
                     }
                 }
-                this.state = 450;
+                this.state = 421;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 34, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 32, this.context);
             }
             }
         }
@@ -2426,26 +2276,26 @@ export class cslParser extends antlr.Parser {
     }
     public unary_expression(): Unary_expressionContext {
         let localContext = new Unary_expressionContext(this.context, this.state);
-        this.enterRule(localContext, 90, cslParser.RULE_unary_expression);
+        this.enterRule(localContext, 84, cslParser.RULE_unary_expression);
         try {
-            this.state = 456;
+            this.state = 427;
             this.errorHandler.sync(this);
             switch (this.tokenStream.LA(1)) {
             case cslParser.NOT:
                 this.enterOuterAlt(localContext, 1);
                 {
-                this.state = 451;
+                this.state = 422;
                 this.match(cslParser.NOT);
-                this.state = 452;
+                this.state = 423;
                 this.unary_expression();
                 }
                 break;
             case cslParser.MINUS:
                 this.enterOuterAlt(localContext, 2);
                 {
-                this.state = 453;
+                this.state = 424;
                 this.match(cslParser.MINUS);
-                this.state = 454;
+                this.state = 425;
                 this.unary_expression();
                 }
                 break;
@@ -2456,7 +2306,7 @@ export class cslParser extends antlr.Parser {
             case cslParser.ID:
                 this.enterOuterAlt(localContext, 3);
                 {
-                this.state = 455;
+                this.state = 426;
                 this.postfix_expression(0);
                 }
                 break;
@@ -2490,20 +2340,20 @@ export class cslParser extends antlr.Parser {
         let parentState = this.state;
         let localContext = new Postfix_expressionContext(this.context, parentState);
         let previousContext = localContext;
-        let _startState = 92;
-        this.enterRecursionRule(localContext, 92, cslParser.RULE_postfix_expression, _p);
+        let _startState = 86;
+        this.enterRecursionRule(localContext, 86, cslParser.RULE_postfix_expression, _p);
         try {
             let alternative: number;
             this.enterOuterAlt(localContext, 1);
             {
             {
-            this.state = 459;
+            this.state = 430;
             this.primary_expression();
             }
             this.context!.stop = this.tokenStream.LT(-1);
-            this.state = 471;
+            this.state = 442;
             this.errorHandler.sync(this);
-            alternative = this.interpreter.adaptivePredict(this.tokenStream, 37, this.context);
+            alternative = this.interpreter.adaptivePredict(this.tokenStream, 35, this.context);
             while (alternative !== 2 && alternative !== antlr.ATN.INVALID_ALT_NUMBER) {
                 if (alternative === 1) {
                     if (this._parseListeners != null) {
@@ -2511,22 +2361,22 @@ export class cslParser extends antlr.Parser {
                     }
                     previousContext = localContext;
                     {
-                    this.state = 469;
+                    this.state = 440;
                     this.errorHandler.sync(this);
-                    switch (this.interpreter.adaptivePredict(this.tokenStream, 36, this.context) ) {
+                    switch (this.interpreter.adaptivePredict(this.tokenStream, 34, this.context) ) {
                     case 1:
                         {
                         localContext = new Postfix_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_postfix_expression);
-                        this.state = 461;
+                        this.state = 432;
                         if (!(this.precpred(this.context, 2))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 2)");
                         }
-                        this.state = 462;
+                        this.state = 433;
                         this.match(cslParser.LBRACK);
-                        this.state = 463;
+                        this.state = 434;
                         this.expression();
-                        this.state = 464;
+                        this.state = 435;
                         this.match(cslParser.RBRACK);
                         }
                         break;
@@ -2534,22 +2384,22 @@ export class cslParser extends antlr.Parser {
                         {
                         localContext = new Postfix_expressionContext(parentContext, parentState);
                         this.pushNewRecursionContext(localContext, _startState, cslParser.RULE_postfix_expression);
-                        this.state = 466;
+                        this.state = 437;
                         if (!(this.precpred(this.context, 1))) {
                             throw this.createFailedPredicateException("this.precpred(this.context, 1)");
                         }
-                        this.state = 467;
+                        this.state = 438;
                         this.match(cslParser.DOT);
-                        this.state = 468;
+                        this.state = 439;
                         this.match(cslParser.ID);
                         }
                         break;
                     }
                     }
                 }
-                this.state = 473;
+                this.state = 444;
                 this.errorHandler.sync(this);
-                alternative = this.interpreter.adaptivePredict(this.tokenStream, 37, this.context);
+                alternative = this.interpreter.adaptivePredict(this.tokenStream, 35, this.context);
             }
             }
         }
@@ -2569,15 +2419,15 @@ export class cslParser extends antlr.Parser {
     }
     public primary_expression(): Primary_expressionContext {
         let localContext = new Primary_expressionContext(this.context, this.state);
-        this.enterRule(localContext, 94, cslParser.RULE_primary_expression);
+        this.enterRule(localContext, 88, cslParser.RULE_primary_expression);
         try {
-            this.state = 480;
+            this.state = 451;
             this.errorHandler.sync(this);
             switch (this.tokenStream.LA(1)) {
             case cslParser.ID:
                 this.enterOuterAlt(localContext, 1);
                 {
-                this.state = 474;
+                this.state = 445;
                 this.match(cslParser.ID);
                 }
                 break;
@@ -2586,18 +2436,18 @@ export class cslParser extends antlr.Parser {
             case cslParser.FLOATS:
                 this.enterOuterAlt(localContext, 2);
                 {
-                this.state = 475;
+                this.state = 446;
                 this.value();
                 }
                 break;
             case cslParser.LPAREN:
                 this.enterOuterAlt(localContext, 3);
                 {
-                this.state = 476;
+                this.state = 447;
                 this.match(cslParser.LPAREN);
-                this.state = 477;
+                this.state = 448;
                 this.expression();
-                this.state = 478;
+                this.state = 449;
                 this.match(cslParser.RPAREN);
                 }
                 break;
@@ -2621,12 +2471,12 @@ export class cslParser extends antlr.Parser {
     }
     public value(): ValueContext {
         let localContext = new ValueContext(this.context, this.state);
-        this.enterRule(localContext, 96, cslParser.RULE_value);
+        this.enterRule(localContext, 90, cslParser.RULE_value);
         let _la: number;
         try {
             this.enterOuterAlt(localContext, 1);
             {
-            this.state = 482;
+            this.state = 453;
             _la = this.tokenStream.LA(1);
             if(!(((((_la - 30)) & ~0x1F) === 0 && ((1 << (_la - 30)) & 25) !== 0))) {
             this.errorHandler.recoverInline(this);
@@ -2656,25 +2506,23 @@ export class cslParser extends antlr.Parser {
         switch (ruleIndex) {
         case 7:
             return this.constance_list_sempred(localContext as Constance_listContext, predIndex);
-        case 10:
-            return this.chatbox_list_sempred(localContext as Chatbox_listContext, predIndex);
-        case 15:
+        case 12:
             return this.command_sequnces_sempred(localContext as Command_sequncesContext, predIndex);
-        case 29:
+        case 26:
             return this.case_list_sempred(localContext as Case_listContext, predIndex);
-        case 39:
+        case 36:
             return this.logical_or_expression_sempred(localContext as Logical_or_expressionContext, predIndex);
-        case 40:
+        case 37:
             return this.logical_and_expression_sempred(localContext as Logical_and_expressionContext, predIndex);
-        case 41:
+        case 38:
             return this.equality_expression_sempred(localContext as Equality_expressionContext, predIndex);
-        case 42:
+        case 39:
             return this.relational_expression_sempred(localContext as Relational_expressionContext, predIndex);
-        case 43:
+        case 40:
             return this.additive_expression_sempred(localContext as Additive_expressionContext, predIndex);
-        case 44:
+        case 41:
             return this.multiplicative_expression_sempred(localContext as Multiplicative_expressionContext, predIndex);
-        case 46:
+        case 43:
             return this.postfix_expression_sempred(localContext as Postfix_expressionContext, predIndex);
         }
         return true;
@@ -2686,265 +2534,248 @@ export class cslParser extends antlr.Parser {
         }
         return true;
     }
-    private chatbox_list_sempred(localContext: Chatbox_listContext, predIndex: number): boolean {
+    private command_sequnces_sempred(localContext: Command_sequncesContext, predIndex: number): boolean {
         switch (predIndex) {
         case 1:
             return this.precpred(this.context, 2);
         }
         return true;
     }
-    private command_sequnces_sempred(localContext: Command_sequncesContext, predIndex: number): boolean {
+    private case_list_sempred(localContext: Case_listContext, predIndex: number): boolean {
         switch (predIndex) {
         case 2:
             return this.precpred(this.context, 2);
         }
         return true;
     }
-    private case_list_sempred(localContext: Case_listContext, predIndex: number): boolean {
+    private logical_or_expression_sempred(localContext: Logical_or_expressionContext, predIndex: number): boolean {
         switch (predIndex) {
         case 3:
             return this.precpred(this.context, 2);
         }
         return true;
     }
-    private logical_or_expression_sempred(localContext: Logical_or_expressionContext, predIndex: number): boolean {
+    private logical_and_expression_sempred(localContext: Logical_and_expressionContext, predIndex: number): boolean {
         switch (predIndex) {
         case 4:
             return this.precpred(this.context, 2);
         }
         return true;
     }
-    private logical_and_expression_sempred(localContext: Logical_and_expressionContext, predIndex: number): boolean {
-        switch (predIndex) {
-        case 5:
-            return this.precpred(this.context, 2);
-        }
-        return true;
-    }
     private equality_expression_sempred(localContext: Equality_expressionContext, predIndex: number): boolean {
         switch (predIndex) {
-        case 6:
+        case 5:
             return this.precpred(this.context, 3);
-        case 7:
+        case 6:
             return this.precpred(this.context, 2);
         }
         return true;
     }
     private relational_expression_sempred(localContext: Relational_expressionContext, predIndex: number): boolean {
         switch (predIndex) {
-        case 8:
+        case 7:
             return this.precpred(this.context, 5);
-        case 9:
+        case 8:
             return this.precpred(this.context, 4);
-        case 10:
+        case 9:
             return this.precpred(this.context, 3);
-        case 11:
+        case 10:
             return this.precpred(this.context, 2);
         }
         return true;
     }
     private additive_expression_sempred(localContext: Additive_expressionContext, predIndex: number): boolean {
         switch (predIndex) {
-        case 12:
+        case 11:
             return this.precpred(this.context, 3);
-        case 13:
+        case 12:
             return this.precpred(this.context, 2);
         }
         return true;
     }
     private multiplicative_expression_sempred(localContext: Multiplicative_expressionContext, predIndex: number): boolean {
         switch (predIndex) {
-        case 14:
+        case 13:
             return this.precpred(this.context, 4);
-        case 15:
+        case 14:
             return this.precpred(this.context, 3);
-        case 16:
+        case 15:
             return this.precpred(this.context, 2);
         }
         return true;
     }
     private postfix_expression_sempred(localContext: Postfix_expressionContext, predIndex: number): boolean {
         switch (predIndex) {
-        case 17:
+        case 16:
             return this.precpred(this.context, 2);
-        case 18:
+        case 17:
             return this.precpred(this.context, 1);
         }
         return true;
     }
 
     public static readonly _serializedATN: number[] = [
-        4,1,62,485,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,62,456,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
         7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,
         2,27,7,27,2,28,7,28,2,29,7,29,2,30,7,30,2,31,7,31,2,32,7,32,2,33,
         7,33,2,34,7,34,2,35,7,35,2,36,7,36,2,37,7,37,2,38,7,38,2,39,7,39,
-        2,40,7,40,2,41,7,41,2,42,7,42,2,43,7,43,2,44,7,44,2,45,7,45,2,46,
-        7,46,2,47,7,47,2,48,7,48,1,0,1,0,5,0,101,8,0,10,0,12,0,104,9,0,1,
-        0,1,0,1,1,1,1,3,1,110,8,1,1,2,1,2,1,2,1,2,1,2,3,2,117,8,2,1,3,1,
-        3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,4,4,128,8,4,11,4,12,4,129,1,4,1,4,
-        1,5,1,5,1,5,1,5,1,5,1,6,1,6,1,6,1,6,1,6,1,7,1,7,1,7,1,7,1,7,5,7,
-        149,8,7,10,7,12,7,152,9,7,1,8,1,8,1,8,1,8,1,9,1,9,1,9,5,9,161,8,
-        9,10,9,12,9,164,9,9,1,9,1,9,1,10,1,10,1,10,1,10,1,10,5,10,173,8,
-        10,10,10,12,10,176,9,10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,3,11,
-        185,8,11,1,12,1,12,1,13,1,13,1,13,1,13,1,13,1,13,1,14,1,14,1,14,
-        1,14,1,14,1,14,1,15,1,15,1,15,1,15,1,15,5,15,206,8,15,10,15,12,15,
-        209,9,15,1,16,1,16,1,16,1,16,1,16,1,16,1,16,1,16,1,16,1,16,1,16,
-        1,16,1,16,1,16,1,16,3,16,226,8,16,1,17,1,17,1,18,1,18,1,19,1,19,
-        1,19,3,19,235,8,19,1,20,1,20,1,20,1,20,1,20,1,21,1,21,1,21,1,21,
-        1,21,1,21,1,22,1,22,1,22,1,23,1,23,1,23,3,23,254,8,23,1,24,1,24,
-        1,24,3,24,259,8,24,1,24,3,24,262,8,24,1,25,1,25,1,25,1,26,1,26,1,
-        26,1,26,1,26,1,26,1,26,1,26,1,27,1,27,1,27,1,27,1,27,3,27,280,8,
-        27,1,27,1,27,3,27,284,8,27,1,28,1,28,1,28,1,28,3,28,290,8,28,1,28,
-        1,28,1,29,1,29,1,29,1,29,1,29,5,29,299,8,29,10,29,12,29,302,9,29,
-        1,30,1,30,1,30,1,30,1,30,1,30,1,31,1,31,1,31,1,31,1,31,1,31,1,31,
-        3,31,317,8,31,1,31,3,31,320,8,31,1,32,1,32,1,32,1,32,1,32,1,32,1,
-        32,3,32,329,8,32,1,33,1,33,1,33,1,33,1,33,1,33,1,34,1,34,3,34,339,
-        8,34,1,34,1,34,1,34,1,34,1,35,1,35,1,35,1,36,1,36,1,36,3,36,351,
-        8,36,1,36,1,36,1,36,1,37,1,37,1,37,1,37,1,37,3,37,361,8,37,1,38,
-        1,38,1,39,1,39,1,39,1,39,1,39,1,39,5,39,371,8,39,10,39,12,39,374,
-        9,39,1,40,1,40,1,40,1,40,1,40,1,40,5,40,382,8,40,10,40,12,40,385,
-        9,40,1,41,1,41,1,41,1,41,1,41,1,41,1,41,1,41,1,41,5,41,396,8,41,
-        10,41,12,41,399,9,41,1,42,1,42,1,42,1,42,1,42,1,42,1,42,1,42,1,42,
-        1,42,1,42,1,42,1,42,1,42,1,42,5,42,416,8,42,10,42,12,42,419,9,42,
-        1,43,1,43,1,43,1,43,1,43,1,43,1,43,1,43,1,43,5,43,430,8,43,10,43,
-        12,43,433,9,43,1,44,1,44,1,44,1,44,1,44,1,44,1,44,1,44,1,44,1,44,
-        1,44,1,44,5,44,447,8,44,10,44,12,44,450,9,44,1,45,1,45,1,45,1,45,
-        1,45,3,45,457,8,45,1,46,1,46,1,46,1,46,1,46,1,46,1,46,1,46,1,46,
-        1,46,1,46,5,46,470,8,46,10,46,12,46,473,9,46,1,47,1,47,1,47,1,47,
-        1,47,1,47,3,47,481,8,47,1,48,1,48,1,48,0,11,14,20,30,58,78,80,82,
-        84,86,88,92,49,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,
-        36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,
-        80,82,84,86,88,90,92,94,96,0,3,2,0,1,2,47,47,2,0,30,30,60,60,2,0,
-        30,30,33,34,495,0,98,1,0,0,0,2,109,1,0,0,0,4,116,1,0,0,0,6,118,1,
-        0,0,0,8,127,1,0,0,0,10,133,1,0,0,0,12,138,1,0,0,0,14,143,1,0,0,0,
-        16,153,1,0,0,0,18,157,1,0,0,0,20,167,1,0,0,0,22,184,1,0,0,0,24,186,
-        1,0,0,0,26,188,1,0,0,0,28,194,1,0,0,0,30,200,1,0,0,0,32,225,1,0,
-        0,0,34,227,1,0,0,0,36,229,1,0,0,0,38,231,1,0,0,0,40,236,1,0,0,0,
-        42,241,1,0,0,0,44,247,1,0,0,0,46,253,1,0,0,0,48,255,1,0,0,0,50,263,
-        1,0,0,0,52,266,1,0,0,0,54,274,1,0,0,0,56,285,1,0,0,0,58,293,1,0,
-        0,0,60,303,1,0,0,0,62,309,1,0,0,0,64,321,1,0,0,0,66,330,1,0,0,0,
-        68,336,1,0,0,0,70,344,1,0,0,0,72,347,1,0,0,0,74,355,1,0,0,0,76,362,
-        1,0,0,0,78,364,1,0,0,0,80,375,1,0,0,0,82,386,1,0,0,0,84,400,1,0,
-        0,0,86,420,1,0,0,0,88,434,1,0,0,0,90,456,1,0,0,0,92,458,1,0,0,0,
-        94,480,1,0,0,0,96,482,1,0,0,0,98,102,5,1,0,0,99,101,3,2,1,0,100,
-        99,1,0,0,0,101,104,1,0,0,0,102,100,1,0,0,0,102,103,1,0,0,0,103,105,
-        1,0,0,0,104,102,1,0,0,0,105,106,5,1,0,0,106,1,1,0,0,0,107,110,3,
-        4,2,0,108,110,3,6,3,0,109,107,1,0,0,0,109,108,1,0,0,0,110,3,1,0,
-        0,0,111,117,8,0,0,0,112,113,5,2,0,0,113,117,5,1,0,0,114,115,5,2,
-        0,0,115,117,5,47,0,0,116,111,1,0,0,0,116,112,1,0,0,0,116,114,1,0,
-        0,0,117,5,1,0,0,0,118,119,5,47,0,0,119,120,5,43,0,0,120,121,3,76,
-        38,0,121,122,5,44,0,0,122,7,1,0,0,0,123,128,3,12,6,0,124,128,3,28,
-        14,0,125,128,3,18,9,0,126,128,3,10,5,0,127,123,1,0,0,0,127,124,1,
-        0,0,0,127,125,1,0,0,0,127,126,1,0,0,0,128,129,1,0,0,0,129,127,1,
-        0,0,0,129,130,1,0,0,0,130,131,1,0,0,0,131,132,5,0,0,1,132,9,1,0,
-        0,0,133,134,5,4,0,0,134,135,5,43,0,0,135,136,3,30,15,0,136,137,5,
-        44,0,0,137,11,1,0,0,0,138,139,5,6,0,0,139,140,5,43,0,0,140,141,3,
-        14,7,0,141,142,5,44,0,0,142,13,1,0,0,0,143,144,6,7,-1,0,144,145,
-        3,16,8,0,145,150,1,0,0,0,146,147,10,2,0,0,147,149,3,16,8,0,148,146,
-        1,0,0,0,149,152,1,0,0,0,150,148,1,0,0,0,150,151,1,0,0,0,151,15,1,
-        0,0,0,152,150,1,0,0,0,153,154,5,60,0,0,154,155,5,36,0,0,155,156,
-        3,76,38,0,156,17,1,0,0,0,157,158,5,3,0,0,158,162,5,43,0,0,159,161,
-        3,20,10,0,160,159,1,0,0,0,161,164,1,0,0,0,162,160,1,0,0,0,162,163,
-        1,0,0,0,163,165,1,0,0,0,164,162,1,0,0,0,165,166,5,44,0,0,166,19,
-        1,0,0,0,167,168,6,10,-1,0,168,169,3,22,11,0,169,174,1,0,0,0,170,
-        171,10,2,0,0,171,173,3,22,11,0,172,170,1,0,0,0,173,176,1,0,0,0,174,
-        172,1,0,0,0,174,175,1,0,0,0,175,21,1,0,0,0,176,174,1,0,0,0,177,178,
-        3,24,12,0,178,179,5,35,0,0,179,180,5,43,0,0,180,181,3,30,15,0,181,
-        182,5,44,0,0,182,185,1,0,0,0,183,185,3,26,13,0,184,177,1,0,0,0,184,
-        183,1,0,0,0,185,23,1,0,0,0,186,187,7,1,0,0,187,25,1,0,0,0,188,189,
-        5,8,0,0,189,190,5,35,0,0,190,191,5,43,0,0,191,192,3,30,15,0,192,
-        193,5,44,0,0,193,27,1,0,0,0,194,195,5,5,0,0,195,196,5,60,0,0,196,
-        197,5,43,0,0,197,198,3,30,15,0,198,199,5,44,0,0,199,29,1,0,0,0,200,
-        201,6,15,-1,0,201,202,3,32,16,0,202,207,1,0,0,0,203,204,10,2,0,0,
-        204,206,3,32,16,0,205,203,1,0,0,0,206,209,1,0,0,0,207,205,1,0,0,
-        0,207,208,1,0,0,0,208,31,1,0,0,0,209,207,1,0,0,0,210,226,3,38,19,
-        0,211,226,3,44,22,0,212,226,3,48,24,0,213,226,3,56,28,0,214,226,
-        3,54,27,0,215,226,3,62,31,0,216,226,3,52,26,0,217,226,3,40,20,0,
-        218,226,3,42,21,0,219,226,3,68,34,0,220,226,3,34,17,0,221,226,3,
-        36,18,0,222,226,3,72,36,0,223,226,3,74,37,0,224,226,3,46,23,0,225,
-        210,1,0,0,0,225,211,1,0,0,0,225,212,1,0,0,0,225,213,1,0,0,0,225,
-        214,1,0,0,0,225,215,1,0,0,0,225,216,1,0,0,0,225,217,1,0,0,0,225,
-        218,1,0,0,0,225,219,1,0,0,0,225,220,1,0,0,0,225,221,1,0,0,0,225,
-        222,1,0,0,0,225,223,1,0,0,0,225,224,1,0,0,0,226,33,1,0,0,0,227,228,
-        5,20,0,0,228,35,1,0,0,0,229,230,5,19,0,0,230,37,1,0,0,0,231,234,
-        5,10,0,0,232,235,3,76,38,0,233,235,3,0,0,0,234,232,1,0,0,0,234,233,
-        1,0,0,0,235,39,1,0,0,0,236,237,5,23,0,0,237,238,5,60,0,0,238,239,
-        5,36,0,0,239,240,3,76,38,0,240,41,1,0,0,0,241,242,5,23,0,0,242,243,
-        5,24,0,0,243,244,5,60,0,0,244,245,5,36,0,0,245,246,3,76,38,0,246,
-        43,1,0,0,0,247,248,5,7,0,0,248,249,5,60,0,0,249,45,1,0,0,0,250,254,
-        5,11,0,0,251,252,5,7,0,0,252,254,5,3,0,0,253,250,1,0,0,0,253,251,
-        1,0,0,0,254,47,1,0,0,0,255,256,5,12,0,0,256,258,5,60,0,0,257,259,
-        3,50,25,0,258,257,1,0,0,0,258,259,1,0,0,0,259,261,1,0,0,0,260,262,
-        3,52,26,0,261,260,1,0,0,0,261,262,1,0,0,0,262,49,1,0,0,0,263,264,
-        5,13,0,0,264,265,3,76,38,0,265,51,1,0,0,0,266,267,5,18,0,0,267,268,
-        5,21,0,0,268,269,3,76,38,0,269,270,5,35,0,0,270,271,5,43,0,0,271,
-        272,3,30,15,0,272,273,5,44,0,0,273,53,1,0,0,0,274,275,5,22,0,0,275,
-        276,5,12,0,0,276,277,5,43,0,0,277,279,3,58,29,0,278,280,3,26,13,
-        0,279,278,1,0,0,0,279,280,1,0,0,0,280,281,1,0,0,0,281,283,5,44,0,
-        0,282,284,3,52,26,0,283,282,1,0,0,0,283,284,1,0,0,0,284,55,1,0,0,
-        0,285,286,5,9,0,0,286,287,5,43,0,0,287,289,3,58,29,0,288,290,3,26,
-        13,0,289,288,1,0,0,0,289,290,1,0,0,0,290,291,1,0,0,0,291,292,5,44,
-        0,0,292,57,1,0,0,0,293,294,6,29,-1,0,294,295,3,60,30,0,295,300,1,
-        0,0,0,296,297,10,2,0,0,297,299,3,60,30,0,298,296,1,0,0,0,299,302,
-        1,0,0,0,300,298,1,0,0,0,300,301,1,0,0,0,301,59,1,0,0,0,302,300,1,
-        0,0,0,303,304,3,76,38,0,304,305,5,35,0,0,305,306,5,43,0,0,306,307,
-        3,30,15,0,307,308,5,44,0,0,308,61,1,0,0,0,309,310,5,14,0,0,310,311,
-        3,76,38,0,311,312,5,35,0,0,312,313,5,43,0,0,313,314,3,30,15,0,314,
-        316,5,44,0,0,315,317,3,64,32,0,316,315,1,0,0,0,316,317,1,0,0,0,317,
-        319,1,0,0,0,318,320,3,66,33,0,319,318,1,0,0,0,319,320,1,0,0,0,320,
-        63,1,0,0,0,321,322,5,16,0,0,322,323,3,76,38,0,323,324,5,35,0,0,324,
-        325,5,43,0,0,325,326,3,30,15,0,326,328,5,44,0,0,327,329,3,64,32,
-        0,328,327,1,0,0,0,328,329,1,0,0,0,329,65,1,0,0,0,330,331,5,15,0,
-        0,331,332,5,35,0,0,332,333,5,43,0,0,333,334,3,30,15,0,334,335,5,
-        44,0,0,335,67,1,0,0,0,336,338,5,17,0,0,337,339,3,70,35,0,338,337,
-        1,0,0,0,338,339,1,0,0,0,339,340,1,0,0,0,340,341,5,43,0,0,341,342,
-        3,30,15,0,342,343,5,44,0,0,343,69,1,0,0,0,344,345,5,18,0,0,345,346,
-        3,76,38,0,346,71,1,0,0,0,347,350,5,25,0,0,348,351,5,30,0,0,349,351,
-        3,0,0,0,350,348,1,0,0,0,350,349,1,0,0,0,351,352,1,0,0,0,352,353,
-        5,35,0,0,353,354,5,60,0,0,354,73,1,0,0,0,355,356,5,26,0,0,356,357,
-        5,60,0,0,357,360,5,35,0,0,358,361,5,30,0,0,359,361,3,0,0,0,360,358,
-        1,0,0,0,360,359,1,0,0,0,361,75,1,0,0,0,362,363,3,78,39,0,363,77,
-        1,0,0,0,364,365,6,39,-1,0,365,366,3,80,40,0,366,372,1,0,0,0,367,
-        368,10,2,0,0,368,369,5,27,0,0,369,371,3,80,40,0,370,367,1,0,0,0,
-        371,374,1,0,0,0,372,370,1,0,0,0,372,373,1,0,0,0,373,79,1,0,0,0,374,
-        372,1,0,0,0,375,376,6,40,-1,0,376,377,3,82,41,0,377,383,1,0,0,0,
-        378,379,10,2,0,0,379,380,5,28,0,0,380,382,3,82,41,0,381,378,1,0,
-        0,0,382,385,1,0,0,0,383,381,1,0,0,0,383,384,1,0,0,0,384,81,1,0,0,
-        0,385,383,1,0,0,0,386,387,6,41,-1,0,387,388,3,84,42,0,388,397,1,
-        0,0,0,389,390,10,3,0,0,390,391,5,37,0,0,391,396,3,84,42,0,392,393,
-        10,2,0,0,393,394,5,56,0,0,394,396,3,84,42,0,395,389,1,0,0,0,395,
-        392,1,0,0,0,396,399,1,0,0,0,397,395,1,0,0,0,397,398,1,0,0,0,398,
-        83,1,0,0,0,399,397,1,0,0,0,400,401,6,42,-1,0,401,402,3,86,43,0,402,
-        417,1,0,0,0,403,404,10,5,0,0,404,405,5,52,0,0,405,416,3,86,43,0,
-        406,407,10,4,0,0,407,408,5,53,0,0,408,416,3,86,43,0,409,410,10,3,
-        0,0,410,411,5,54,0,0,411,416,3,86,43,0,412,413,10,2,0,0,413,414,
-        5,55,0,0,414,416,3,86,43,0,415,403,1,0,0,0,415,406,1,0,0,0,415,409,
-        1,0,0,0,415,412,1,0,0,0,416,419,1,0,0,0,417,415,1,0,0,0,417,418,
-        1,0,0,0,418,85,1,0,0,0,419,417,1,0,0,0,420,421,6,43,-1,0,421,422,
-        3,88,44,0,422,431,1,0,0,0,423,424,10,3,0,0,424,425,5,48,0,0,425,
-        430,3,88,44,0,426,427,10,2,0,0,427,428,5,49,0,0,428,430,3,88,44,
-        0,429,423,1,0,0,0,429,426,1,0,0,0,430,433,1,0,0,0,431,429,1,0,0,
-        0,431,432,1,0,0,0,432,87,1,0,0,0,433,431,1,0,0,0,434,435,6,44,-1,
-        0,435,436,3,90,45,0,436,448,1,0,0,0,437,438,10,4,0,0,438,439,5,50,
-        0,0,439,447,3,90,45,0,440,441,10,3,0,0,441,442,5,51,0,0,442,447,
-        3,90,45,0,443,444,10,2,0,0,444,445,5,58,0,0,445,447,3,90,45,0,446,
-        437,1,0,0,0,446,440,1,0,0,0,446,443,1,0,0,0,447,450,1,0,0,0,448,
-        446,1,0,0,0,448,449,1,0,0,0,449,89,1,0,0,0,450,448,1,0,0,0,451,452,
-        5,29,0,0,452,457,3,90,45,0,453,454,5,49,0,0,454,457,3,90,45,0,455,
-        457,3,92,46,0,456,451,1,0,0,0,456,453,1,0,0,0,456,455,1,0,0,0,457,
-        91,1,0,0,0,458,459,6,46,-1,0,459,460,3,94,47,0,460,471,1,0,0,0,461,
-        462,10,2,0,0,462,463,5,45,0,0,463,464,3,76,38,0,464,465,5,46,0,0,
-        465,470,1,0,0,0,466,467,10,1,0,0,467,468,5,59,0,0,468,470,5,60,0,
-        0,469,461,1,0,0,0,469,466,1,0,0,0,470,473,1,0,0,0,471,469,1,0,0,
-        0,471,472,1,0,0,0,472,93,1,0,0,0,473,471,1,0,0,0,474,481,5,60,0,
-        0,475,481,3,96,48,0,476,477,5,41,0,0,477,478,3,76,38,0,478,479,5,
-        42,0,0,479,481,1,0,0,0,480,474,1,0,0,0,480,475,1,0,0,0,480,476,1,
-        0,0,0,481,95,1,0,0,0,482,483,7,2,0,0,483,97,1,0,0,0,39,102,109,116,
-        127,129,150,162,174,184,207,225,234,253,258,261,279,283,289,300,
-        316,319,328,338,350,360,372,383,395,397,415,417,429,431,446,448,
-        456,469,471,480
+        2,40,7,40,2,41,7,41,2,42,7,42,2,43,7,43,2,44,7,44,2,45,7,45,1,0,
+        1,0,5,0,95,8,0,10,0,12,0,98,9,0,1,0,1,0,1,1,1,1,3,1,104,8,1,1,2,
+        1,2,1,2,1,2,1,2,3,2,111,8,2,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,
+        4,4,122,8,4,11,4,12,4,123,1,4,1,4,1,5,1,5,1,5,1,5,1,5,1,6,1,6,1,
+        6,1,6,1,6,1,7,1,7,1,7,1,7,1,7,5,7,143,8,7,10,7,12,7,146,9,7,1,8,
+        1,8,1,8,1,8,1,9,1,9,1,9,3,9,155,8,9,1,9,1,9,1,9,1,10,1,10,1,10,1,
+        10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,1,
+        12,5,12,177,8,12,10,12,12,12,180,9,12,1,13,1,13,1,13,1,13,1,13,1,
+        13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,3,13,197,8,13,1,
+        14,1,14,1,15,1,15,1,16,1,16,1,16,3,16,206,8,16,1,17,1,17,1,17,1,
+        17,1,17,1,18,1,18,1,18,1,18,1,18,1,18,1,19,1,19,1,19,1,20,1,20,1,
+        20,3,20,225,8,20,1,21,1,21,1,21,3,21,230,8,21,1,21,3,21,233,8,21,
+        1,22,1,22,1,22,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,24,1,24,
+        1,24,1,24,1,24,3,24,251,8,24,1,24,1,24,3,24,255,8,24,1,25,1,25,1,
+        25,1,25,3,25,261,8,25,1,25,1,25,1,26,1,26,1,26,1,26,1,26,5,26,270,
+        8,26,10,26,12,26,273,9,26,1,27,1,27,1,27,1,27,1,27,1,27,1,28,1,28,
+        1,28,1,28,1,28,1,28,1,28,3,28,288,8,28,1,28,3,28,291,8,28,1,29,1,
+        29,1,29,1,29,1,29,1,29,1,29,3,29,300,8,29,1,30,1,30,1,30,1,30,1,
+        30,1,30,1,31,1,31,3,31,310,8,31,1,31,1,31,1,31,1,31,1,32,1,32,1,
+        32,1,33,1,33,1,33,3,33,322,8,33,1,33,1,33,1,33,1,34,1,34,1,34,1,
+        34,1,34,3,34,332,8,34,1,35,1,35,1,36,1,36,1,36,1,36,1,36,1,36,5,
+        36,342,8,36,10,36,12,36,345,9,36,1,37,1,37,1,37,1,37,1,37,1,37,5,
+        37,353,8,37,10,37,12,37,356,9,37,1,38,1,38,1,38,1,38,1,38,1,38,1,
+        38,1,38,1,38,5,38,367,8,38,10,38,12,38,370,9,38,1,39,1,39,1,39,1,
+        39,1,39,1,39,1,39,1,39,1,39,1,39,1,39,1,39,1,39,1,39,1,39,5,39,387,
+        8,39,10,39,12,39,390,9,39,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,
+        1,40,5,40,401,8,40,10,40,12,40,404,9,40,1,41,1,41,1,41,1,41,1,41,
+        1,41,1,41,1,41,1,41,1,41,1,41,1,41,5,41,418,8,41,10,41,12,41,421,
+        9,41,1,42,1,42,1,42,1,42,1,42,3,42,428,8,42,1,43,1,43,1,43,1,43,
+        1,43,1,43,1,43,1,43,1,43,1,43,1,43,5,43,441,8,43,10,43,12,43,444,
+        9,43,1,44,1,44,1,44,1,44,1,44,1,44,3,44,452,8,44,1,45,1,45,1,45,
+        0,10,14,24,52,72,74,76,78,80,82,86,46,0,2,4,6,8,10,12,14,16,18,20,
+        22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,
+        66,68,70,72,74,76,78,80,82,84,86,88,90,0,2,2,0,1,2,47,47,2,0,30,
+        30,33,34,467,0,92,1,0,0,0,2,103,1,0,0,0,4,110,1,0,0,0,6,112,1,0,
+        0,0,8,121,1,0,0,0,10,127,1,0,0,0,12,132,1,0,0,0,14,137,1,0,0,0,16,
+        147,1,0,0,0,18,151,1,0,0,0,20,159,1,0,0,0,22,165,1,0,0,0,24,171,
+        1,0,0,0,26,196,1,0,0,0,28,198,1,0,0,0,30,200,1,0,0,0,32,202,1,0,
+        0,0,34,207,1,0,0,0,36,212,1,0,0,0,38,218,1,0,0,0,40,224,1,0,0,0,
+        42,226,1,0,0,0,44,234,1,0,0,0,46,237,1,0,0,0,48,245,1,0,0,0,50,256,
+        1,0,0,0,52,264,1,0,0,0,54,274,1,0,0,0,56,280,1,0,0,0,58,292,1,0,
+        0,0,60,301,1,0,0,0,62,307,1,0,0,0,64,315,1,0,0,0,66,318,1,0,0,0,
+        68,326,1,0,0,0,70,333,1,0,0,0,72,335,1,0,0,0,74,346,1,0,0,0,76,357,
+        1,0,0,0,78,371,1,0,0,0,80,391,1,0,0,0,82,405,1,0,0,0,84,427,1,0,
+        0,0,86,429,1,0,0,0,88,451,1,0,0,0,90,453,1,0,0,0,92,96,5,1,0,0,93,
+        95,3,2,1,0,94,93,1,0,0,0,95,98,1,0,0,0,96,94,1,0,0,0,96,97,1,0,0,
+        0,97,99,1,0,0,0,98,96,1,0,0,0,99,100,5,1,0,0,100,1,1,0,0,0,101,104,
+        3,4,2,0,102,104,3,6,3,0,103,101,1,0,0,0,103,102,1,0,0,0,104,3,1,
+        0,0,0,105,111,8,0,0,0,106,107,5,2,0,0,107,111,5,1,0,0,108,109,5,
+        2,0,0,109,111,5,47,0,0,110,105,1,0,0,0,110,106,1,0,0,0,110,108,1,
+        0,0,0,111,5,1,0,0,0,112,113,5,47,0,0,113,114,5,43,0,0,114,115,3,
+        70,35,0,115,116,5,44,0,0,116,7,1,0,0,0,117,122,3,12,6,0,118,122,
+        3,22,11,0,119,122,3,18,9,0,120,122,3,10,5,0,121,117,1,0,0,0,121,
+        118,1,0,0,0,121,119,1,0,0,0,121,120,1,0,0,0,122,123,1,0,0,0,123,
+        121,1,0,0,0,123,124,1,0,0,0,124,125,1,0,0,0,125,126,5,0,0,1,126,
+        9,1,0,0,0,127,128,5,4,0,0,128,129,5,43,0,0,129,130,3,24,12,0,130,
+        131,5,44,0,0,131,11,1,0,0,0,132,133,5,6,0,0,133,134,5,43,0,0,134,
+        135,3,14,7,0,135,136,5,44,0,0,136,13,1,0,0,0,137,138,6,7,-1,0,138,
+        139,3,16,8,0,139,144,1,0,0,0,140,141,10,2,0,0,141,143,3,16,8,0,142,
+        140,1,0,0,0,143,146,1,0,0,0,144,142,1,0,0,0,144,145,1,0,0,0,145,
+        15,1,0,0,0,146,144,1,0,0,0,147,148,5,60,0,0,148,149,5,36,0,0,149,
+        150,3,70,35,0,150,17,1,0,0,0,151,152,5,3,0,0,152,154,5,43,0,0,153,
+        155,3,52,26,0,154,153,1,0,0,0,154,155,1,0,0,0,155,156,1,0,0,0,156,
+        157,3,20,10,0,157,158,5,44,0,0,158,19,1,0,0,0,159,160,5,8,0,0,160,
+        161,5,35,0,0,161,162,5,43,0,0,162,163,3,24,12,0,163,164,5,44,0,0,
+        164,21,1,0,0,0,165,166,5,5,0,0,166,167,5,60,0,0,167,168,5,43,0,0,
+        168,169,3,24,12,0,169,170,5,44,0,0,170,23,1,0,0,0,171,172,6,12,-1,
+        0,172,173,3,26,13,0,173,178,1,0,0,0,174,175,10,2,0,0,175,177,3,26,
+        13,0,176,174,1,0,0,0,177,180,1,0,0,0,178,176,1,0,0,0,178,179,1,0,
+        0,0,179,25,1,0,0,0,180,178,1,0,0,0,181,197,3,32,16,0,182,197,3,38,
+        19,0,183,197,3,42,21,0,184,197,3,50,25,0,185,197,3,48,24,0,186,197,
+        3,56,28,0,187,197,3,46,23,0,188,197,3,34,17,0,189,197,3,36,18,0,
+        190,197,3,62,31,0,191,197,3,28,14,0,192,197,3,30,15,0,193,197,3,
+        66,33,0,194,197,3,68,34,0,195,197,3,40,20,0,196,181,1,0,0,0,196,
+        182,1,0,0,0,196,183,1,0,0,0,196,184,1,0,0,0,196,185,1,0,0,0,196,
+        186,1,0,0,0,196,187,1,0,0,0,196,188,1,0,0,0,196,189,1,0,0,0,196,
+        190,1,0,0,0,196,191,1,0,0,0,196,192,1,0,0,0,196,193,1,0,0,0,196,
+        194,1,0,0,0,196,195,1,0,0,0,197,27,1,0,0,0,198,199,5,20,0,0,199,
+        29,1,0,0,0,200,201,5,19,0,0,201,31,1,0,0,0,202,205,5,10,0,0,203,
+        206,3,70,35,0,204,206,3,0,0,0,205,203,1,0,0,0,205,204,1,0,0,0,206,
+        33,1,0,0,0,207,208,5,23,0,0,208,209,5,60,0,0,209,210,5,36,0,0,210,
+        211,3,70,35,0,211,35,1,0,0,0,212,213,5,23,0,0,213,214,5,24,0,0,214,
+        215,5,60,0,0,215,216,5,36,0,0,216,217,3,70,35,0,217,37,1,0,0,0,218,
+        219,5,7,0,0,219,220,5,60,0,0,220,39,1,0,0,0,221,225,5,11,0,0,222,
+        223,5,7,0,0,223,225,5,3,0,0,224,221,1,0,0,0,224,222,1,0,0,0,225,
+        41,1,0,0,0,226,227,5,12,0,0,227,229,5,60,0,0,228,230,3,44,22,0,229,
+        228,1,0,0,0,229,230,1,0,0,0,230,232,1,0,0,0,231,233,3,46,23,0,232,
+        231,1,0,0,0,232,233,1,0,0,0,233,43,1,0,0,0,234,235,5,13,0,0,235,
+        236,3,70,35,0,236,45,1,0,0,0,237,238,5,18,0,0,238,239,5,21,0,0,239,
+        240,3,70,35,0,240,241,5,35,0,0,241,242,5,43,0,0,242,243,3,24,12,
+        0,243,244,5,44,0,0,244,47,1,0,0,0,245,246,5,22,0,0,246,247,5,12,
+        0,0,247,248,5,43,0,0,248,250,3,52,26,0,249,251,3,20,10,0,250,249,
+        1,0,0,0,250,251,1,0,0,0,251,252,1,0,0,0,252,254,5,44,0,0,253,255,
+        3,46,23,0,254,253,1,0,0,0,254,255,1,0,0,0,255,49,1,0,0,0,256,257,
+        5,9,0,0,257,258,5,43,0,0,258,260,3,52,26,0,259,261,3,20,10,0,260,
+        259,1,0,0,0,260,261,1,0,0,0,261,262,1,0,0,0,262,263,5,44,0,0,263,
+        51,1,0,0,0,264,265,6,26,-1,0,265,266,3,54,27,0,266,271,1,0,0,0,267,
+        268,10,2,0,0,268,270,3,54,27,0,269,267,1,0,0,0,270,273,1,0,0,0,271,
+        269,1,0,0,0,271,272,1,0,0,0,272,53,1,0,0,0,273,271,1,0,0,0,274,275,
+        3,70,35,0,275,276,5,35,0,0,276,277,5,43,0,0,277,278,3,24,12,0,278,
+        279,5,44,0,0,279,55,1,0,0,0,280,281,5,14,0,0,281,282,3,70,35,0,282,
+        283,5,35,0,0,283,284,5,43,0,0,284,285,3,24,12,0,285,287,5,44,0,0,
+        286,288,3,58,29,0,287,286,1,0,0,0,287,288,1,0,0,0,288,290,1,0,0,
+        0,289,291,3,60,30,0,290,289,1,0,0,0,290,291,1,0,0,0,291,57,1,0,0,
+        0,292,293,5,16,0,0,293,294,3,70,35,0,294,295,5,35,0,0,295,296,5,
+        43,0,0,296,297,3,24,12,0,297,299,5,44,0,0,298,300,3,58,29,0,299,
+        298,1,0,0,0,299,300,1,0,0,0,300,59,1,0,0,0,301,302,5,15,0,0,302,
+        303,5,35,0,0,303,304,5,43,0,0,304,305,3,24,12,0,305,306,5,44,0,0,
+        306,61,1,0,0,0,307,309,5,17,0,0,308,310,3,64,32,0,309,308,1,0,0,
+        0,309,310,1,0,0,0,310,311,1,0,0,0,311,312,5,43,0,0,312,313,3,24,
+        12,0,313,314,5,44,0,0,314,63,1,0,0,0,315,316,5,18,0,0,316,317,3,
+        70,35,0,317,65,1,0,0,0,318,321,5,25,0,0,319,322,5,30,0,0,320,322,
+        3,0,0,0,321,319,1,0,0,0,321,320,1,0,0,0,322,323,1,0,0,0,323,324,
+        5,35,0,0,324,325,5,60,0,0,325,67,1,0,0,0,326,327,5,26,0,0,327,328,
+        5,60,0,0,328,331,5,35,0,0,329,332,5,30,0,0,330,332,3,0,0,0,331,329,
+        1,0,0,0,331,330,1,0,0,0,332,69,1,0,0,0,333,334,3,72,36,0,334,71,
+        1,0,0,0,335,336,6,36,-1,0,336,337,3,74,37,0,337,343,1,0,0,0,338,
+        339,10,2,0,0,339,340,5,27,0,0,340,342,3,74,37,0,341,338,1,0,0,0,
+        342,345,1,0,0,0,343,341,1,0,0,0,343,344,1,0,0,0,344,73,1,0,0,0,345,
+        343,1,0,0,0,346,347,6,37,-1,0,347,348,3,76,38,0,348,354,1,0,0,0,
+        349,350,10,2,0,0,350,351,5,28,0,0,351,353,3,76,38,0,352,349,1,0,
+        0,0,353,356,1,0,0,0,354,352,1,0,0,0,354,355,1,0,0,0,355,75,1,0,0,
+        0,356,354,1,0,0,0,357,358,6,38,-1,0,358,359,3,78,39,0,359,368,1,
+        0,0,0,360,361,10,3,0,0,361,362,5,37,0,0,362,367,3,78,39,0,363,364,
+        10,2,0,0,364,365,5,56,0,0,365,367,3,78,39,0,366,360,1,0,0,0,366,
+        363,1,0,0,0,367,370,1,0,0,0,368,366,1,0,0,0,368,369,1,0,0,0,369,
+        77,1,0,0,0,370,368,1,0,0,0,371,372,6,39,-1,0,372,373,3,80,40,0,373,
+        388,1,0,0,0,374,375,10,5,0,0,375,376,5,52,0,0,376,387,3,80,40,0,
+        377,378,10,4,0,0,378,379,5,53,0,0,379,387,3,80,40,0,380,381,10,3,
+        0,0,381,382,5,54,0,0,382,387,3,80,40,0,383,384,10,2,0,0,384,385,
+        5,55,0,0,385,387,3,80,40,0,386,374,1,0,0,0,386,377,1,0,0,0,386,380,
+        1,0,0,0,386,383,1,0,0,0,387,390,1,0,0,0,388,386,1,0,0,0,388,389,
+        1,0,0,0,389,79,1,0,0,0,390,388,1,0,0,0,391,392,6,40,-1,0,392,393,
+        3,82,41,0,393,402,1,0,0,0,394,395,10,3,0,0,395,396,5,48,0,0,396,
+        401,3,82,41,0,397,398,10,2,0,0,398,399,5,49,0,0,399,401,3,82,41,
+        0,400,394,1,0,0,0,400,397,1,0,0,0,401,404,1,0,0,0,402,400,1,0,0,
+        0,402,403,1,0,0,0,403,81,1,0,0,0,404,402,1,0,0,0,405,406,6,41,-1,
+        0,406,407,3,84,42,0,407,419,1,0,0,0,408,409,10,4,0,0,409,410,5,50,
+        0,0,410,418,3,84,42,0,411,412,10,3,0,0,412,413,5,51,0,0,413,418,
+        3,84,42,0,414,415,10,2,0,0,415,416,5,58,0,0,416,418,3,84,42,0,417,
+        408,1,0,0,0,417,411,1,0,0,0,417,414,1,0,0,0,418,421,1,0,0,0,419,
+        417,1,0,0,0,419,420,1,0,0,0,420,83,1,0,0,0,421,419,1,0,0,0,422,423,
+        5,29,0,0,423,428,3,84,42,0,424,425,5,49,0,0,425,428,3,84,42,0,426,
+        428,3,86,43,0,427,422,1,0,0,0,427,424,1,0,0,0,427,426,1,0,0,0,428,
+        85,1,0,0,0,429,430,6,43,-1,0,430,431,3,88,44,0,431,442,1,0,0,0,432,
+        433,10,2,0,0,433,434,5,45,0,0,434,435,3,70,35,0,435,436,5,46,0,0,
+        436,441,1,0,0,0,437,438,10,1,0,0,438,439,5,59,0,0,439,441,5,60,0,
+        0,440,432,1,0,0,0,440,437,1,0,0,0,441,444,1,0,0,0,442,440,1,0,0,
+        0,442,443,1,0,0,0,443,87,1,0,0,0,444,442,1,0,0,0,445,452,5,60,0,
+        0,446,452,3,90,45,0,447,448,5,41,0,0,448,449,3,70,35,0,449,450,5,
+        42,0,0,450,452,1,0,0,0,451,445,1,0,0,0,451,446,1,0,0,0,451,447,1,
+        0,0,0,452,89,1,0,0,0,453,454,7,1,0,0,454,91,1,0,0,0,37,96,103,110,
+        121,123,144,154,178,196,205,224,229,232,250,254,260,271,287,290,
+        299,309,321,331,343,354,366,368,386,388,400,402,417,419,427,440,
+        442,451
     ];
 
     private static __ATN: antlr.ATN;
@@ -3104,7 +2935,7 @@ export class Template_string_exprContext extends antlr.ParserRuleContext {
 }
 
 
-export class ScriptsContext extends antlr.ParserRuleContext {
+export class ScriptContext extends antlr.ParserRuleContext {
     public constructor(parent: antlr.ParserRuleContext | null, invokingState: number) {
         super(parent, invokingState);
     }
@@ -3148,21 +2979,21 @@ export class ScriptsContext extends antlr.ParserRuleContext {
         return this.getRuleContext(i, Hello_stmtContext);
     }
     public override get ruleIndex(): number {
-        return cslParser.RULE_scripts;
+        return cslParser.RULE_script;
     }
     public override enterRule(listener: cslListener): void {
-        if(listener.enterScripts) {
-             listener.enterScripts(this);
+        if(listener.enterScript) {
+             listener.enterScript(this);
         }
     }
     public override exitRule(listener: cslListener): void {
-        if(listener.exitScripts) {
-             listener.exitScripts(this);
+        if(listener.exitScript) {
+             listener.exitScript(this);
         }
     }
     public override accept<Result>(visitor: cslVisitor<Result>): Result | null {
-        if (visitor.visitScripts) {
-            return visitor.visitScripts(this);
+        if (visitor.visitScript) {
+            return visitor.visitScript(this);
         } else {
             return visitor.visitChildren(this);
         }
@@ -3327,17 +3158,14 @@ export class Chatbox_stmtContext extends antlr.ParserRuleContext {
     public LBRACE(): antlr.TerminalNode {
         return this.getToken(cslParser.LBRACE, 0)!;
     }
+    public default_branch(): Default_branchContext {
+        return this.getRuleContext(0, Default_branchContext)!;
+    }
     public RBRACE(): antlr.TerminalNode {
         return this.getToken(cslParser.RBRACE, 0)!;
     }
-    public chatbox_list(): Chatbox_listContext[];
-    public chatbox_list(i: number): Chatbox_listContext | null;
-    public chatbox_list(i?: number): Chatbox_listContext[] | Chatbox_listContext | null {
-        if (i === undefined) {
-            return this.getRuleContexts(Chatbox_listContext);
-        }
-
-        return this.getRuleContext(i, Chatbox_listContext);
+    public case_list(): Case_listContext | null {
+        return this.getRuleContext(0, Case_listContext);
     }
     public override get ruleIndex(): number {
         return cslParser.RULE_chatbox_stmt;
@@ -3355,117 +3183,6 @@ export class Chatbox_stmtContext extends antlr.ParserRuleContext {
     public override accept<Result>(visitor: cslVisitor<Result>): Result | null {
         if (visitor.visitChatbox_stmt) {
             return visitor.visitChatbox_stmt(this);
-        } else {
-            return visitor.visitChildren(this);
-        }
-    }
-}
-
-
-export class Chatbox_listContext extends antlr.ParserRuleContext {
-    public constructor(parent: antlr.ParserRuleContext | null, invokingState: number) {
-        super(parent, invokingState);
-    }
-    public chatbox_branch(): Chatbox_branchContext {
-        return this.getRuleContext(0, Chatbox_branchContext)!;
-    }
-    public chatbox_list(): Chatbox_listContext | null {
-        return this.getRuleContext(0, Chatbox_listContext);
-    }
-    public override get ruleIndex(): number {
-        return cslParser.RULE_chatbox_list;
-    }
-    public override enterRule(listener: cslListener): void {
-        if(listener.enterChatbox_list) {
-             listener.enterChatbox_list(this);
-        }
-    }
-    public override exitRule(listener: cslListener): void {
-        if(listener.exitChatbox_list) {
-             listener.exitChatbox_list(this);
-        }
-    }
-    public override accept<Result>(visitor: cslVisitor<Result>): Result | null {
-        if (visitor.visitChatbox_list) {
-            return visitor.visitChatbox_list(this);
-        } else {
-            return visitor.visitChildren(this);
-        }
-    }
-}
-
-
-export class Chatbox_branchContext extends antlr.ParserRuleContext {
-    public constructor(parent: antlr.ParserRuleContext | null, invokingState: number) {
-        super(parent, invokingState);
-    }
-    public pattern(): PatternContext | null {
-        return this.getRuleContext(0, PatternContext);
-    }
-    public ARROW(): antlr.TerminalNode | null {
-        return this.getToken(cslParser.ARROW, 0);
-    }
-    public LBRACE(): antlr.TerminalNode | null {
-        return this.getToken(cslParser.LBRACE, 0);
-    }
-    public command_sequnces(): Command_sequncesContext | null {
-        return this.getRuleContext(0, Command_sequncesContext);
-    }
-    public RBRACE(): antlr.TerminalNode | null {
-        return this.getToken(cslParser.RBRACE, 0);
-    }
-    public default_branch(): Default_branchContext | null {
-        return this.getRuleContext(0, Default_branchContext);
-    }
-    public override get ruleIndex(): number {
-        return cslParser.RULE_chatbox_branch;
-    }
-    public override enterRule(listener: cslListener): void {
-        if(listener.enterChatbox_branch) {
-             listener.enterChatbox_branch(this);
-        }
-    }
-    public override exitRule(listener: cslListener): void {
-        if(listener.exitChatbox_branch) {
-             listener.exitChatbox_branch(this);
-        }
-    }
-    public override accept<Result>(visitor: cslVisitor<Result>): Result | null {
-        if (visitor.visitChatbox_branch) {
-            return visitor.visitChatbox_branch(this);
-        } else {
-            return visitor.visitChildren(this);
-        }
-    }
-}
-
-
-export class PatternContext extends antlr.ParserRuleContext {
-    public constructor(parent: antlr.ParserRuleContext | null, invokingState: number) {
-        super(parent, invokingState);
-    }
-    public STRING(): antlr.TerminalNode | null {
-        return this.getToken(cslParser.STRING, 0);
-    }
-    public ID(): antlr.TerminalNode | null {
-        return this.getToken(cslParser.ID, 0);
-    }
-    public override get ruleIndex(): number {
-        return cslParser.RULE_pattern;
-    }
-    public override enterRule(listener: cslListener): void {
-        if(listener.enterPattern) {
-             listener.enterPattern(this);
-        }
-    }
-    public override exitRule(listener: cslListener): void {
-        if(listener.exitPattern) {
-             listener.exitPattern(this);
-        }
-    }
-    public override accept<Result>(visitor: cslVisitor<Result>): Result | null {
-        if (visitor.visitPattern) {
-            return visitor.visitPattern(this);
         } else {
             return visitor.visitChildren(this);
         }

@@ -1,5 +1,6 @@
 // Statement的类型，对应语法中涉及的所有语句类型
 export enum StmtType {
+    SCRIPT_STMT,    //< 脚本
     CONSTANCE_STMT, //< 常量声明
     HELLO_STMT,     //< 初始问候声明
     CHATBOX_STMT,   //< 初始聊天回复声明

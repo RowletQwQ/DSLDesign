@@ -7,15 +7,12 @@ import { Template_stringContext } from "./cslParser.js";
 import { Template_string_partContext } from "./cslParser.js";
 import { Template_string_plain_textContext } from "./cslParser.js";
 import { Template_string_exprContext } from "./cslParser.js";
-import { ScriptsContext } from "./cslParser.js";
+import { ScriptContext } from "./cslParser.js";
 import { Hello_stmtContext } from "./cslParser.js";
 import { Constance_stmtContext } from "./cslParser.js";
 import { Constance_listContext } from "./cslParser.js";
 import { ConstanceContext } from "./cslParser.js";
 import { Chatbox_stmtContext } from "./cslParser.js";
-import { Chatbox_listContext } from "./cslParser.js";
-import { Chatbox_branchContext } from "./cslParser.js";
-import { PatternContext } from "./cslParser.js";
 import { Default_branchContext } from "./cslParser.js";
 import { Topic_stmtContext } from "./cslParser.js";
 import { Command_sequncesContext } from "./cslParser.js";
@@ -100,15 +97,15 @@ export class cslListener implements ParseTreeListener {
      */
     exitTemplate_string_expr?: (ctx: Template_string_exprContext) => void;
     /**
-     * Enter a parse tree produced by `cslParser.scripts`.
+     * Enter a parse tree produced by `cslParser.script`.
      * @param ctx the parse tree
      */
-    enterScripts?: (ctx: ScriptsContext) => void;
+    enterScript?: (ctx: ScriptContext) => void;
     /**
-     * Exit a parse tree produced by `cslParser.scripts`.
+     * Exit a parse tree produced by `cslParser.script`.
      * @param ctx the parse tree
      */
-    exitScripts?: (ctx: ScriptsContext) => void;
+    exitScript?: (ctx: ScriptContext) => void;
     /**
      * Enter a parse tree produced by `cslParser.hello_stmt`.
      * @param ctx the parse tree
@@ -159,36 +156,6 @@ export class cslListener implements ParseTreeListener {
      * @param ctx the parse tree
      */
     exitChatbox_stmt?: (ctx: Chatbox_stmtContext) => void;
-    /**
-     * Enter a parse tree produced by `cslParser.chatbox_list`.
-     * @param ctx the parse tree
-     */
-    enterChatbox_list?: (ctx: Chatbox_listContext) => void;
-    /**
-     * Exit a parse tree produced by `cslParser.chatbox_list`.
-     * @param ctx the parse tree
-     */
-    exitChatbox_list?: (ctx: Chatbox_listContext) => void;
-    /**
-     * Enter a parse tree produced by `cslParser.chatbox_branch`.
-     * @param ctx the parse tree
-     */
-    enterChatbox_branch?: (ctx: Chatbox_branchContext) => void;
-    /**
-     * Exit a parse tree produced by `cslParser.chatbox_branch`.
-     * @param ctx the parse tree
-     */
-    exitChatbox_branch?: (ctx: Chatbox_branchContext) => void;
-    /**
-     * Enter a parse tree produced by `cslParser.pattern`.
-     * @param ctx the parse tree
-     */
-    enterPattern?: (ctx: PatternContext) => void;
-    /**
-     * Exit a parse tree produced by `cslParser.pattern`.
-     * @param ctx the parse tree
-     */
-    exitPattern?: (ctx: PatternContext) => void;
     /**
      * Enter a parse tree produced by `cslParser.default_branch`.
      * @param ctx the parse tree

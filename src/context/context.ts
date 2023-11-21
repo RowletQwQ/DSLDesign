@@ -17,6 +17,13 @@ export class Context {
         this.global_context_ = context;
     }
 
+    // 导入符号表
+    import_symbol_table(symbol_table: Map<string, boolean | number | string | JsonObj | undefined>) {
+        for (let [key, value] of symbol_table) {
+            this.symbol_table_.set(key, value);
+        }
+    }
+
     // 设置符号
     set_symbol(name: string, value: any) {
         this.symbol_table_.set(name, value);

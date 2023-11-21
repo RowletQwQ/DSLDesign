@@ -88,7 +88,7 @@ template_string_expr: '$' LBRACE expression RBRACE;
                     
 
 /* Non-terminal */
-scripts: ( constance_stmt | topic_stmt | chatbox_stmt | hello_stmt )+ EOF;
+script: ( constance_stmt | topic_stmt | chatbox_stmt | hello_stmt )+ EOF;
 
 hello_stmt: HELLO LBRACE command_sequnces RBRACE;
 
@@ -101,16 +101,7 @@ constance: ID ASSIGN expression;
 
 
 
-chatbox_stmt: CHATBOX LBRACE (chatbox_list)* RBRACE;
-
-chatbox_list: chatbox_list chatbox_branch
-            | chatbox_branch;
-
-chatbox_branch: pattern ARROW LBRACE command_sequnces RBRACE
-            | default_branch;
-
-pattern: STRING
-       | ID;
+chatbox_stmt: CHATBOX LBRACE case_list? default_branch RBRACE;
 
 default_branch: DEFAULT ARROW LBRACE command_sequnces RBRACE;
 

@@ -26,4 +26,6 @@ export interface Expression {
 
     // 获取表达式的值类型
     get_value_type(): string;
+
+    
 }

@@ -19,6 +19,7 @@ export enum CommandStmtType {
     CASE_STMT,          //< case语句
     CONTINUE_STMT,      //< continue语句
     BREAK_STMT,         //< break语句
+    EXIT_STMT,          //< exit语句
 }
 
 export interface CommandStmt extends Stmt {

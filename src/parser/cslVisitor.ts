@@ -7,15 +7,12 @@ import { Template_stringContext } from "./cslParser.js";
 import { Template_string_partContext } from "./cslParser.js";
 import { Template_string_plain_textContext } from "./cslParser.js";
 import { Template_string_exprContext } from "./cslParser.js";
-import { ScriptsContext } from "./cslParser.js";
+import { ScriptContext } from "./cslParser.js";
 import { Hello_stmtContext } from "./cslParser.js";
 import { Constance_stmtContext } from "./cslParser.js";
 import { Constance_listContext } from "./cslParser.js";
 import { ConstanceContext } from "./cslParser.js";
 import { Chatbox_stmtContext } from "./cslParser.js";
-import { Chatbox_listContext } from "./cslParser.js";
-import { Chatbox_branchContext } from "./cslParser.js";
-import { PatternContext } from "./cslParser.js";
 import { Default_branchContext } from "./cslParser.js";
 import { Topic_stmtContext } from "./cslParser.js";
 import { Command_sequncesContext } from "./cslParser.js";
@@ -87,11 +84,11 @@ export class cslVisitor<Result> extends AbstractParseTreeVisitor<Result> {
      */
     visitTemplate_string_expr?: (ctx: Template_string_exprContext) => Result;
     /**
-     * Visit a parse tree produced by `cslParser.scripts`.
+     * Visit a parse tree produced by `cslParser.script`.
      * @param ctx the parse tree
      * @return the visitor result
      */
-    visitScripts?: (ctx: ScriptsContext) => Result;
+    visitScript?: (ctx: ScriptContext) => Result;
     /**
      * Visit a parse tree produced by `cslParser.hello_stmt`.
      * @param ctx the parse tree
@@ -122,24 +119,6 @@ export class cslVisitor<Result> extends AbstractParseTreeVisitor<Result> {
      * @return the visitor result
      */
     visitChatbox_stmt?: (ctx: Chatbox_stmtContext) => Result;
-    /**
-     * Visit a parse tree produced by `cslParser.chatbox_list`.
-     * @param ctx the parse tree
-     * @return the visitor result
-     */
-    visitChatbox_list?: (ctx: Chatbox_listContext) => Result;
-    /**
-     * Visit a parse tree produced by `cslParser.chatbox_branch`.
-     * @param ctx the parse tree
-     * @return the visitor result
-     */
-    visitChatbox_branch?: (ctx: Chatbox_branchContext) => Result;
-    /**
-     * Visit a parse tree produced by `cslParser.pattern`.
-     * @param ctx the parse tree
-     * @return the visitor result
-     */
-    visitPattern?: (ctx: PatternContext) => Result;
     /**
      * Visit a parse tree produced by `cslParser.default_branch`.
      * @param ctx the parse tree

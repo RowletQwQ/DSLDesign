@@ -3,7 +3,7 @@ import
 {   
     Assert_stmtContext, Assign_global_stmtContext, Assign_stmtContext, Break_stmtContext, 
     Case_branchContext, Case_listContext, Command_sequncesContext, Command_stmtContext, 
-    Continue_stmtContext, Default_branchContext, Else_if_stmtContext, Fetch_stmtContext, 
+    Continue_stmtContext, Default_branchContext, Else_if_stmtContext, Exit_stmtContext, Fetch_stmtContext, 
     Goto_stmtContext, If_stmtContext, Input_stmtContext, Loop_stmtContext, Match_stmtContext, 
     Menu_stmtContext, Post_stmtContext, Say_stmtContext, When_clauseContext, When_silence_stmtContext 
 } 
@@ -28,6 +28,7 @@ import { SayStmt } from "../stmt/command/say_stmt.ts";
 import { PostStmt } from "../stmt/command/post_stmt.ts";
 import { MatchStmt } from "../stmt/command/match_stmt.ts";
 import { MenuStmt } from "../stmt/command/menu_stmt.ts";
+import { ExitStmt } from "../stmt/command/exit_stmt.ts";
 
 export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     private expr_visitor_: ExpressionVisitor;
@@ -139,6 +140,11 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     // continue 命令
     override visitContinue_stmt = (ctx: Continue_stmtContext): CommandStmt => {
         return new ContinueStmt();
+    }
+
+    // exit 命令
+    override visitExit_stmt = (ctx: Exit_stmtContext): CommandStmt => {
+        return new ExitStmt();
     }
 
     // fetch 命令
