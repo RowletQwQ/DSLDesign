@@ -29,6 +29,14 @@ export class Context {
         this.symbol_table_.set(name, value);
     }
 
+    set_global_symbol(name: string, value: any) {
+        if (this.global_context_ != undefined) {
+            this.global_context_.set_symbol(name, value);
+        } else {
+            this.set_symbol(name, value);
+        }
+    }
+
     // 获取符号
     get_symbol(name: string): boolean | number | string | JsonObj | undefined {
         // 从当前上下文中获取
@@ -41,5 +49,9 @@ export class Context {
             return this.global_context_.get_symbol(name);
         }
         return undefined;
+    }
+
+    get_global_context(): Context | undefined {
+        return this.global_context_;
     }
 }

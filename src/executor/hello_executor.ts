@@ -1,22 +1,58 @@
 import { Context } from "../context/context.ts";
-import { ResultEvent } from "../event/result_event.ts";
+import { ResultEvent, ResultType } from "../event/result_event.ts";
+import { ScriptInputEvent } from "../event/script_input_event.ts";
 import { HelloStmt } from "../stmt/hello_stmt.ts";
+import { CommandExecutor } from "./command_executor.ts";
 import { Executor, ExecutorType } from "./executor.ts";
 
 export class HelloExecutor implements Executor {
+    private children_: CommandExecutor[] = [];
+    private index_: number = 0;
+    private local_context_: Context;
     constructor(stmt: HelloStmt) {
-
+        this.local_context_ = new Context();
+        let stmts = stmt.get_command_seq();
+        for (let stmt of stmts) {
+            this.children_.push(new CommandExecutor(stmt));
+        }
     }
     open(context: Context): void {
-        throw new Error("Method not implemented.");
+        this.local_context_.set_global_context(context);
+        if (this.children_.length != 0) {
+            this.children_[0].open(context);
+        }
+        
     }
 
-    next(): ResultEvent {
-        throw new Error("Method not implemented.");
+    next(input: ScriptInputEvent): ResultEvent {
+        if (this.children_.length == 0) {
+            // 什么都不做
+            return new ResultEvent(0, "", ResultType.END);
+        }
+        let result = this.children_[this.index_].next(input);
+        while (result.get_result_type() == ResultType.END) {
+            let context = this.children_[this.index_].close();
+            this.local_context_ = context;
+            this.index_++;
+            if (this.index_ >= this.children_.length) {
+                return new ResultEvent(0, "", ResultType.END);
+            }
+            this.children_[this.index_].open(context);
+            result = this.children_[this.index_].next(input);
+        }
+        return result;
     }
 
-    close(): void {
-        throw new Error("Method not implemented.");
+    close(): Context {
+        if (this.index_ < this.children_.length) {
+            // GOTO退出
+            return this.children_[this.index_].close();
+        }
+        let upper_context = this.local_context_.get_global_context();
+        if (upper_context == null) {
+            throw new Error("Upper context is null");
+        }
+        return upper_context;
     }
 
     get_executor_type(): ExecutorType {

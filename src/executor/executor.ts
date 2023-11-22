@@ -1,11 +1,13 @@
 import { Context } from "../context/context.ts";
 import { ResultEvent } from "../event/result_event.ts";
+import { ScriptInputEvent } from "../event/script_input_event.ts";
 
 export enum ExecutorType {
     SCRIPT,         //< 脚本执行器, 根执行器
     HELLO,          //< 问候执行器
     CHATBOX,        //< 初始聊天执行器
     TOPIC,          //< 话题执行器
+    COMMAND,        //< 命令执行器, 下面的执行器都是命令执行器的子类
     SAY,            //< say命令执行器
     GOTO,           //< goto命令执行器
     MENU,           //< menu命令执行器
@@ -37,15 +39,17 @@ export interface Executor {
 
     /**
      * 执行下一条命令
+     * @param input 命令执行时的输入
      * @returns 返回命令执行后的结果 
      */
-    next(): ResultEvent;
+    next(input: ScriptInputEvent): ResultEvent;
 
     /**
      * 关闭命令
      * 会销毁命令对应的资源
+     * 会返回全局上下文
      */
-    close(): void;
+    close(): Context;
 
     /**
      * 获取执行器类型

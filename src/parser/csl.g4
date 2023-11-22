@@ -125,9 +125,9 @@ assign_stmt: SET ID ASSIGN expression;
 
 assign_global_stmt: SET GLOBAL ID ASSIGN expression;
 
-goto_stmt: GOTO ID;
+goto_stmt: GOTO (ID | CHATBOX);
 
-exit_stmt: EXIT | GOTO CHATBOX;
+exit_stmt: EXIT;
 
 input_stmt: INPUT ID assert_stmt? when_silence_stmt?;
 

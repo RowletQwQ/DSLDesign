@@ -5,22 +5,32 @@
  * ResultEvent中的内容，会向着父级的Executor传递
  */
 export enum ResultType {
-    VOID,   // 无返回值
-    GOTO,   // 跳转到某个标签
-    INPUT,  // 需要输入
-    OUTPUT, // 需要输出
-    EOF,    // 已经无法再执行了
+    VOID,       // 无返回值
+    RELOAD,     // 重新加载
+    GOTO,       // 跳转到某个标签
+    BREAK,      // 跳出循环
+    CONTINUE,   // 继续执行
+    INPUT,      // 需要输入
+    OUTPUT,     // 需要输出
+    EXIT,       // 退出
+    END,        // 已经无法再执行了
+    ERROR,      // 发生错误
 }
 
 export class ResultEvent {
     private return_code_: number;
     private result_: string;
     private result_type_: ResultType;
-    
-    constructor(return_code: number, result: string, result_type: ResultType) {
+    private timer_: number; // 当输入时，需要设置一个超时时间
+
+    constructor(return_code: number, 
+                result: string, 
+                result_type: ResultType, 
+                timer: number = 0) {
         this.return_code_ = return_code;
         this.result_ = result;
         this.result_type_ = result_type;
+        this.timer_ = timer;
     }
 
     get_return_code(): number {
@@ -34,4 +44,9 @@ export class ResultEvent {
     get_result_type(): ResultType {
         return this.result_type_;
     }
+
+    get_timer(): number {
+        return this.timer_;
+    }
+
 }

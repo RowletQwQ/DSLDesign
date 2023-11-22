@@ -5,7 +5,7 @@ import
     Case_branchContext, Case_listContext, Command_sequncesContext, Command_stmtContext, 
     Continue_stmtContext, Default_branchContext, Else_if_stmtContext, Exit_stmtContext, Fetch_stmtContext, 
     Goto_stmtContext, If_stmtContext, Input_stmtContext, Loop_stmtContext, Match_stmtContext, 
-    Menu_stmtContext, Post_stmtContext, Say_stmtContext, When_clauseContext, When_silence_stmtContext 
+    Menu_stmtContext, Post_stmtContext, Say_stmtContext, ScriptContext, When_clauseContext, When_silence_stmtContext 
 } 
 from "../parser/cslParser.ts";
 import { cslVisitor } from "../parser/cslVisitor.ts";
@@ -52,6 +52,7 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
     
     override visitCommand_stmt = (ctx: Command_stmtContext): CommandStmt =>{
+        // visitChildren会返回最后一个非空的子节点的返回值
         let command = this.visitChildren(ctx);
         if (command instanceof Array || command == null) {
             throw new Error("Command Parse error");
@@ -167,8 +168,11 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     
     // goto 命令
     override visitGoto_stmt = (ctx: Goto_stmtContext): CommandStmt => {
-        let identifier = ctx.ID().toString();
-        return new GotoStmt(identifier);
+        let identifier = ctx.ID();
+        if (identifier == null) {
+            return new GotoStmt("chatbox");
+        }
+        return new GotoStmt(identifier.toString());
     }
 
     // if语句

@@ -17,9 +17,20 @@ export class IfStmt implements CommandStmt {
         this.condition_ = condition;
         this.command_seq_ = command_seq;
         this.else_if_stmt_ = else_if_stmt;
+        if (else_if_stmt !== null && else_cmd_seq !== null) {
+            else_if_stmt.push_down_else(else_cmd_seq);
+            else_cmd_seq = null;
+        }
         this.else_cmd_seq_ = else_cmd_seq;
     }
 
+    push_down_else(cmd_seq: CommandStmt[]) {
+        if (this.else_if_stmt_ !== null) {
+            this.else_if_stmt_.push_down_else(cmd_seq);
+        } else {
+            this.else_cmd_seq_ = cmd_seq;
+        }
+    }
     get_condition(): Expression {
         return this.condition_;
     }
