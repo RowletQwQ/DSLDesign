@@ -17,6 +17,7 @@ export class HelloExecutor implements Executor {
         }
     }
     open(context: Context): void {
+        // Hello语句的外层上下文为全局上下文
         this.local_context_.set_global_context(context);
         if (this.children_.length != 0) {
             this.children_[0].open(context);
@@ -48,11 +49,11 @@ export class HelloExecutor implements Executor {
             // GOTO退出
             return this.children_[this.index_].close();
         }
-        let upper_context = this.local_context_.get_global_context();
-        if (upper_context == null) {
-            throw new Error("Upper context is null");
+        let global_context = this.local_context_.get_global_context();
+        if (global_context == null) {
+            throw new Error("Global context is null");
         }
-        return upper_context;
+        return global_context;
     }
 
     get_executor_type(): ExecutorType {

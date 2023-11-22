@@ -25,6 +25,7 @@ export class CaseExecutor implements Executor {
     }
 
     open(context: Context): void {
+        this.local_context_.set_upper_context(context);
         this.children_[this.current_index_].open(context);
     }
 
@@ -32,7 +33,7 @@ export class CaseExecutor implements Executor {
         let result = this.children_[this.current_index_].next(input);
         while (result.is_finished()) {
             let context = this.children_[this.current_index_].close();
-            this.local_context_.set_global_context(context);
+            this.local_context_.set_upper_context(context);
             this.current_index_++;
             if (this.current_index_ >= this.children_.length) {
                 return new ResultEvent(0,"",ResultType.END);
@@ -44,15 +45,11 @@ export class CaseExecutor implements Executor {
     }
 
     close(): Context {
-        if (this.current_index_ >= this.children_.length) {
-            // 执行完毕退出
-            let upper_context = this.local_context_.get_global_context();
-            if (upper_context == null) {
-                throw new Error("CaseExecutor should have upper context");
-            }
-            return upper_context;
+        // 执行完毕退出
+        let upper_context = this.local_context_.get_upper_context();
+        if (upper_context == null) {
+            throw new Error("CaseExecutor should have upper context");
         }
-        // 因为goto等退出
-        return this.children_[this.current_index_].close();
+        return upper_context;
     }
 }

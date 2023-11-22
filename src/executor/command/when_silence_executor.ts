@@ -1,21 +1,46 @@
 import { Context } from "../../context/context.ts";
-import { ResultEvent } from "../../event/result_event.ts";
+import { ResultEvent, ResultType } from "../../event/result_event.ts";
 import { ScriptInputEvent } from "../../event/script_input_event.ts";
 import { WhenSilenceStmt } from "../../stmt/command/when_silence_stmt.ts";
+import { CommandExecutor } from "../command_executor.ts";
 import { Executor, ExecutorType } from "../executor.ts";
 
 export class WhenSilenceExecutor implements Executor {
+    private children_: Executor[] = [];
+    private current_index_: number = 0;
+    private local_context_: Context;
     constructor(stmt: WhenSilenceStmt) {
-
+        // timeout已经在外面处理了，这里执行命令就行了
+        this.local_context_ = new Context();
+        let command_seq = stmt.get_command_seq();
+        for (let command of command_seq) {
+            this.children_.push(new CommandExecutor(command));
+        }
     }
     open(context: Context): void {
-        throw new Error("Method not implemented.");
+        this.local_context_.set_upper_context(context);
     }
     next(input: ScriptInputEvent): ResultEvent {
-        throw new Error("Method not implemented.");
+        let result = this.children_[this.current_index_].next(input);
+        while (result.is_finished()) {
+            let context = this.children_[this.current_index_].close();
+            this.local_context_.set_upper_context(context);
+            this.current_index_++;
+            if (this.current_index_ >= this.children_.length) {
+                return new ResultEvent(0,"",ResultType.END);
+            }
+            this.children_[this.current_index_].open(this.local_context_);
+            result = this.children_[this.current_index_].next(input);
+        }
+        return result;
     }
     close(): Context {
-        throw new Error("Method not implemented.");
+        // 执行完毕退出
+        let upper_context = this.local_context_.get_upper_context();
+        if (upper_context == null) {
+            throw new Error("CaseExecutor should have upper context");
+        }
+        return upper_context;
     }
     get_executor_type(): ExecutorType {
         return ExecutorType.WHEN_SILENCE;

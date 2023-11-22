@@ -311,12 +311,7 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
             throw new Error("Menu_stmt Parse error");
         }
         let case_stmts = this.visitCase_list(match_list_stmt) as CaseStmt[];
-        let default_stmt = ctx.default_branch();
-        let default_stmt_instance: CaseStmt | null = null;
-        if (default_stmt != null) {
-            default_stmt_instance = this.visitDefault_branch(default_stmt) as CaseStmt;
-        }
-        return new MenuStmt(case_stmts, default_stmt_instance);
+        return new MenuStmt(case_stmts);
     }
 
     // post 语句

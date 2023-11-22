@@ -40,7 +40,7 @@ export class IfExecutor implements Executor {
     open(context: Context): void {
         // 先计算条件表达式
         let result = this.condition_expr_.get_value(context);
-        this.local_context_.set_global_context(context);
+        this.local_context_.set_upper_context(context);
         if (result == undefined) {
             throw new Error("Result is undefined");
         }
@@ -74,7 +74,7 @@ export class IfExecutor implements Executor {
         let result = this.children_[this.current_index_].next(input);
         while (result.is_finished()) {
             let context = this.children_[this.current_index_].close();
-            this.local_context_.set_global_context(context);
+            this.local_context_.set_upper_context(context);
             this.current_index_++;
             if (this.current_index_ >= this.children_.length) {
                 return new ResultEvent(0,"",ResultType.END);
@@ -91,21 +91,19 @@ export class IfExecutor implements Executor {
         }
         if (this.children_.length == 0) {
             // 什么都不做
-            let upper_context = this.local_context_.get_global_context();
+            let upper_context = this.local_context_.get_upper_context();
             if (upper_context == null) {
                 throw new Error("Upper context is null");
             }
             return upper_context;
         }
-        if (this.current_index_ >= this.children_.length) {
-            // 执行完毕退出
-            let upper_context = this.local_context_.get_global_context();
-            if (upper_context == null) {
-                throw new Error("CaseExecutor should have upper context");
-            }
-            return upper_context;
+        
+        // 执行完毕退出
+        let upper_context = this.local_context_.get_upper_context();
+        if (upper_context == null) {
+            throw new Error("CaseExecutor should have upper context");
         }
-        // 因为goto等退出
-        return this.children_[this.current_index_].close();
+        return upper_context;
+        
     }
 }

@@ -32,7 +32,7 @@ export class InputExecutor implements Executor {
     }
     open(context: Context): void {
         // Input的时候也创建一个新的上下文，方便assert判断为false后回滚
-        this.local_context_.set_global_context(context);
+        this.local_context_.set_upper_context(context);
         if (this.timeout_expr_ != null) {
             this.child_.open(this.local_context_);
         
@@ -44,15 +44,15 @@ export class InputExecutor implements Executor {
             // 超时了, 执行超时分支
             return this.child_.next(input);
         }
-        if (this.timeout_ == undefined) {
-            if (this.timeout_expr_ != null) {
-                let result = this.timeout_expr_.get_value(this.local_context_)
-                if (typeof result != "number") {
-                    throw new Error("Timeout must be a number");
-                }
-                this.timeout_ = result; 
+        
+        if (this.timeout_expr_ != null) {
+            let result = this.timeout_expr_.get_value(this.local_context_)
+            if (typeof result != "number") {
+                throw new Error("Timeout must be a number");
             }
+            this.timeout_ = result; 
         }
+        
         if (input_str == null) {
             // 还没输入,请求输入
             return new ResultEvent(0, "Need Input", ResultType.INPUT, this.timeout_);
@@ -74,20 +74,20 @@ export class InputExecutor implements Executor {
             }
         }
         // 如果通过了assert,那么将输入设置到上级上下文中
-        let upper_context = this.local_context_.get_global_context();
+        let upper_context = this.local_context_.get_upper_context();
         if (upper_context == null) {
             throw new Error("Upper context is null");
         }
         if (isNaN(input_value) && input_str != input_value.toString()) {
             // 不是数字
-            this.local_context_.set_global_symbol(this.target_id_, input_str);
+            this.local_context_.set_upper_symbol(this.target_id_, input_str);
         } else {
-            this.local_context_.set_global_symbol(this.target_id_, input_value);
+            this.local_context_.set_upper_symbol(this.target_id_, input_value);
         }
         return new ResultEvent(0, "Input Success", ResultType.END);
     }
     close(): Context {
-        let upper_context = this.local_context_.get_global_context();
+        let upper_context = this.local_context_.get_upper_context();
         if (upper_context == null) {
             throw new Error("Upper context is null");
         }

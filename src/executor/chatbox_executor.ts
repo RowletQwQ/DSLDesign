@@ -10,10 +10,11 @@ export class ChatBoxExecutor implements Executor {
     private children_: CommandExecutor[] = [];
     private index_: number = 0; // 当前执行的index
     private is_running_: boolean = false; // 检测当前是否还在分支中
-    private jump_map_: Map<string, number> = new Map<string, number>(); // 跳转表
+    private jump_map_: Map<string, number>; // 跳转表
     private default_index_: number = -1; // 默认分支
     private local_context_: Context;
     constructor(stmt: ChatBoxStmt) {
+        this.jump_map_ = new Map<string, number>();
         this.local_context_ = new Context();
         let stmts = stmt.get_cases();
         for (let stmt of stmts) {
@@ -31,6 +32,7 @@ export class ChatBoxExecutor implements Executor {
         }
     }
     open(context: Context): void {
+        // chatbox外层就是全局
         this.local_context_.set_global_context(context);
     }
 
@@ -69,7 +71,7 @@ export class ChatBoxExecutor implements Executor {
             let context = this.children_[this.index_].close();
             return context;
         }
-        let upper_context = this.local_context_.get_global_context();
+        let upper_context = this.local_context_.get_upper_context();
         if (upper_context == undefined) {
             throw new Error("Executor has not been opened");
         }

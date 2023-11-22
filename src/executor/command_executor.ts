@@ -4,7 +4,6 @@ import { ResultEvent } from "../event/result_event.ts";
 import { ScriptInputEvent } from "../event/script_input_event.ts";
 import { CommandStmt, CommandStmtType } from "../stmt/command_stmt.ts";
 import { Executor, ExecutorType } from "./executor.ts";
-import { AssertExecutor } from "./command/assert_executor.ts";
 import { AssertStmt } from "../stmt/command/assert_stmt.ts";
 import { BreakExecutor } from "./command/break_executor.ts";
 import { BreakStmt } from "../stmt/command/break_stmt.ts";
@@ -36,7 +35,6 @@ import { SetExecutor } from "./command/set_executor.ts";
 import { SetStmt } from "../stmt/command/set_stmt.ts";
 import { WhenSilenceExecutor } from "./command/when_silence_executor.ts";
 import { WhenSilenceStmt } from "../stmt/command/when_silence_stmt.ts";
-import { WhenExecutor } from "./command/when_executor.ts";
 import { WhenStmt } from "../stmt/command/when_stmt.ts";
 
 /**
@@ -48,10 +46,6 @@ export class CommandExecutor implements Executor {
     constructor (stmt: CommandStmt) {
         let command_type = stmt.get_cmd_type();
         switch(command_type) {
-            case CommandStmtType.ASSERT_STMT: {
-                this.executor_ = new AssertExecutor(stmt as AssertStmt);
-                break;
-            }
             case CommandStmtType.BREAK_STMT: {
                 this.executor_ = new BreakExecutor(stmt as BreakStmt);
                 break;
@@ -110,10 +104,6 @@ export class CommandExecutor implements Executor {
             }
             case CommandStmtType.WHEN_SILENCE_STMT: {
                 this.executor_ = new WhenSilenceExecutor(stmt as WhenSilenceStmt);
-                break;
-            }
-            case CommandStmtType.WHEN_STMT: {
-                this.executor_ = new WhenExecutor(stmt as WhenStmt);
                 break;
             }
             default: {

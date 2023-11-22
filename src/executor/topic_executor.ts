@@ -44,11 +44,11 @@ export class TopicExecutor implements Executor {
             // GOTO退出
             return this.children_[this.index_].close();
         }
-        let upper_context = this.local_context_.get_global_context();
-        if (upper_context == null) {
+        let global_context = this.local_context_.get_upper_context();
+        if (global_context == null) {
             throw new Error("Upper context is null");
         }
-        return upper_context;
+        return global_context;
     }
 
     get_executor_type(): ExecutorType {

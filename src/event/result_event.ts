@@ -11,6 +11,7 @@ export enum ResultType {
     BREAK,      // 跳出循环
     CONTINUE,   // 继续执行
     INPUT,      // 需要输入
+    MENU,       // 会提供一个菜单选择
     OUTPUT,     // 需要输出
     EXIT,       // 退出
     END,        // 已经无法再执行了
@@ -22,6 +23,7 @@ export class ResultEvent {
     private result_: string;
     private result_type_: ResultType;
     private timer_: number; // 当输入时，需要设置一个超时时间
+    private menu_: string[] = []; // 当需要菜单时，需要设置菜单内容
 
     constructor(return_code: number, 
                 result: string, 
@@ -31,6 +33,14 @@ export class ResultEvent {
         this.result_ = result;
         this.result_type_ = result_type;
         this.timer_ = timer;
+    }
+
+    set_menu(menu: string[]) {
+        this.menu_ = menu;
+    }
+
+    get_menu(): string[] {
+        return this.menu_;
     }
 
     get_return_code(): number {

@@ -31,7 +31,7 @@ export class LoopExecutor implements Executor {
         return ExecutorType.LOOP;
     }
     open(context: Context): void {
-        this.local_context_.set_global_context(context);
+        this.local_context_.set_upper_context(context);
     }
     next(input: ScriptInputEvent): ResultEvent {
         if (this.in_command_) {
@@ -84,16 +84,8 @@ export class LoopExecutor implements Executor {
         return new ResultEvent(0, "Enter Looping", ResultType.SUCCESS);
     }
     close(): Context {
-        if (this.in_command_) {
-            // 还在运行指令，返回指令执行的context
-            let context = this.children_[this.current_index_].close().get_global_context();
-            if (context == null) {
-                throw new Error("Context should not be null");
-            }
-            return context;
-        }
-        // 已经退出，返回上层context
-        let upper_context = this.local_context_.get_global_context();
+        // 返回上层context
+        let upper_context = this.local_context_.get_upper_context();
         if (upper_context == null) {
             throw new Error("Upper context should not be null");
         }
