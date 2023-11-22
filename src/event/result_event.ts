@@ -5,7 +5,7 @@
  * ResultEvent中的内容，会向着父级的Executor传递
  */
 export enum ResultType {
-    VOID,       // 无返回值
+    SUCCESS,    // 成功执行
     RELOAD,     // 重新加载
     GOTO,       // 跳转到某个标签
     BREAK,      // 跳出循环
@@ -47,6 +47,18 @@ export class ResultEvent {
 
     get_timer(): number {
         return this.timer_;
+    }
+
+    is_finished(): boolean {
+        return this.result_type_ == ResultType.END;
+    }
+
+    is_continue(): boolean {
+        return this.result_type_ == ResultType.CONTINUE;
+    }
+
+    is_break(): boolean {
+        return this.result_type_ == ResultType.BREAK;
     }
 
 }

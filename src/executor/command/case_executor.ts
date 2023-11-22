@@ -30,7 +30,7 @@ export class CaseExecutor implements Executor {
 
     next(input: ScriptInputEvent): ResultEvent {
         let result = this.children_[this.current_index_].next(input);
-        while (result.get_result_type() == ResultType.END) {
+        while (result.is_finished()) {
             let context = this.children_[this.current_index_].close();
             this.local_context_.set_global_context(context);
             this.current_index_++;

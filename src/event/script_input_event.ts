@@ -11,7 +11,7 @@ export class ScriptInputEvent {
         return this.input_;
     }
 
-    get_is_handled(): boolean {
+    is_handled(): boolean {
         return this.is_handled_;
     }
 }

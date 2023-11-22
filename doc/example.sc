@@ -16,6 +16,9 @@ chatbox{
     "What is your version?" => {
         goto version
     }
+    default => {
+        say "Sorry, I don't understand."
+    }
 }
 
 topic version{

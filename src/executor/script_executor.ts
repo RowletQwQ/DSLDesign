@@ -58,7 +58,7 @@ export class ScriptExecutor implements Executor {
     next(input: ScriptInputEvent): ResultEvent {
         // 执行当前执行器
         let result = this.child_executors_[this.current_child_index_].next(input);
-        while (result.get_result_type() == ResultType.END) {
+        while (result.is_finished()) {
             // 如果当前执行器执行完毕，则执行下一个执行器
             let context = this.child_executors_[this.current_child_index_].close();
             this.global_context_= context;

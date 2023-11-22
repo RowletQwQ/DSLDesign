@@ -53,7 +53,7 @@ export class ChatBoxExecutor implements Executor {
         }
         // 接下来正常执行分支
         let result = this.children_[this.index_].next(input);
-        while (result.get_result_type() == ResultType.END) {
+        while (result.is_finished()) {
             // 分支执行结束, 回退到未运行状态
             let context = this.children_[this.index_].close();
             this.local_context_ = context;

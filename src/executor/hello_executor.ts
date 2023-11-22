@@ -30,7 +30,7 @@ export class HelloExecutor implements Executor {
             return new ResultEvent(0, "", ResultType.END);
         }
         let result = this.children_[this.index_].next(input);
-        while (result.get_result_type() == ResultType.END) {
+        while (result.is_finished()) {
             let context = this.children_[this.index_].close();
             this.local_context_ = context;
             this.index_++;

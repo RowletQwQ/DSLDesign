@@ -26,7 +26,7 @@ export class TopicExecutor implements Executor {
 
     next(input: ScriptInputEvent): ResultEvent {
         let result = this.children_[this.index_].next(input);
-        while (result.get_result_type() == ResultType.END) {
+        while (result.is_finished()) {
             let context = this.children_[this.index_].close();
             this.local_context_ = context;
             this.index_++;
