@@ -49,8 +49,7 @@ export class ScriptExecutor implements Executor {
         // 构造结束
     }
     open(context: Context): void {
-        // 设置全局上下文
-        this.global_context_ = context;
+        // 此处的context为空，不管它
         // 打开第一个执行器
         this.child_executors_[0].open(this.global_context_);
     }

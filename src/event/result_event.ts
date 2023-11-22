@@ -67,6 +67,14 @@ export class ResultEvent {
         return this.result_type_ == ResultType.CONTINUE;
     }
 
+    is_input(): boolean {
+        return this.result_type_ == ResultType.INPUT;
+    }
+
+    is_output(): boolean {
+        return this.result_type_ == ResultType.OUTPUT;
+    }
+
     is_break(): boolean {
         return this.result_type_ == ResultType.BREAK;
     }
