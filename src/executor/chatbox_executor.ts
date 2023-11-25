@@ -33,7 +33,7 @@ export class ChatBoxExecutor implements Executor {
     }
     open(context: Context): void {
         // chatbox外层就是全局
-        this.index_ = 0;
+        this.is_running_ = false;
         this.local_context_.set_global_context(context);
     }
 

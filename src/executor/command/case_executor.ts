@@ -25,6 +25,7 @@ export class CaseExecutor implements Executor {
     }
 
     open(context: Context): void {
+        this.current_index_ = 0;
         this.local_context_.set_upper_context(context);
         this.children_[this.current_index_].open(context);
     }

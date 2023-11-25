@@ -14,6 +14,7 @@ export class SayExecutor implements Executor {
     }
     open(context: Context): void {
         this.upper_context_ = context;
+        this.is_printed_ = false;
     }
     next(input: ScriptInputEvent): ResultEvent {
         if (this.is_printed_) {

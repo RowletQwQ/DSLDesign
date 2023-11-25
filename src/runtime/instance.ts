@@ -71,6 +71,7 @@ export class Instance {
                 result = this.main_executor_.next(new ScriptInputEvent(undefined));
             }
         }
+        
         // 执行完毕
         callback(new InterruptEvent(InterruptReason.EXIT, result.get_result()), 0);
         this.main_executor_.close();

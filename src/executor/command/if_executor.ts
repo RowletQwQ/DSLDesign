@@ -39,6 +39,7 @@ export class IfExecutor implements Executor {
     }
     open(context: Context): void {
         this.current_index_ = 0;
+        this.in_branch_ = false;
         // 先计算条件表达式
         let result = this.condition_expr_.get_value(context);
         this.local_context_.set_upper_context(context);

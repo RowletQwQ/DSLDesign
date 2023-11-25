@@ -12,12 +12,11 @@ export class TemplateStringVisitor extends cslVisitor<TemplateStringExpr> {
     }
     override visitTemplate_string = (ctx: Template_stringContext): TemplateStringExpr => {
         let parts_stmt = ctx.template_string_part();
-        let exprs = new Array<Expression>();
-        let plain_text = new Array<string>();
+        let parts: (string | Expression)[] = [];
         for (let part_stmt of parts_stmt) {
             let stmt = part_stmt.template_string_plain_text();
             if (stmt != undefined) {
-                plain_text.push(stmt.toString());
+                parts.push(stmt.getText());
             } else {
                 let stmt = part_stmt.template_string_expr();
                 if (stmt != null) {
@@ -26,10 +25,10 @@ export class TemplateStringVisitor extends cslVisitor<TemplateStringExpr> {
                     if (expr instanceof Array || expr == null) {
                         throw new Error("Template string expression Parse error");
                     }
-                    exprs.push(expr);
+                    parts.push(expr);
                 }
             }
         }
-        return new TemplateStringExpr(plain_text, exprs);
+        return new TemplateStringExpr(parts);
     }
 }

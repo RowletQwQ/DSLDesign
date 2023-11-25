@@ -33,6 +33,7 @@ export class LoopExecutor implements Executor {
     open(context: Context): void {
         this.local_context_.set_upper_context(context);
         this.current_index_ = 0;
+        this.in_command_ = false;
     }
     next(input: ScriptInputEvent): ResultEvent {
         if (this.in_command_) {
