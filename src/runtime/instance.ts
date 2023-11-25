@@ -33,16 +33,9 @@ export class Instance {
         // 先检查输入缓冲区
         let input = this.input_buffer_.shift();
         let result = this.main_executor_.next(new ScriptInputEvent(input));
-        
-        // 设置超时定时器
-        let timeoutId: NodeJS.Timeout | undefined = undefined;
 
         while (!result.is_finished()) {
-            // 如果超时定时器已经设置，则清除
-            if (timeoutId != undefined) {
-                clearTimeout(timeoutId);
-                timeoutId = undefined;
-            }
+            // 在此处不应该出现break和continue
             if (result.is_break() || result.is_continue()) {
                 throw new Error("break and continue should only be used in loop");
             }
@@ -75,6 +68,7 @@ export class Instance {
         }
         // 执行完毕
         callback(new InterruptEvent(InterruptReason.EXIT, result.get_result()), 0);
+        this.main_executor_.close();
     }
 
     add_input(input: string): void {

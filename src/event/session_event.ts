@@ -1,4 +1,5 @@
 import { Executor } from "../executor/executor.ts";
+import { Instance } from "../runtime/instance.ts";
 
 /**
  * @brief 用于承载一个新的会话
@@ -10,7 +11,7 @@ export class SessionEvent {
     private bot_name_: string;
     private session_id_: string;
     private script_ : string;
-    private executor_ : Executor | null = null;
+    private instance_: Instance | null = null;
     constructor(bot_name: string, session_id: string, script: string) {
         this.bot_name_ = bot_name;
         this.session_id_ = session_id;
@@ -30,18 +31,18 @@ export class SessionEvent {
     }
 
     /**
-     * 设置脚本解析后生成的执行器
-     * @param executor 执行器 
+     * 获取实例
+     * @returns 返回根据脚本生成好的实例 
      */
-    set_executor(executor: Executor) {
-        this.executor_ = executor;
+    get_instance(): Instance | null {
+        return this.instance_;
     }
 
     /**
-     * 事件完毕后，需要获取脚本的执行器
-     * @returns 返回会话的执行器 
+     * 设置实例
+     * @param instance 根据脚本生成好的实例 
      */
-    get_executor(): Executor | null {
-        return this.executor_;
+    set_instance(instance: Instance): void {
+        this.instance_ = instance;
     }
 }

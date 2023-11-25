@@ -10,7 +10,6 @@ export enum InterruptReason {
 export class InterruptEvent {
     private reason_: InterruptReason;
     private description_: string;
-    private input_timeout_: number;
     constructor(reason: InterruptReason, description: string) {
         this.reason_ = reason;
         this.description_ = description;
