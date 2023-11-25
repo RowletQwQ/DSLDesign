@@ -1,12 +1,12 @@
 
-import { Context } from "../context/context.ts";
-import { InterruptEvent, InterruptReason } from "../event/interrupt_event.ts";
-import { ScriptInputEvent } from "../event/script_input_event.ts";
-import { Executor } from "../executor/executor.ts";
+import { Context } from "../context/context.js";
+import { InterruptEvent, InterruptReason } from "../event/interrupt_event.js";
+import { ScriptInputEvent } from "../event/script_input_event.js";
+import { Executor } from "../executor/executor.js";
 
 
 /**
- * @brief instance.ts 实例
+ * @brief instance.js 实例
  * 表示一个脚本文件的运行实例
  * 一个脚本文件可能会被多个用户同时访问
 
@@ -16,6 +16,7 @@ export class Instance {
     private main_executor_: Executor;
     private input_buffer_: string[] = [];
     private instance_id_: string;
+    private is_running_: boolean = false;
     constructor(name: string,main_executor: Executor) {
         this.main_executor_ = main_executor;
         this.instance_id_ = name;
@@ -23,13 +24,17 @@ export class Instance {
 
     start(): void {
         this.main_executor_.open(new Context());
+        this.is_running_ = true;
     }
 
     /**
      * 执行脚本
      * @param callback 回调函数，用于处理中断事件 
      */
-    run(callback: (interrupt_event: InterruptEvent, timer: number) => void): void {
+    async run(callback: (interrupt_event: InterruptEvent, timer: number) => Promise<void>): Promise<void> {
+        if (!this.is_running_) {
+            throw new Error("instance is not running");
+        }
         // 先检查输入缓冲区
         let input = this.input_buffer_.shift();
         let result = this.main_executor_.next(new ScriptInputEvent(input));
@@ -49,7 +54,7 @@ export class Instance {
                 // 是输入事件，先查询输入缓冲区
                 if (input == undefined) {
                     // 没有输入，调用回调函数发出中断事件
-                    callback(new InterruptEvent(InterruptReason.INPUT, ""), result.get_timer());
+                    await callback(new InterruptEvent(InterruptReason.INPUT, ""), result.get_timer());
                     input = this.input_buffer_.shift();
                     if (input == undefined) {
                         // 超时未输入
@@ -71,7 +76,7 @@ export class Instance {
         this.main_executor_.close();
     }
 
-    add_input(input: string): void {
+    push_input(input: string): void {
         this.input_buffer_.push(input);
     }
     

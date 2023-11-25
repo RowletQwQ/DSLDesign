@@ -1,8 +1,8 @@
-import { Chatbox_stmtContext } from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor.ts";
-import { ChatBoxStmt } from "../stmt/chatbox_stmt.ts";
-import { CaseStmt } from "../stmt/command/case_stmt.ts";
-import { CommandVisitor } from "./command_visitor.ts";
+import { Chatbox_stmtContext } from "../parser/cslParser.js";
+import { cslVisitor } from "../parser/cslVisitor.js";
+import { ChatBoxStmt } from "../stmt/chatbox_stmt.js";
+import { CaseStmt } from "../stmt/command/case_stmt.js";
+import { CommandVisitor } from "./command_visitor.js";
 
 export class ChatBoxVisitor extends cslVisitor<ChatBoxStmt> {
     private command_visitor_: CommandVisitor;

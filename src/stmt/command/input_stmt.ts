@@ -1,7 +1,7 @@
-import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
-import { StmtType } from "../stmt.ts";
-import { AssertStmt } from "./assert_stmt.ts";
-import { WhenSilenceStmt } from "./when_silence_stmt.ts";
+import { CommandStmt, CommandStmtType } from "../command_stmt.js";
+import { StmtType } from "../stmt.js";
+import { AssertStmt } from "./assert_stmt.js";
+import { WhenSilenceStmt } from "./when_silence_stmt.js";
 
 export class InputStmt implements CommandStmt {
     private when_silence_stmt_: WhenSilenceStmt | null;

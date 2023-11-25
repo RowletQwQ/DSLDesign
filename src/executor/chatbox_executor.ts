@@ -1,9 +1,9 @@
-import { Context } from "../context/context.ts";
-import { ResultEvent, ResultType } from "../event/result_event.ts";
-import { ScriptInputEvent } from "../event/script_input_event.ts";
-import { ChatBoxStmt } from "../stmt/chatbox_stmt.ts";
-import { CommandExecutor } from "./command_executor.ts";
-import { Executor, ExecutorType } from "./executor.ts";
+import { Context } from "../context/context.js";
+import { ResultEvent, ResultType } from "../event/result_event.js";
+import { ScriptInputEvent } from "../event/script_input_event.js";
+import { ChatBoxStmt } from "../stmt/chatbox_stmt.js";
+import { CommandExecutor } from "./command_executor.js";
+import { Executor, ExecutorType } from "./executor.js";
 
 // ChatBox需要有输入才能触发，所以open的时候不会初始化分支
 export class ChatBoxExecutor implements Executor {
@@ -33,6 +33,7 @@ export class ChatBoxExecutor implements Executor {
     }
     open(context: Context): void {
         // chatbox外层就是全局
+        this.index_ = 0;
         this.local_context_.set_global_context(context);
     }
 
@@ -58,7 +59,7 @@ export class ChatBoxExecutor implements Executor {
         while (result.is_finished()) {
             // 分支执行结束, 回退到未运行状态
             let context = this.children_[this.index_].close();
-            this.local_context_ = context;
+            this.local_context_.set_global_context(context);
             this.is_running_ = false;
             return new ResultEvent(0, "", ResultType.INPUT);
         }

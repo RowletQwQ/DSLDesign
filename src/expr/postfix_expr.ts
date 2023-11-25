@@ -1,5 +1,5 @@
-import { Expression,ExprType } from "./expression.ts";
-import { Context,JsonObj } from "../context/context.ts";
+import { Expression,ExprType } from "./expression.js";
+import { Context,JsonObj } from "../context/context.js";
 
 
 export class PostfixExpr implements Expression {

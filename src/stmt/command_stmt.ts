@@ -1,5 +1,5 @@
-import { Context } from "../context/context.ts";
-import { Stmt, StmtType } from "./stmt.ts";
+import { Context } from "../context/context.js";
+import { Stmt, StmtType } from "./stmt.js";
 
 // 所有command stmt的基类
 

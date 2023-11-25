@@ -2,7 +2,7 @@
   "name": "DSLDesign",
   "version": "1.0.0",
   "description": "A Bot Generator for Customer Service Bot",
-  "main": "index.ts",
+  "main": "exec.ts",
   "repository": "https://github.com/RowletQwQ/DSLDesign.git",
   "author": "RowletQwQ",
   "license": "MIT",
@@ -10,7 +10,8 @@
   "type": "module",
   "scripts": {
     "antlr4": "antlr4ng -Dlanguage=TypeScript -Werror -visitor -listener -o src/parser  src/parser/csl.g4",
-    "test_grammar": "cd test && tsc && cd ../ && ts-node lib/test/printAST.js1"
+    "test_grammar": "cd test && tsc && cd ../ && ts-node lib/test/printAST.js1",
+    "run_local": "tsc && node lib/src/exec.js doc/example.sc"
   },
   "dependencies": {
     "antlr4ng": "^2.0.2",

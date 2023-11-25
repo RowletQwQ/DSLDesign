@@ -1,9 +1,9 @@
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { WhenSilenceStmt } from "../../stmt/command/when_silence_stmt.ts";
-import { CommandExecutor } from "../command_executor.ts";
-import { Executor, ExecutorType } from "../executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { WhenSilenceStmt } from "../../stmt/command/when_silence_stmt.js";
+import { CommandExecutor } from "../command_executor.js";
+import { Executor, ExecutorType } from "../executor.js";
 
 export class WhenSilenceExecutor implements Executor {
     private children_: Executor[] = [];
@@ -19,6 +19,7 @@ export class WhenSilenceExecutor implements Executor {
     }
     open(context: Context): void {
         this.local_context_.set_upper_context(context);
+        this.current_index_ = 0;
     }
     next(input: ScriptInputEvent): ResultEvent {
         let result = this.children_[this.current_index_].next(input);

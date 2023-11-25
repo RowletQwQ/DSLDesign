@@ -1,5 +1,5 @@
-import { Stmt, StmtType } from "./stmt.ts";
-import { CaseStmt } from "./command/case_stmt.ts";
+import { Stmt, StmtType } from "./stmt.js";
+import { CaseStmt } from "./command/case_stmt.js";
 
 export class ChatBoxStmt implements Stmt {
     private cases_: CaseStmt[]

@@ -1,10 +1,10 @@
-import { ArithmeticExpr, ArithmeticExprType } from "../expr/arithmetic_expr.ts";
-import { ComparisonExpr,ComparisonExprType } from "../expr/comparison_expr.ts";
-import { ConjunctionExpr,ConjunctionExprType } from "../expr/conjunction_expr.ts";
-import { Expression } from "../expr/expression.ts";
-import { FieldExpr } from "../expr/field_expr.ts";
-import { UnaryExprType, UnaryExpression } from "../expr/unary_expr.ts";
-import { ValueExpr } from "../expr/value_expr.ts";
+import { ArithmeticExpr, ArithmeticExprType } from "../expr/arithmetic_expr.js";
+import { ComparisonExpr,ComparisonExprType } from "../expr/comparison_expr.js";
+import { ConjunctionExpr,ConjunctionExprType } from "../expr/conjunction_expr.js";
+import { Expression } from "../expr/expression.js";
+import { FieldExpr } from "../expr/field_expr.js";
+import { UnaryExprType, UnaryExpression } from "../expr/unary_expr.js";
+import { ValueExpr } from "../expr/value_expr.js";
 import 
 { 
     ExpressionContext,
@@ -19,8 +19,8 @@ import
     Primary_expressionContext,
     ValueContext
 } 
-from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor.ts";
+from "../parser/cslParser.js";
+import { cslVisitor } from "../parser/cslVisitor.js";
 
 // ExpressionVisitor 类实现了 cslVisitor 接口
 // 用于解析表达式
@@ -225,7 +225,9 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         } else if (float_stmt != undefined) {
             expr = new ValueExpr(parseFloat(float_stmt.getText()));
         } else if (string_stmt != undefined) {
-            expr = new ValueExpr(string_stmt.getText());
+            let str = string_stmt.getText();
+            str = str.substring(1, str.length - 1);
+            expr = new ValueExpr(str);
         } else {
             throw new Error("Value expression Parse error");
         }

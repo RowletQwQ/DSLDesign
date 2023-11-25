@@ -18,6 +18,9 @@ chatbox{
     "What is your version?" => {
         goto version
     }
+    default => {
+        say "I don't understand"
+    }
 }
 `
 
@@ -27,6 +30,6 @@ let tokens = new CommonTokenStream(lexer);
 
 let parser = new cslParser(tokens);
 
-let tree = parser.scripts();
+let tree = parser.script();
 
 console.log(tree)

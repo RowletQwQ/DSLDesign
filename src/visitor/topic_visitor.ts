@@ -1,7 +1,7 @@
-import { Topic_stmtContext } from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor.ts";
-import { TopicStmt } from "../stmt/topic_stmt.ts";
-import { CommandVisitor } from "./command_visitor.ts";
+import { Topic_stmtContext } from "../parser/cslParser.js";
+import { cslVisitor } from "../parser/cslVisitor.js";
+import { TopicStmt } from "../stmt/topic_stmt.js";
+import { CommandVisitor } from "./command_visitor.js";
 
 export class TopicVisitor extends cslVisitor<TopicStmt> {
     private command_visitor_: CommandVisitor;

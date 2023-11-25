@@ -1,5 +1,5 @@
-import { Expression,ExprType } from "./expression.ts";
-import { Context } from "../context/context.ts";
+import { Expression,ExprType } from "./expression.js";
+import { Context } from "../context/context.js";
 
 export class TemplateStringExpr implements Expression {
     private exprs_: Array<Expression>;

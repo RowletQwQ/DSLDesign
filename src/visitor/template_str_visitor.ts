@@ -1,8 +1,8 @@
-import { Expression } from "../expr/expression.ts";
-import { TemplateStringExpr } from "../expr/template_string_expr.ts";
-import { Template_stringContext, Template_string_exprContext } from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor.ts";
-import { ExpressionVisitor } from "./expression_visitor.ts";
+import { Expression } from "../expr/expression.js";
+import { TemplateStringExpr } from "../expr/template_string_expr.js";
+import { Template_stringContext, Template_string_exprContext } from "../parser/cslParser.js";
+import { cslVisitor } from "../parser/cslVisitor.js";
+import { ExpressionVisitor } from "./expression_visitor.js";
 
 export class TemplateStringVisitor extends cslVisitor<TemplateStringExpr> {
     private expr_visitor_: ExpressionVisitor;

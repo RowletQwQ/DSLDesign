@@ -1,5 +1,5 @@
-import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
-import { StmtType } from "../stmt.ts";
+import { CommandStmt, CommandStmtType } from "../command_stmt.js";
+import { StmtType } from "../stmt.js";
 
 export class BreakStmt implements CommandStmt {
     

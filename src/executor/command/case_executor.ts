@@ -1,9 +1,9 @@
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { CaseStmt } from "../../stmt/command/case_stmt.ts";
-import { CommandExecutor } from "../command_executor.ts";
-import { Executor, ExecutorType } from "../executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { CaseStmt } from "../../stmt/command/case_stmt.js";
+import { CommandExecutor } from "../command_executor.js";
+import { Executor, ExecutorType } from "../executor.js";
 
 export class CaseExecutor implements Executor {
     private children_: Executor[];

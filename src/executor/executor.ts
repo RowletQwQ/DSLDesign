@@ -1,6 +1,6 @@
-import { Context } from "../context/context.ts";
-import { ResultEvent } from "../event/result_event.ts";
-import { ScriptInputEvent } from "../event/script_input_event.ts";
+import { Context } from "../context/context.js";
+import { ResultEvent } from "../event/result_event.js";
+import { ScriptInputEvent } from "../event/script_input_event.js";
 
 export enum ExecutorType {
     SCRIPT,         //< 脚本执行器, 根执行器
@@ -27,7 +27,7 @@ export enum ExecutorType {
     EXIT,           //< exit命令执行器
 }
 /* 
-* @brief: executor.ts 执行器
+* @brief: executor.js 执行器
 * 用于执行一条指令
 */
 export interface Executor {

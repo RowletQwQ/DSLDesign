@@ -1,5 +1,5 @@
-import { CommandStmt } from "./command_stmt.ts";
-import { Stmt, StmtType } from "./stmt.ts";
+import { CommandStmt } from "./command_stmt.js";
+import { Stmt, StmtType } from "./stmt.js";
 
 export class HelloStmt implements Stmt {
     private command_seq_: CommandStmt[];

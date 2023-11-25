@@ -1,10 +1,10 @@
 import { CharStreams, CommonTokenStream } from "antlr4ng";
-import { ScriptStmt } from "../stmt/script_stmt.ts";
-import { Stmt } from "../stmt/stmt.ts";
-import { cslLexer } from "./cslLexer.ts";
-import { cslParser } from "./cslParser.ts";
-import { cslVisitor } from "./cslVisitor.ts";
-import { ScriptVisitor } from "../visitor/script_visitor.ts";
+import { ScriptStmt } from "../stmt/script_stmt.js";
+import { Stmt } from "../stmt/stmt.js";
+import { cslLexer } from "./cslLexer.js";
+import { cslParser } from "./cslParser.js";
+import { cslVisitor } from "./cslVisitor.js";
+import { ScriptVisitor } from "../visitor/script_visitor.js";
 import { StdioNull } from "child_process";
 
 export class ParserStage {

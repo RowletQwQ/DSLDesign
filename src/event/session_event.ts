@@ -1,5 +1,5 @@
-import { Executor } from "../executor/executor.ts";
-import { Instance } from "../runtime/instance.ts";
+import { Executor } from "../executor/executor.js";
+import { Instance } from "../runtime/instance.js";
 
 /**
  * @brief 用于承载一个新的会话

@@ -1,4 +1,4 @@
-import { Stmt, StmtType } from "./stmt.ts";
+import { Stmt, StmtType } from "./stmt.js";
 
 // 客服机器人一开始的常量声明模块
 export class ConstanceStmt implements Stmt {

@@ -1,4 +1,4 @@
-import { Context } from "../context/context.ts"
+import { Context } from "../context/context.js"
 
 export enum ExprType {
     NONE,

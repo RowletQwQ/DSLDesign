@@ -7,28 +7,28 @@ import
     Goto_stmtContext, If_stmtContext, Input_stmtContext, Loop_stmtContext, Match_stmtContext, 
     Menu_stmtContext, Post_stmtContext, Say_stmtContext, ScriptContext, When_clauseContext, When_silence_stmtContext 
 } 
-from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor.ts";
-import { CommandStmt, CommandStmtType } from "../stmt/command_stmt.ts";
-import { AssertStmt } from "../stmt/command/assert_stmt.ts";
-import { ExpressionVisitor } from "./expression_visitor.ts";
-import { BreakStmt } from "../stmt/command/break_stmt.ts";
-import { ContinueStmt } from "../stmt/command/continue_stmt.ts";
-import { CaseStmt } from "../stmt/command/case_stmt.ts";
-import { TemplateStringVisitor } from "./template_str_visitor.ts";
-import { FetchStmt } from "../stmt/command/fetch_stmt.ts";
-import { GotoStmt } from "../stmt/command/goto_stmt.ts";
-import { IfStmt } from "../stmt/command/if_stmt.ts";
-import { InputStmt } from "../stmt/command/input_stmt.ts";
-import { WhenSilenceStmt } from "../stmt/command/when_silence_stmt.ts";
-import { LoopStmt } from "../stmt/command/loop_stmt.ts";
-import { WhenStmt } from "../stmt/command/when_stmt.ts";
-import { SetStmt } from "../stmt/command/set_stmt.ts";
-import { SayStmt } from "../stmt/command/say_stmt.ts";
-import { PostStmt } from "../stmt/command/post_stmt.ts";
-import { MatchStmt } from "../stmt/command/match_stmt.ts";
-import { MenuStmt } from "../stmt/command/menu_stmt.ts";
-import { ExitStmt } from "../stmt/command/exit_stmt.ts";
+from "../parser/cslParser.js";
+import { cslVisitor } from "../parser/cslVisitor.js";
+import { CommandStmt, CommandStmtType } from "../stmt/command_stmt.js";
+import { AssertStmt } from "../stmt/command/assert_stmt.js";
+import { ExpressionVisitor } from "./expression_visitor.js";
+import { BreakStmt } from "../stmt/command/break_stmt.js";
+import { ContinueStmt } from "../stmt/command/continue_stmt.js";
+import { CaseStmt } from "../stmt/command/case_stmt.js";
+import { TemplateStringVisitor } from "./template_str_visitor.js";
+import { FetchStmt } from "../stmt/command/fetch_stmt.js";
+import { GotoStmt } from "../stmt/command/goto_stmt.js";
+import { IfStmt } from "../stmt/command/if_stmt.js";
+import { InputStmt } from "../stmt/command/input_stmt.js";
+import { WhenSilenceStmt } from "../stmt/command/when_silence_stmt.js";
+import { LoopStmt } from "../stmt/command/loop_stmt.js";
+import { WhenStmt } from "../stmt/command/when_stmt.js";
+import { SetStmt } from "../stmt/command/set_stmt.js";
+import { SayStmt } from "../stmt/command/say_stmt.js";
+import { PostStmt } from "../stmt/command/post_stmt.js";
+import { MatchStmt } from "../stmt/command/match_stmt.js";
+import { MenuStmt } from "../stmt/command/menu_stmt.js";
+import { ExitStmt } from "../stmt/command/exit_stmt.js";
 
 export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     private expr_visitor_: ExpressionVisitor;
@@ -335,14 +335,25 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     // say 语句
     override visitSay_stmt = (ctx: Say_stmtContext): CommandStmt => {
         let expr_stmt = ctx.expression();
-        if (expr_stmt == null) {
-            throw new Error("Say_stmt Parse error");
+        let template_str_stmt = ctx.template_string();
+        if (expr_stmt) {
+            // 表达式
+            let expr = this.expr_visitor_.visit(expr_stmt);
+            if (expr instanceof Array || expr == null) {
+                throw new Error("Say_stmt Parse error");
+            }
+            return new SayStmt(expr);
         }
-        let expr = this.expr_visitor_.visit(expr_stmt);
-        if (expr instanceof Array || expr == null) {
-            throw new Error("Say_stmt Parse error");
+
+        if (template_str_stmt) {
+            // 模板字符串
+            let template_str = this.template_str_visitor_.visit(template_str_stmt);
+            if (template_str == null) {
+                throw new Error("Say_stmt Parse error");
+            }
+            return new SayStmt(template_str);
         }
-        return new SayStmt(expr);
+        throw new Error("Say_stmt Parse error");
     }
 
     // set 语句

@@ -1,12 +1,11 @@
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { MenuStmt } from "../../stmt/command/menu_stmt.ts";
-import { CommandExecutor } from "../command_executor.ts";
-import { Executor, ExecutorType } from "../executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { MenuStmt } from "../../stmt/command/menu_stmt.js";
+import { CommandExecutor } from "../command_executor.js";
+import { Executor, ExecutorType } from "../executor.js";
 
 export class MenuExecutor implements Executor {
-    private when_silence_executor_: Executor;
     private current_index_: number = 0;
     private is_running_: boolean = false;
     private children_: Executor[] = [];
@@ -29,6 +28,7 @@ export class MenuExecutor implements Executor {
         }
     }
     open(context: Context): void {
+        this.current_index_ = 0;
         this.local_context_.set_upper_context(context);
     }
     next(input: ScriptInputEvent): ResultEvent {

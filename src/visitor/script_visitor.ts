@@ -1,11 +1,11 @@
-import { ScriptContext } from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor.ts";
-import { ScriptStmt } from "../stmt/script_stmt.ts";
-import { Stmt } from "../stmt/stmt.ts";
-import { ChatBoxVisitor } from "./chatbox_visitor.ts";
-import { ConstanceVisitor } from "./constance_visitor.ts";
-import { HelloVisitor } from "./hello_visitor.ts";
-import { TopicVisitor } from "./topic_visitor.ts";
+import { ScriptContext } from "../parser/cslParser.js";
+import { cslVisitor } from "../parser/cslVisitor.js";
+import { ScriptStmt } from "../stmt/script_stmt.js";
+import { Stmt } from "../stmt/stmt.js";
+import { ChatBoxVisitor } from "./chatbox_visitor.js";
+import { ConstanceVisitor } from "./constance_visitor.js";
+import { HelloVisitor } from "./hello_visitor.js";
+import { TopicVisitor } from "./topic_visitor.js";
 
 export class ScriptVisitor extends cslVisitor<ScriptStmt> {
     private chatbox_visitor_: ChatBoxVisitor;

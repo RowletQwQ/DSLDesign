@@ -1,10 +1,10 @@
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { Expression } from "../../expr/expression.ts";
-import { IfStmt } from "../../stmt/command/if_stmt.ts";
-import { CommandExecutor } from "../command_executor.ts";
-import { Executor, ExecutorType } from "../executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { Expression } from "../../expr/expression.js";
+import { IfStmt } from "../../stmt/command/if_stmt.js";
+import { CommandExecutor } from "../command_executor.js";
+import { Executor, ExecutorType } from "../executor.js";
 
 export class IfExecutor implements Executor {
     private condition_expr_: Expression;
@@ -38,6 +38,7 @@ export class IfExecutor implements Executor {
         return ExecutorType.IF;
     }
     open(context: Context): void {
+        this.current_index_ = 0;
         // 先计算条件表达式
         let result = this.condition_expr_.get_value(context);
         this.local_context_.set_upper_context(context);

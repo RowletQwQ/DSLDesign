@@ -1,5 +1,5 @@
-import { Expression,ExprType } from "./expression.ts";
-import { Context } from "../context/context.ts";
+import { Expression,ExprType } from "./expression.js";
+import { Context } from "../context/context.js";
 
 // 变量表达式
 export class FieldExpr implements Expression {

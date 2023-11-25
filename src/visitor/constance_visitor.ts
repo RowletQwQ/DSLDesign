@@ -1,9 +1,9 @@
-import { ConstanceContext, Constance_listContext, Constance_stmtContext } from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor.ts";
-import { ConstanceStmt } from "../stmt/constance_stmt.ts";
-import { Expression } from "../expr/expression.ts";
-import { ExpressionVisitor } from "./expression_visitor.ts";
-import { Context } from "../context/context.ts";
+import { ConstanceContext, Constance_listContext, Constance_stmtContext } from "../parser/cslParser.js";
+import { cslVisitor } from "../parser/cslVisitor.js";
+import { ConstanceStmt } from "../stmt/constance_stmt.js";
+import { Expression } from "../expr/expression.js";
+import { ExpressionVisitor } from "./expression_visitor.js";
+import { Context } from "../context/context.js";
 
 export class ConstanceVisitor extends cslVisitor<ConstanceStmt | [any, Expression]> {
     private expr_visitor_: ExpressionVisitor;

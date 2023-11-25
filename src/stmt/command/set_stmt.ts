@@ -1,6 +1,6 @@
-import { Expression } from "../../expr/expression.ts";
-import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
-import { StmtType } from "../stmt.ts";
+import { Expression } from "../../expr/expression.js";
+import { CommandStmt, CommandStmtType } from "../command_stmt.js";
+import { StmtType } from "../stmt.js";
 
 export class SetStmt implements CommandStmt {
     private var_name_: string;

@@ -1,9 +1,9 @@
 import { CharStreams } from "antlr4ng";
-import { SessionEvent } from "../event/session_event.ts";
-import { cslLexer } from "../parser/cslLexer.ts";
-import { ParserStage } from "../parser/parse_stage.ts";
-import { Instance } from "../runtime/instance.ts";
-import { ScriptExecutor } from "../executor/script_executor.ts";
+import { SessionEvent } from "../event/session_event.js";
+import { cslLexer } from "../parser/cslLexer.js";
+import { ParserStage } from "../parser/parse_stage.js";
+import { Instance } from "../runtime/instance.js";
+import { ScriptExecutor } from "../executor/script_executor.js";
 
 export class SessionStage {
     private parser_stage_: ParserStage;

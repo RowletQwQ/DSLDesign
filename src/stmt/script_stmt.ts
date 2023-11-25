@@ -1,4 +1,4 @@
-import { Stmt, StmtType } from "./stmt.ts";
+import { Stmt, StmtType } from "./stmt.js";
 
 export class ScriptStmt implements Stmt {
     private hello_stmt_: Stmt | null;

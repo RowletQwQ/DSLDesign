@@ -5,6 +5,9 @@ constance{
     author := "Yukihiro Matsumoto"
 }
 
+hello{
+    say "Hello, world!"
+}
 
 chatbox{
     "Hello" => {
@@ -30,6 +33,11 @@ topic Welcome{
     say `I was created by ${author}`
     say "How can I help you?"
     goto Main_Menu
+}
+
+topic name{
+    say `My name is ${name}`
+    goto chatbox
 }
 
 topic Main_Menu{

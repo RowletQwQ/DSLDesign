@@ -1,11 +1,11 @@
 import { time } from "console";
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { Expression } from "../../expr/expression.ts";
-import { InputStmt } from "../../stmt/command/input_stmt.ts";
-import { Executor, ExecutorType } from "../executor.ts";
-import { WhenSilenceExecutor } from "./when_silence_executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { Expression } from "../../expr/expression.js";
+import { InputStmt } from "../../stmt/command/input_stmt.js";
+import { Executor, ExecutorType } from "../executor.js";
+import { WhenSilenceExecutor } from "./when_silence_executor.js";
 
 export class InputExecutor implements Executor {
     private target_id_: string;

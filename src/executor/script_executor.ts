@@ -1,16 +1,16 @@
-import { Context } from "../context/context.ts";
-import { ResultEvent, ResultType } from "../event/result_event.ts";
-import { ScriptInputEvent } from "../event/script_input_event.ts";
-import { ChatBoxStmt } from "../stmt/chatbox_stmt.ts";
-import { ConstanceStmt } from "../stmt/constance_stmt.ts";
-import { HelloStmt } from "../stmt/hello_stmt.ts";
-import { ScriptStmt } from "../stmt/script_stmt.ts";
-import { Stmt } from "../stmt/stmt.ts";
-import { TopicStmt } from "../stmt/topic_stmt.ts";
-import { ChatBoxExecutor } from "./chatbox_executor.ts";
-import { Executor, ExecutorType } from "./executor.ts";
-import { HelloExecutor } from "./hello_executor.ts";
-import { TopicExecutor } from "./topic_executor.ts";
+import { Context } from "../context/context.js";
+import { ResultEvent, ResultType } from "../event/result_event.js";
+import { ScriptInputEvent } from "../event/script_input_event.js";
+import { ChatBoxStmt } from "../stmt/chatbox_stmt.js";
+import { ConstanceStmt } from "../stmt/constance_stmt.js";
+import { HelloStmt } from "../stmt/hello_stmt.js";
+import { ScriptStmt } from "../stmt/script_stmt.js";
+import { Stmt } from "../stmt/stmt.js";
+import { TopicStmt } from "../stmt/topic_stmt.js";
+import { ChatBoxExecutor } from "./chatbox_executor.js";
+import { Executor, ExecutorType } from "./executor.js";
+import { HelloExecutor } from "./hello_executor.js";
+import { TopicExecutor } from "./topic_executor.js";
 
 export class ScriptExecutor implements Executor {
     private global_context_: Context;
@@ -52,6 +52,8 @@ export class ScriptExecutor implements Executor {
         // 此处的context为空，不管它
         // 打开第一个执行器
         this.child_executors_[0].open(this.global_context_);
+        this.current_child_index_ = 0;
+        this.chatbox_index_ = 0;
     }
 
     next(input: ScriptInputEvent): ResultEvent {
@@ -73,7 +75,7 @@ export class ScriptExecutor implements Executor {
             // 如果是跳转指令，则跳转到对应的topic
             let topic_index = this.topic_id_map_.get(result.get_result());
             let context = this.child_executors_[this.current_child_index_].close();
-            if (topic_index) {
+            if (topic_index != undefined) {
                 // 如果topic或chatbox存在，则跳转到topic或chatbox
                 this.global_context_= context;
                 this.current_child_index_ = topic_index;

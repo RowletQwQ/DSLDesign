@@ -1,9 +1,9 @@
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { MatchStmt } from "../../stmt/command/match_stmt.ts";
-import { CommandExecutor } from "../command_executor.ts";
-import { Executor, ExecutorType } from "../executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { MatchStmt } from "../../stmt/command/match_stmt.js";
+import { CommandExecutor } from "../command_executor.js";
+import { Executor, ExecutorType } from "../executor.js";
 
 export class MatchExecutor implements Executor {
     private when_silence_executor_: Executor;
@@ -34,6 +34,7 @@ export class MatchExecutor implements Executor {
     }
     open(context: Context): void {
         this.local_context_.set_upper_context(context);
+        this.current_index_ = 0;
     }
     next(input: ScriptInputEvent): ResultEvent {
         if (!this.is_running_) {

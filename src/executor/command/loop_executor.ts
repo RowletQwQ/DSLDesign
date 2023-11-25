@@ -1,10 +1,10 @@
-import { LoopStmt } from "../../stmt/command/loop_stmt.ts";
-import { Executor, ExecutorType } from "../executor.ts";
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { Expression } from "../../expr/expression.ts";
-import { CommandExecutor } from "../command_executor.ts";
+import { LoopStmt } from "../../stmt/command/loop_stmt.js";
+import { Executor, ExecutorType } from "../executor.js";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { Expression } from "../../expr/expression.js";
+import { CommandExecutor } from "../command_executor.js";
 
 export class LoopExecutor implements Executor {
     private condition_expr_: Expression | null = null;
@@ -32,6 +32,7 @@ export class LoopExecutor implements Executor {
     }
     open(context: Context): void {
         this.local_context_.set_upper_context(context);
+        this.current_index_ = 0;
     }
     next(input: ScriptInputEvent): ResultEvent {
         if (this.in_command_) {
@@ -39,7 +40,7 @@ export class LoopExecutor implements Executor {
             if (result.is_finished()) {
                 this.in_command_ = false;
                 let context = this.children_[this.current_index_].close();
-                this.local_context_ = context;
+                this.local_context_.set_global_context(context);
                 this.current_index_++;
                 if (this.current_index_ == this.children_.length) {
                     // 检查是否需要继续循环
@@ -58,7 +59,7 @@ export class LoopExecutor implements Executor {
                 // 继续循环
                 this.in_command_ = false;
                 let context = this.children_[this.current_index_].close();
-                this.local_context_ = context;
+                this.local_context_.set_global_context(context);
                 // 检查是否需要继续循环
                 if (this.condition_expr_ != null) {
                     let condition = this.condition_expr_.get_value(this.local_context_);
@@ -72,7 +73,7 @@ export class LoopExecutor implements Executor {
             if (result.is_break()) {
                 this.in_command_ = false;
                 let context = this.children_[this.current_index_].close();
-                this.local_context_ = context;
+                this.local_context_.set_global_context(context);
                 return new ResultEvent(0, "Break Loop", ResultType.END);
             }
             // 其他情况，直接返回

@@ -1,8 +1,8 @@
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { BreakStmt } from "../../stmt/command/break_stmt.ts";
-import { Executor, ExecutorType } from "../executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { BreakStmt } from "../../stmt/command/break_stmt.js";
+import { Executor, ExecutorType } from "../executor.js";
 
 export class BreakExecutor implements Executor {
     private upper_context_: Context;

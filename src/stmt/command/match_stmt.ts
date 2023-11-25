@@ -1,7 +1,7 @@
-import { CommandStmt, CommandStmtType } from "../command_stmt.ts";
-import { StmtType } from "../stmt.ts";
-import { CaseStmt } from "./case_stmt.ts";
-import { WhenSilenceStmt } from "./when_silence_stmt.ts";
+import { CommandStmt, CommandStmtType } from "../command_stmt.js";
+import { StmtType } from "../stmt.js";
+import { CaseStmt } from "./case_stmt.js";
+import { WhenSilenceStmt } from "./when_silence_stmt.js";
 
 export class MatchStmt implements CommandStmt {
     private cases_: CaseStmt[];

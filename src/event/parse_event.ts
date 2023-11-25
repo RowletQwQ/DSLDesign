@@ -1,6 +1,6 @@
-import { Executor } from "../executor/executor.ts";
-import { Stmt } from "../stmt/stmt.ts";
-import { SessionEvent } from "./session_event.ts";
+import { Executor } from "../executor/executor.js";
+import { Stmt } from "../stmt/stmt.js";
+import { SessionEvent } from "./session_event.js";
 
 export class ParseEvent {
     private session_event_: SessionEvent;
@@ -20,9 +20,5 @@ export class ParseEvent {
 
     get_stmt(): Stmt | null {
         return this.stmt_;
-    }
-
-    set_executor(executor: Executor) {
-        this.session_event_.set_executor(executor);
     }
 }

@@ -1,8 +1,8 @@
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { ExitStmt } from "../../stmt/command/exit_stmt.ts";
-import { Executor, ExecutorType } from "../executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { ExitStmt } from "../../stmt/command/exit_stmt.js";
+import { Executor, ExecutorType } from "../executor.js";
 
 export class ExitExecutor implements Executor {
     private upper_context_: Context;

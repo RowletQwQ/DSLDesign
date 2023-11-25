@@ -1,7 +1,7 @@
-import { Hello_stmtContext } from "../parser/cslParser.ts";
-import { cslVisitor } from "../parser/cslVisitor.ts";
-import { HelloStmt } from "../stmt/hello_stmt.ts";
-import { CommandVisitor } from "./command_visitor.ts";
+import { Hello_stmtContext } from "../parser/cslParser.js";
+import { cslVisitor } from "../parser/cslVisitor.js";
+import { HelloStmt } from "../stmt/hello_stmt.js";
+import { CommandVisitor } from "./command_visitor.js";
 
 export class HelloVisitor extends cslVisitor<HelloStmt> {
     private command_visitor_: CommandVisitor;

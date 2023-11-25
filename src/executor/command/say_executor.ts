@@ -1,9 +1,9 @@
-import { Context } from "../../context/context.ts";
-import { ResultEvent, ResultType } from "../../event/result_event.ts";
-import { ScriptInputEvent } from "../../event/script_input_event.ts";
-import { Expression } from "../../expr/expression.ts";
-import { SayStmt } from "../../stmt/command/say_stmt.ts";
-import { Executor, ExecutorType } from "../executor.ts";
+import { Context } from "../../context/context.js";
+import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { Expression } from "../../expr/expression.js";
+import { SayStmt } from "../../stmt/command/say_stmt.js";
+import { Executor, ExecutorType } from "../executor.js";
 
 export class SayExecutor implements Executor {
     private expr_: Expression;
