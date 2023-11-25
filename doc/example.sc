@@ -7,6 +7,7 @@ constance{
 
 hello{
     say "Hello, world!"
+    goto Welcome
 }
 
 chatbox{
@@ -19,9 +20,17 @@ chatbox{
     "What is your version?" => {
         goto version
     }
+    "Let's chat" => {
+        goto Main_Menu
+    }
+    "exit" => {
+        say "Goodbye!"
+        exit
+    }
     default => {
         say "Sorry, I don't understand."
     }
+    
 }
 
 topic version{
@@ -32,7 +41,7 @@ topic Welcome{
     say `Hello, I am ${name} version ${version}`
     say `I was created by ${author}`
     say "How can I help you?"
-    goto Main_Menu
+    goto chatbox
 }
 
 topic name{

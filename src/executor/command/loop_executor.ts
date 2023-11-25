@@ -31,6 +31,7 @@ export class LoopExecutor implements Executor {
         return ExecutorType.LOOP;
     }
     open(context: Context): void {
+        this.local_context_ = new Context();
         this.local_context_.set_upper_context(context);
         this.current_index_ = 0;
         this.in_command_ = false;

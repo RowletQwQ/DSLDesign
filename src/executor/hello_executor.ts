@@ -18,6 +18,7 @@ export class HelloExecutor implements Executor {
     }
     open(context: Context): void {
         // Hello语句的外层上下文为全局上下文
+        this.local_context_ = new Context();
         this.local_context_.set_global_context(context);
         this.index_ = 0;
         if (this.children_.length != 0) {

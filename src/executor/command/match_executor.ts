@@ -33,6 +33,7 @@ export class MatchExecutor implements Executor {
         }
     }
     open(context: Context): void {
+        this.local_context_ = new Context();
         this.local_context_.set_upper_context(context);
         this.current_index_ = 0;
         this.is_running_ = false;

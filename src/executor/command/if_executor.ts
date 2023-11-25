@@ -42,6 +42,7 @@ export class IfExecutor implements Executor {
         this.in_branch_ = false;
         // 先计算条件表达式
         let result = this.condition_expr_.get_value(context);
+        this.local_context_ = new Context();
         this.local_context_.set_upper_context(context);
         if (result == undefined) {
             throw new Error("Result is undefined");

@@ -20,6 +20,7 @@ export class TopicExecutor implements Executor {
         }
     }
     open(context: Context): void {
+        this.local_context_ = new Context();
         this.local_context_.set_global_context(context);
         this.index_ = 0;
         this.children_[0].open(context);

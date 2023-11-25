@@ -32,6 +32,7 @@ export class InputExecutor implements Executor {
     }
     open(context: Context): void {
         // Input的时候也创建一个新的上下文，方便assert判断为false后回滚
+        this.local_context_ = new Context();
         this.local_context_.set_upper_context(context);
         if (this.timeout_expr_ != null) {
             this.child_.open(this.local_context_);

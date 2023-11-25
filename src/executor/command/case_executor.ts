@@ -10,7 +10,6 @@ export class CaseExecutor implements Executor {
     private current_index_: number = 0;
     private local_context_: Context;
     constructor(stmt: CaseStmt){
-        this.local_context_ = new Context();
         let command_seq = stmt.get_commands();
         this.children_ = [];
         for(let command of command_seq) {
@@ -26,6 +25,7 @@ export class CaseExecutor implements Executor {
 
     open(context: Context): void {
         this.current_index_ = 0;
+        this.local_context_ = new Context();
         this.local_context_.set_upper_context(context);
         this.children_[this.current_index_].open(context);
     }

@@ -29,6 +29,7 @@ export class MenuExecutor implements Executor {
     }
     open(context: Context): void {
         this.current_index_ = 0;
+        this.local_context_ = new Context();
         this.local_context_.set_upper_context(context);
         this.is_running_ = false;
     }
