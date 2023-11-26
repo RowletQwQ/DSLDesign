@@ -11,16 +11,17 @@ export class IfExecutor implements Executor {
     private children_: Executor[];
     private current_index_: number = 0;
     private in_branch_: boolean = false;
+    private this_command_seq_: Executor[];
     private branch_executor_: IfExecutor | null = null;
     private else_command_seq_: Executor[];
     private local_context_: Context = new Context();
     constructor(stmt: IfStmt){
         this.local_context_ = new Context();
         this.condition_expr_ = stmt.get_condition();
-        this.children_ = [];
+        this.this_command_seq_ = [];
         let command_seq = stmt.get_command_seq();
         for(let command of command_seq) {
-            this.children_.push(new CommandExecutor(command));
+            this.this_command_seq_.push(new CommandExecutor(command));
         }
         let else_if_stmt = stmt.get_else_if_stmt();
         if (else_if_stmt !== null) {
@@ -49,6 +50,7 @@ export class IfExecutor implements Executor {
         }
         if (result) {
             // 满足条件，执行if分支
+            this.children_ = this.this_command_seq_;
             this.children_[this.current_index_].open(this.local_context_);
         } else {
             // 不满足条件，执行else分支

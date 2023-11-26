@@ -29,9 +29,9 @@ try {
         throw new Error("instance is null");
     }
     instance.start();
-    instance.run((interrupt_event, timer) => {
-        return new Promise<void>((resolve, reject) => {
-            if (interrupt_event.get_reason() == InterruptReason.INPUT) {
+     instance.run((interrupt_event, timer) => {
+        return new Promise<void>(async (resolve, reject) => {
+            if (interrupt_event.is_input()) {
                 if (timer) {
                     const timeoutId = setTimeout(() => {
                         resolve();
@@ -47,14 +47,41 @@ try {
                         resolve();
                     });
                 }
-            } else if (interrupt_event.get_reason() == InterruptReason.OUTPUT) {
+            } else if (interrupt_event.is_output()) {
                 console.log(interrupt_event.get_description());
                 resolve();
-            } else if (interrupt_event.get_reason() == InterruptReason.ERROR) {
+            } else if (interrupt_event.is_error()) {
                 reject(new Error(interrupt_event.get_description()));
-            } else if (interrupt_event.get_reason() == InterruptReason.EXIT){
+            } else if (interrupt_event.is_exit()){
                 console.log("Chatbot exit");
                 exit(0);
+            } else if (interrupt_event.is_show_menu()) { 
+                // 菜单展示，即提供选项供用户选择
+                let menu = interrupt_event.get_menu();
+                let index = 0;
+                for (let option of menu) {
+                    console.log(`${index++}. ${option}`);
+                }
+                let validInput = false;
+                let input = "";
+                while (!validInput) {
+                    input = await new Promise<string>((resolve) => {
+                        rl.question(">>>", (answer) => {
+                            resolve(answer);
+                        });
+                    });
+                    if (input == "") {
+                        continue;
+                    }
+                    let num = parseInt(input);
+                    if (num < 0 || num >= menu.length) {
+                        console.log("Invalid input");
+                        continue;
+                    }
+                    validInput = true;
+                }
+                instance?.push_input(menu[parseInt(input)]);
+                resolve();
             }
         });
     }).catch((error) => {

@@ -59,6 +59,10 @@ export class ResultEvent {
         return this.timer_;
     }
 
+    is_menu(): boolean {
+        return this.result_type_ == ResultType.MENU;
+    }
+
     is_finished(): boolean {
         return this.result_type_ == ResultType.END;
     }

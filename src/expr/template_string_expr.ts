@@ -5,7 +5,6 @@ export class TemplateStringExpr implements Expression {
     private value_type_: string;
     private template_parts_: Array<string | Expression>;
     constructor(template_parts_: Array<string | Expression>) {
-
         this.value_type_ = "string";
         this.template_parts_ = template_parts_;
     }

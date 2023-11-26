@@ -47,7 +47,22 @@ export class Instance {
 
             if (result.is_output()) {
                 // 是输出事件，发出中断请求
-                callback(new InterruptEvent(InterruptReason.OUTPUT, result.get_result()), 0);
+                await callback(new InterruptEvent(InterruptReason.OUTPUT, result.get_result()), 0);
+            }
+
+            if (result.is_menu()) {
+                // 需要在前端显示选项菜单
+                let menuInterruptEvent = new InterruptEvent(InterruptReason.SHOW_MENU, result.get_result());
+                menuInterruptEvent.set_menu(result.get_menu());
+                await callback(menuInterruptEvent, 0);
+                input = this.input_buffer_.shift();
+                if (input == undefined) {
+                    // 出bug了
+                    throw new Error("menu input is undefined");
+                }
+                // 有输入，直接执行
+                result = this.main_executor_.next(new ScriptInputEvent(input));
+                continue;
             }
 
             if (result.is_input()) {

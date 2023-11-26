@@ -34,6 +34,10 @@ chatbox{
     "looping" => {
         goto looping
     }
+    "start" => {
+        say "让我们来试试match吧"
+        goto Main_Menu
+    }
     default => {
         say "Sorry, I don't understand."
     }
@@ -47,7 +51,17 @@ topic looping {
     input times
     set i := 0
     loop when i < times {
-        say `This is the ${i + 1}th time`
+        if ( i % 10 = 0 ) => {
+            say `This is the ${i + 1}st time`
+        }
+        elif ( i % 10 = 1 ) => {
+            say `This is the ${i + 1}nd time`
+        }
+        elif ( i % 10 = 2 ) => {
+            say `This is the ${i + 1}rd time`
+        } else => {
+            say `This is the ${i + 1}th time`
+        }
         set i := i + 1
     }
     goto chatbox
