@@ -63,6 +63,10 @@ export class ResultEvent {
         return this.result_type_ == ResultType.END;
     }
 
+    is_exit(): boolean {
+        return this.result_type_ == ResultType.EXIT;
+    }
+    
     is_continue(): boolean {
         return this.result_type_ == ResultType.CONTINUE;
     }

@@ -23,14 +23,14 @@ export class TopicExecutor implements Executor {
         this.local_context_ = new Context();
         this.local_context_.set_global_context(context);
         this.index_ = 0;
-        this.children_[0].open(context);
+        this.children_[0].open(this.local_context_);
     }
 
     next(input: ScriptInputEvent): ResultEvent {
         let result = this.children_[this.index_].next(input);
         while (result.is_finished()) {
             let context = this.children_[this.index_].close();
-            this.local_context_.set_global_context(context);
+            this.local_context_ = context;
             this.index_++;
             if (this.index_ >= this.children_.length) {
                 return new ResultEvent(0, "", ResultType.END);

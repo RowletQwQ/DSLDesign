@@ -26,7 +26,7 @@ export class WhenSilenceExecutor implements Executor {
         let result = this.children_[this.current_index_].next(input);
         while (result.is_finished()) {
             let context = this.children_[this.current_index_].close();
-            this.local_context_.set_upper_context(context);
+            this.local_context_ = context;
             this.current_index_++;
             if (this.current_index_ >= this.children_.length) {
                 return new ResultEvent(0,"",ResultType.END);

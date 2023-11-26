@@ -39,7 +39,7 @@ export class Instance {
         let input = this.input_buffer_.shift();
         let result = this.main_executor_.next(new ScriptInputEvent(input));
 
-        while (!result.is_finished()) {
+        while (!result.is_exit() && !result.is_finished()) {
             // 在此处不应该出现break和continue
             if (result.is_break() || result.is_continue()) {
                 throw new Error("break and continue should only be used in loop");
@@ -71,10 +71,11 @@ export class Instance {
                 result = this.main_executor_.next(new ScriptInputEvent(undefined));
             }
         }
-        
+
         // 执行完毕
-        callback(new InterruptEvent(InterruptReason.EXIT, result.get_result()), 0);
         this.main_executor_.close();
+        callback(new InterruptEvent(InterruptReason.EXIT, result.get_result()), 0);
+        
     }
 
     push_input(input: string): void {

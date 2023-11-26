@@ -11,6 +11,7 @@ export class Context {
     constructor() {
         this.symbol_table_ = new Map<string, boolean | number | string | JsonObj | undefined>();
         this.global_context_ = undefined;
+        this.upper_context_ = undefined;
     }
 
     // 设置全局上下文
@@ -60,7 +61,11 @@ export class Context {
         if (value != undefined) {
             return value;
         }
-        // 如果不在当前上下文中，则从全局上下文中获取
+        // 如果不在当前上下文，则从上层上下文中获取
+        if (this.upper_context_ != undefined) {
+            return this.upper_context_.get_symbol(name);
+        }
+        // 如果没有上层上下文，则从全局上下文中获取
         if (this.global_context_ != undefined) {
             return this.global_context_.get_symbol(name);
         }

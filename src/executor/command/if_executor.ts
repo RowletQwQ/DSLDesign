@@ -49,7 +49,7 @@ export class IfExecutor implements Executor {
         }
         if (result) {
             // 满足条件，执行if分支
-            this.children_[this.current_index_].open(context);
+            this.children_[this.current_index_].open(this.local_context_);
         } else {
             // 不满足条件，执行else分支
             // 只有最后一个else if存在else分支，故可以这么写
@@ -59,7 +59,7 @@ export class IfExecutor implements Executor {
             } else {
                 this.children_ = this.else_command_seq_;
                 if (this.children_.length != 0) {
-                    this.children_[this.current_index_].open(context);
+                    this.children_[this.current_index_].open(this.local_context_);
                 }
             }
         }
@@ -77,7 +77,7 @@ export class IfExecutor implements Executor {
         let result = this.children_[this.current_index_].next(input);
         while (result.is_finished()) {
             let context = this.children_[this.current_index_].close();
-            this.local_context_.set_upper_context(context);
+            this.local_context_ = context;
             this.current_index_++;
             if (this.current_index_ >= this.children_.length) {
                 return new ResultEvent(0,"",ResultType.END);

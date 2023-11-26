@@ -35,7 +35,7 @@ export class HelloExecutor implements Executor {
         let result = this.children_[this.index_].next(input);
         while (result.is_finished()) {
             let context = this.children_[this.index_].close();
-            this.local_context_.set_global_context(context);
+            this.local_context_ = context;
             this.index_++;
             if (this.index_ >= this.children_.length) {
                 return new ResultEvent(0, "", ResultType.END);

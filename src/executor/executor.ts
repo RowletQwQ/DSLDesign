@@ -47,7 +47,7 @@ export interface Executor {
     /**
      * 关闭命令
      * 会销毁命令对应的资源
-     * 会返回全局上下文
+     * 会返回当前执行器的上层上下文
      */
     close(): Context;
 

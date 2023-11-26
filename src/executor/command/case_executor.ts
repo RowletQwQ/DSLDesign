@@ -27,14 +27,14 @@ export class CaseExecutor implements Executor {
         this.current_index_ = 0;
         this.local_context_ = new Context();
         this.local_context_.set_upper_context(context);
-        this.children_[this.current_index_].open(context);
+        this.children_[this.current_index_].open(this.local_context_);
     }
 
     next(input: ScriptInputEvent): ResultEvent {
         let result = this.children_[this.current_index_].next(input);
         while (result.is_finished()) {
             let context = this.children_[this.current_index_].close();
-            this.local_context_.set_upper_context(context);
+            this.local_context_ = context;
             this.current_index_++;
             if (this.current_index_ >= this.children_.length) {
                 return new ResultEvent(0,"",ResultType.END);

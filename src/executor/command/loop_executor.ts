@@ -39,33 +39,29 @@ export class LoopExecutor implements Executor {
     next(input: ScriptInputEvent): ResultEvent {
         if (this.in_command_) {
             let result = this.children_[this.current_index_].next(input);
-            if (result.is_finished()) {
-                this.in_command_ = false;
+            while (result.is_finished()) {
                 let context = this.children_[this.current_index_].close();
-                this.local_context_.set_global_context(context);
+                this.local_context_ = context;
                 this.current_index_++;
                 if (this.current_index_ == this.children_.length) {
-                    // 检查是否需要继续循环
-                    if (this.condition_expr_ != null) {
-                        let condition = this.condition_expr_.get_value(this.local_context_);
-                        if (condition != "true") {
-                            return new ResultEvent(0, "Condition not Fix,Break the Loop", ResultType.END);
-                        }
-                    }
+                    // 本轮循环结束
+                    this.in_command_ = false;
                     this.current_index_ = 0;
                     return new ResultEvent(0, "Continue Looping", ResultType.SUCCESS);
                 }
+                this.children_[this.current_index_].open(this.local_context_);
+                result = this.children_[this.current_index_].next(input);
             }
 
             if (result.is_continue()) {
                 // 继续循环
                 this.in_command_ = false;
                 let context = this.children_[this.current_index_].close();
-                this.local_context_.set_global_context(context);
+                this.local_context_ = context;
                 // 检查是否需要继续循环
                 if (this.condition_expr_ != null) {
                     let condition = this.condition_expr_.get_value(this.local_context_);
-                    if (condition != "true") {
+                    if (!condition) {
                         return new ResultEvent(0, "Break Loop", ResultType.END);
                     }
                 }
@@ -75,13 +71,22 @@ export class LoopExecutor implements Executor {
             if (result.is_break()) {
                 this.in_command_ = false;
                 let context = this.children_[this.current_index_].close();
-                this.local_context_.set_global_context(context);
+                this.local_context_ = context;
                 return new ResultEvent(0, "Break Loop", ResultType.END);
             }
             // 其他情况，直接返回
             return result;
         }
         // 如果还没有打开，那么打开当前的executor
+        // 检查是否需要进入循环
+        if (this.condition_expr_ != null) {
+            let condition = this.condition_expr_.get_value(this.local_context_);
+            if (!condition) {
+                // 不满足条件，退出循环
+                this.in_command_ = false;
+                return new ResultEvent(0, "Condition not Fix,Break the Loop", ResultType.END);
+            }
+        }
         this.children_[this.current_index_].open(this.local_context_);
         this.in_command_ = true;
         return new ResultEvent(0, "Enter Looping", ResultType.SUCCESS);

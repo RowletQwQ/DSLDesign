@@ -42,58 +42,72 @@ export class ExpressionVisitor extends cslVisitor<Expression>
     */
     override visitLogical_or_expression = (ctx: Logical_or_expressionContext): Expression => {
         let expr: Expression;
-        let left = this.visit(ctx.logical_and_expression());
-        if (left == undefined) {
+        let right = this.visit(ctx.logical_and_expression());
+        if (right == undefined) {
             throw new Error("Logical or expression Parse error: No logical and expression");
         }
-        let right: Expression | null;
-        right = null;
+        let left: Expression | null;
+        left = null;
         let logical_or_stmt = ctx.logical_or_expression();
         if (logical_or_stmt != undefined) {
-            right = this.visit(logical_or_stmt);
+            left = this.visit(logical_or_stmt);
         }
-        if (right == null) {
-            expr = left;
+        if (left == null) {
+            expr = right;
         } else {
             expr = new ConjunctionExpr(left, right, ConjunctionExprType.OR);
         }
         return expr;
     }
 
+    /**
+     * logical_and_expression: logical_and_expression AND equality_expression
+                       | equality_expression;
+     * @param ctx Logical_and_expressionContext
+     * @returns Expression
+     */
     override visitLogical_and_expression = (ctx: Logical_and_expressionContext): Expression =>{
         let expr: Expression;
-        let left = this.visit(ctx.equality_expression());
-        if (left == undefined) {
+        let right = this.visit(ctx.equality_expression());
+        if (right == undefined) {
             throw new Error("Logical and expression Parse error: No equality expression");
         }
-        let right: Expression | null;
-        right = null;
+        let left: Expression | null;
+        left = null;
         let logical_and_stmt = ctx.logical_and_expression();
         if (logical_and_stmt != undefined) {
-            right = this.visit(logical_and_stmt);
+            left = this.visit(logical_and_stmt);
         }
-        if (right == null) {
-            expr = left;
+        if (left == null) {
+            expr = right;
         } else {
             expr = new ConjunctionExpr(left, right, ConjunctionExprType.AND);
         }
         return expr;
     }
 
+
+    /**
+     * equality_expression: equality_expression EQUAL relational_expression
+                     | equality_expression NOT_EQUAL relational_expression    
+                     | relational_expression;
+     * @param ctx Equality_expressionContext
+     * @returns Expression
+     */
     override visitEquality_expression = (ctx: Equality_expressionContext): Expression => {
         let expr: Expression;
-        let left = this.visit(ctx.relational_expression());
-        if (left == undefined) {
+        let right = this.visit(ctx.relational_expression());
+        if (right == undefined) {
             throw new Error("Equality expression Parse error: No relational expression");
         }
-        let right: Expression | null;
-        right = null;
+        let left: Expression | null;
+        left = null;
         let equality_stmt = ctx.equality_expression();
         if (equality_stmt != undefined) {
-            right = this.visit(equality_stmt);
+            left = this.visit(equality_stmt);
         }
-        if (right == null) {
-            expr = left;
+        if (left == null) {
+            expr = right;
         } else {
             let operator = ctx.EQUAL() != undefined ? ComparisonExprType.EQUAL : ComparisonExprType.NOT_EQUAL;
             expr = new ComparisonExpr(left, right, operator);
@@ -101,17 +115,27 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         return expr;
     }
 
+
+    /**
+     * relational_expression: relational_expression GREATER additive_expression
+                      | relational_expression GREATER_EQUAL additive_expression
+                      | relational_expression LESS additive_expression
+                      | relational_expression LESS_EQUAL additive_expression
+                      | additive_expression;
+     * @param ctx Relational_expressionContext
+     * @returns Expression
+     */
     override visitRelational_expression = (ctx: Relational_expressionContext): Expression => {
         let expr: Expression;
-        let left = this.visitAdditive_expression(ctx.additive_expression());
-        let right: Expression | undefined;
-        right = undefined;
+        let right = this.visitAdditive_expression(ctx.additive_expression());
+        let left: Expression | undefined;
+        left = undefined;
         let relational_stmt = ctx.relational_expression();
         if (relational_stmt != undefined) {
-            right = this.visitRelational_expression(relational_stmt);
+            left = this.visitRelational_expression(relational_stmt);
         }
-        if (right == undefined) {
-            expr = left;
+        if (left == undefined) {
+            expr = right;
         } else {
             let operator = ctx.GREATER() != undefined ? ComparisonExprType.GREATER :
                        ctx.GREATER_EQUAL() != undefined ? ComparisonExprType.GREATER_EQUAL :
@@ -122,17 +146,24 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         return expr;
     }
 
+    /**
+     * additive_expression: additive_expression PLUS multiplicative_expression
+                     | additive_expression MINUS multiplicative_expression
+                     | multiplicative_expression;
+     * @param ctx Additive_expressionContext
+     * @returns Expression
+     */
     override visitAdditive_expression = (ctx: Additive_expressionContext): Expression =>{
         let expr: Expression;
-        let left = this.visitMultiplicative_expression(ctx.multiplicative_expression());
-        let right: Expression | undefined;
-        right = undefined;
+        let right = this.visitMultiplicative_expression(ctx.multiplicative_expression());
+        let left: Expression | undefined;
+        left = undefined;
         let additive_stmt = ctx.additive_expression();
         if (additive_stmt != undefined) {
-            right = this.visitAdditive_expression(additive_stmt);
+            left = this.visitAdditive_expression(additive_stmt);
         }
-        if (right == undefined) {
-            expr = left;
+        if (left == undefined) {
+            expr = right;
         } else {
             let operator = ctx.PLUS() != undefined ? ArithmeticExprType.ADD 
                            : ArithmeticExprType.SUB;
@@ -141,17 +172,25 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         return expr;
     }
 
+    /**
+     * multiplicative_expression: multiplicative_expression MULTIPLY unary_expression
+                          | multiplicative_expression DIVIDE unary_expression
+                          | multiplicative_expression MOD unary_expression
+                          | unary_expression;
+     * @param ctx Multiplicative_expressionContext
+     * @returns Expression
+     */
     override visitMultiplicative_expression = (ctx: Multiplicative_expressionContext): Expression =>{
         let expr: Expression;
-        let left = this.visitUnary_expression(ctx.unary_expression());
-        let right: Expression | undefined;
-        right = undefined;
+        let right = this.visitUnary_expression(ctx.unary_expression());
+        let left: Expression | undefined;
+        left = undefined;
         let multiplicative_stmt = ctx.multiplicative_expression();
         if (multiplicative_stmt != undefined) {
-            right = this.visitMultiplicative_expression(multiplicative_stmt);
+            left = this.visitMultiplicative_expression(multiplicative_stmt);
         }
-        if (right == undefined) {
-            expr = left;
+        if (left == undefined) {
+            expr = right;
         } else {
             let operator = ctx.MULTIPLY() != undefined ? ArithmeticExprType.MUL 
                            : ctx.DIVIDE() != undefined ? ArithmeticExprType.DIV 

@@ -35,9 +35,8 @@ NOT: 'not';
 /* constance */
 STRING: '"' ('\\"'|~["])* '"' | '\'' ('\\\''|~['])* '\'';
 QUOTE: ('"' | '\'');
-DIGIT: [0-9]+;
-INTS: DIGIT+;
-FLOATS: DIGIT+ '.' DIGIT+;
+INTS: [0-9]+;
+FLOATS: [0-9]+ '.' [0-9]+;
 
 /* operator */
 ARROW: '=>';

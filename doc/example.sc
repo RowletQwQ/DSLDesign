@@ -27,12 +27,43 @@ chatbox{
         say "Goodbye!"
         exit
     }
+    "calculate" => {
+        say "Please input your expression:"
+        goto calculate
+    }
+    "looping" => {
+        goto looping
+    }
     default => {
         say "Sorry, I don't understand."
     }
+
+    
     
 }
 
+topic looping {
+    say "Please input the number of times you want to loop:"
+    input times
+    set i := 0
+    loop when i < times {
+        say `This is the ${i + 1}th time`
+        set i := i + 1
+    }
+    goto chatbox
+}
+
+topic calculate {
+    say "Please input val1:"
+    input val1
+    say "Please input val2:"
+    input val2
+    say `The result of addition is ${val1 + val2}`
+    say `The result of subtraction is ${val1 - val2}`
+    say `The result of multiplication is ${val1 * val2}`
+    say `The result of division is ${val1 / val2}`
+    goto chatbox
+}
 topic version{
     say `My version is ${version}`
     goto chatbox

@@ -4,6 +4,7 @@ import { SessionStage } from './session/session_stage.js';
 import { SessionEvent } from './event/session_event.js';
 import { InterruptReason } from './event/interrupt_event.js';
 import { createInterface } from 'readline';
+import { exit } from 'process';
 
 
 const rl = createInterface({
@@ -51,13 +52,16 @@ try {
                 resolve();
             } else if (interrupt_event.get_reason() == InterruptReason.ERROR) {
                 reject(new Error(interrupt_event.get_description()));
-            } else {
-                resolve();
+            } else if (interrupt_event.get_reason() == InterruptReason.EXIT){
+                console.log("Chatbot exit");
+                exit(0);
             }
         });
     }).catch((error) => {
         console.log(error);
+        exit(1);
     });
+    
 } catch (error) {
     console.log(error);
 }
