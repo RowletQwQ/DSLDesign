@@ -43,6 +43,10 @@ import { WhenStmt } from "../stmt/command/when_stmt.js";
  */
 export class CommandExecutor implements Executor {
     private executor_: Executor;
+    /**
+     * Creates a new CommandExecutor instance.
+     * @param stmt The command statement to be executed.
+     */
     constructor (stmt: CommandStmt) {
         let command_type = stmt.get_cmd_type();
         switch(command_type) {
@@ -112,21 +116,38 @@ export class CommandExecutor implements Executor {
         }
     }
     
+    /**
+     * Opens the context.
+     * 
+     * @param context - The context to open.
+     */
     open(context: Context): void {
         this.executor_.open(context);
     }
 
+    /**
+     * Executes the next command in the script.
+     * @param input The input event for the script.
+     * @returns The result event of the executed command.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         return this.executor_.next(input);
     }
 
+    /**
+     * Closes the executor and returns the context.
+     * @returns The context after closing the executor.
+     */
     close(): Context {
         return this.executor_.close();
     }
 
+    /**
+     * Gets the type of the executor.
+     * @returns {ExecutorType} The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.COMMAND;
     }
-
 
 }

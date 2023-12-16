@@ -6,12 +6,20 @@ import { TemplateStringExpr } from "../../expr/template_string_expr.js";
 import { FetchStmt } from "../../stmt/command/fetch_stmt.js";
 import { Executor, ExecutorType } from "../executor.js";
 
+/**
+ * Represents an executor for fetching data from a URL.
+ */
 export class FetchExecutor implements Executor {
     private url_: URL;
     private url_expr_: TemplateStringExpr | null = null;
     private url_str_: string | null = null;
     private target_id_: string;
     private upper_context_: Context;
+
+    /**
+     * Creates a new instance of FetchExecutor.
+     * @param stmt The fetch statement.
+     */
     constructor(stmt: FetchStmt) {
         this.target_id_ = stmt.get_target_id();
         let url = stmt.get_url();
@@ -21,9 +29,19 @@ export class FetchExecutor implements Executor {
             this.url_str_ = url;
         }
     }
+
+    /**
+     * Gets the type of the executor.
+     * @returns The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.FETCH;
     }
+
+    /**
+     * Opens the executor and initializes the context.
+     * @param context The execution context.
+     */
     open(context: Context): void {
         this.upper_context_ = context;
         if (this.url_str_ == null) {
@@ -39,22 +57,33 @@ export class FetchExecutor implements Executor {
             this.url_ = new URL(this.url_str_);
         }
     }
+
+    /**
+     * Processes the next input event and returns the result event.
+     * @param input The input event.
+     * @returns The result event.
+     */
     next(input: ScriptInputEvent): ResultEvent {
-        // 向着url发起GET请求
+        // Send a GET request to the URL
         fetch(this.url_)
             .then(response => response.json())
             .then(data => {
-                // 处理响应数据
+                // Process the response data
                 this.upper_context_.set_symbol(this.target_id_, data);
             })
             .catch(error => {
-                // 处理错误
+                // Handle the error
                 return new ResultEvent(-1, error.toString(), ResultType.ERROR);
             });
 
-        // 设置结束
+        // Set the execution as finished
         return new ResultEvent(0, "", ResultType.END);
     }
+
+    /**
+     * Closes the executor and returns the updated context.
+     * @returns The updated context.
+     */
     close(): Context {
         return this.upper_context_;
     }

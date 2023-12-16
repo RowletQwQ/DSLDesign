@@ -6,6 +6,9 @@ import { IfStmt } from "../../stmt/command/if_stmt.js";
 import { CommandExecutor } from "../command_executor.js";
 import { Executor, ExecutorType } from "../executor.js";
 
+/**
+ * Represents an executor for the "if" statement.
+ */
 export class IfExecutor implements Executor {
     private condition_expr_: Expression;
     private children_: Executor[];
@@ -15,6 +18,11 @@ export class IfExecutor implements Executor {
     private branch_executor_: IfExecutor | null = null;
     private else_command_seq_: Executor[];
     private local_context_: Context = new Context();
+
+    /**
+     * Constructs a new IfExecutor instance.
+     * @param stmt The IfStmt object representing the "if" statement.
+     */
     constructor(stmt: IfStmt){
         this.local_context_ = new Context();
         this.condition_expr_ = stmt.get_condition();
@@ -35,9 +43,19 @@ export class IfExecutor implements Executor {
             }
         }
     }
+
+    /**
+     * Gets the executor type.
+     * @returns The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.IF;
     }
+
+    /**
+     * Opens the executor.
+     * @param context The context object.
+     */
     open(context: Context): void {
         this.current_index_ = 0;
         this.in_branch_ = false;
@@ -66,6 +84,12 @@ export class IfExecutor implements Executor {
             }
         }
     }
+
+    /**
+     * Moves to the next step in the execution.
+     * @param input The script input event.
+     * @returns The result event.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         if (this.in_branch_ && this.branch_executor_ !== null) {
             // 如果判断满足else if条件，执行else if分支
@@ -89,6 +113,11 @@ export class IfExecutor implements Executor {
         }
         return result;
     }
+
+    /**
+     * Closes the executor and returns the context.
+     * @returns The context object.
+     */
     close(): Context {
         if (this.in_branch_ && this.branch_executor_ !== null) {
             // 如果判断满足else if条件，执行else if分支
@@ -109,6 +138,5 @@ export class IfExecutor implements Executor {
             throw new Error("CaseExecutor should have upper context");
         }
         return upper_context;
-        
     }
 }

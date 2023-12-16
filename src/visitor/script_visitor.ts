@@ -7,11 +7,18 @@ import { ConstanceVisitor } from "./constance_visitor.js";
 import { HelloVisitor } from "./hello_visitor.js";
 import { TopicVisitor } from "./topic_visitor.js";
 
+/**
+ * Represents a visitor for the ScriptStmt AST node.
+ */
 export class ScriptVisitor extends cslVisitor<ScriptStmt> {
     private chatbox_visitor_: ChatBoxVisitor;
     private topic_visitor_: TopicVisitor;
     private hello_visitor_: HelloVisitor;
     private constance_visitor_: ConstanceVisitor;
+
+    /**
+     * Constructs a new instance of the ScriptVisitor class.
+     */
     constructor() {
         super();
         this.chatbox_visitor_ = new ChatBoxVisitor();
@@ -20,6 +27,12 @@ export class ScriptVisitor extends cslVisitor<ScriptStmt> {
         this.constance_visitor_ = new ConstanceVisitor();
     }
 
+    /**
+     * Visits the ScriptContext and returns the corresponding ScriptStmt.
+     * @param ctx The ScriptContext to visit.
+     * @returns The ScriptStmt.
+     * @throws Error if there are multiple constance statements, multiple hello statements, or if there is not exactly one chatbox statement.
+     */
     override visitScript = (ctx: ScriptContext): ScriptStmt => {
         let constance_stmt = ctx.constance_stmt();
         let topic_stmt = ctx.topic_stmt();
@@ -29,7 +42,6 @@ export class ScriptVisitor extends cslVisitor<ScriptStmt> {
         let constance: Stmt | null = null;
         let topic: Stmt[] = [];
         let hello: Stmt | null = null;
-        
 
         // 除了 Topic,chatbox 以外的其他语句都是可选的,且至多出现一次
         // ChatBox 语句必须出现一次
@@ -62,5 +74,4 @@ export class ScriptVisitor extends cslVisitor<ScriptStmt> {
 
         return new ScriptStmt(hello, chatbox, topic, constance);
     }
-
 }

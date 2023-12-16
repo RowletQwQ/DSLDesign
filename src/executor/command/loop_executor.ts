@@ -12,6 +12,7 @@ export class LoopExecutor implements Executor {
     private in_command_: boolean = false;
     private current_index_: number = 0;
     private local_context_: Context;
+    
     constructor(stmt: LoopStmt) {
         this.local_context_ = new Context();
         if (stmt.get_when_stmt() != null) {
@@ -27,15 +28,18 @@ export class LoopExecutor implements Executor {
             throw new Error("LoopStmt must have at least one command.");
         }
     }
+
     get_executor_type(): ExecutorType {
         return ExecutorType.LOOP;
     }
+
     open(context: Context): void {
         this.local_context_ = new Context();
         this.local_context_.set_upper_context(context);
         this.current_index_ = 0;
         this.in_command_ = false;
     }
+
     next(input: ScriptInputEvent): ResultEvent {
         if (this.in_command_) {
             let result = this.children_[this.current_index_].next(input);
@@ -91,6 +95,7 @@ export class LoopExecutor implements Executor {
         this.in_command_ = true;
         return new ResultEvent(0, "Enter Looping", ResultType.SUCCESS);
     }
+
     close(): Context {
         // 返回上层context
         let upper_context = this.local_context_.get_upper_context();

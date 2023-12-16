@@ -18,6 +18,9 @@ export enum ResultType {
     ERROR,      // 发生错误
 }
 
+/**
+ * Represents a result event.
+ */
 export class ResultEvent {
     private return_code_: number;
     private result_: string;
@@ -25,6 +28,13 @@ export class ResultEvent {
     private timer_: number; // 当输入时，需要设置一个超时时间
     private menu_: string[] = []; // 当需要菜单时，需要设置菜单内容
 
+    /**
+     * Creates a new instance of ResultEvent.
+     * @param return_code The return code.
+     * @param result The result.
+     * @param result_type The result type.
+     * @param timer The timer (optional).
+     */
     constructor(return_code: number, 
                 result: string, 
                 result_type: ResultType, 
@@ -35,54 +45,106 @@ export class ResultEvent {
         this.timer_ = timer;
     }
 
+    /**
+     * Sets the menu.
+     * @param menu The menu to set.
+     */
     set_menu(menu: string[]) {
         this.menu_ = menu;
     }
 
+    /**
+     * Gets the menu.
+     * @returns The menu.
+     */
     get_menu(): string[] {
         return this.menu_;
     }
 
+    /**
+     * Gets the return code.
+     * @returns The return code.
+     */
     get_return_code(): number {
         return this.return_code_;
     }
 
+    /**
+     * Gets the result.
+     * @returns The result.
+     */
     get_result(): string {
         return this.result_;
     }
 
+    /**
+     * Gets the result type.
+     * @returns The result type.
+     */
     get_result_type(): ResultType {
         return this.result_type_;
     }
 
+    /**
+     * Gets the timer.
+     * @returns The timer.
+     */
     get_timer(): number {
         return this.timer_;
     }
 
+    /**
+     * Checks if the result type is MENU.
+     * @returns True if the result type is MENU, false otherwise.
+     */
     is_menu(): boolean {
         return this.result_type_ == ResultType.MENU;
     }
 
+    /**
+     * Checks if the result type is END.
+     * @returns True if the result type is END, false otherwise.
+     */
     is_finished(): boolean {
         return this.result_type_ == ResultType.END;
     }
 
+    /**
+     * Checks if the result type is EXIT.
+     * @returns True if the result type is EXIT, false otherwise.
+     */
     is_exit(): boolean {
         return this.result_type_ == ResultType.EXIT;
     }
     
+    /**
+     * Checks if the result type is CONTINUE.
+     * @returns True if the result type is CONTINUE, false otherwise.
+     */
     is_continue(): boolean {
         return this.result_type_ == ResultType.CONTINUE;
     }
 
+    /**
+     * Checks if the result type is INPUT.
+     * @returns True if the result type is INPUT, false otherwise.
+     */
     is_input(): boolean {
         return this.result_type_ == ResultType.INPUT;
     }
 
+    /**
+     * Checks if the result type is OUTPUT.
+     * @returns True if the result type is OUTPUT, false otherwise.
+     */
     is_output(): boolean {
         return this.result_type_ == ResultType.OUTPUT;
     }
 
+    /**
+     * Checks if the result type is BREAK.
+     * @returns True if the result type is BREAK, false otherwise.
+     */
     is_break(): boolean {
         return this.result_type_ == ResultType.BREAK;
     }

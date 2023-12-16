@@ -32,6 +32,8 @@ POST: 'post';
 OR: 'or';
 AND: 'and';
 NOT: 'not';
+TRUE: 'true';
+FALSE: 'false';
 /* constance */
 STRING: '"' ('\\"'|~["])* '"' | '\'' ('\\\''|~['])* '\'';
 QUOTE: ('"' | '\'');
@@ -196,8 +198,11 @@ postfix_expression: primary_expression
 primary_expression: ID
                   | value
                   | LPAREN expression RPAREN;
+                  
 
 
 value: INTS
     | FLOATS
-    | STRING;
+    | STRING
+    | TRUE
+    | FALSE;

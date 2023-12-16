@@ -14,18 +14,32 @@ export enum ExprType {
 
 
 
+/**
+ * 表达式接口
+ */
 export interface Expression {
-    // 利用应用上下文来获取表达式的值
+    /**
+     * 利用应用上下文来获取表达式的值
+     * @param context 应用上下文
+     * @returns 表达式的值
+     */
     get_value(context: Context): string | number | boolean | undefined;
 
-    // 不利用上下文，直接计算表达式的值，用于表达式优化
+    /**
+     * 不利用上下文，直接计算表达式的值，用于表达式优化
+     * @returns 表达式的值
+     */
     try_get_value(): string | number | boolean | undefined;
 
-    // 获取表达式的类型
+    /**
+     * 获取表达式的类型
+     * @returns 表达式的类型
+     */
     get_type(): ExprType;
 
-    // 获取表达式的值类型
+    /**
+     * 获取表达式的值类型
+     * @returns 表达式的值类型
+     */
     get_value_type(): string;
-
-    
 }

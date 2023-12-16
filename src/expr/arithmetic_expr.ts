@@ -10,12 +10,21 @@ export enum ArithmeticExprType {
     NEG,
 }
 
+/**
+ * Represents an arithmetic expression.
+ */
 export class ArithmeticExpr implements Expression {
     private left_: Expression;
     private right_: Expression;
     private type_: ArithmeticExprType;
     private value_type_: string;
 
+    /**
+     * Constructs a new ArithmeticExpr object.
+     * @param left The left expression.
+     * @param right The right expression.
+     * @param type The type of arithmetic expression.
+     */
     constructor(left: Expression, right: Expression, type: ArithmeticExprType) {
         this.left_ = left;
         this.right_ = right;
@@ -23,15 +32,27 @@ export class ArithmeticExpr implements Expression {
         this.value_type_ = "undefined"
     }
 
+    /**
+     * Gets the type of the expression.
+     * @returns The expression type.
+     */
     get_type(): ExprType {
         return ExprType.ARITHMETIC;
     }
 
+    /**
+     * Gets the value type of the expression.
+     * @returns The value type.
+     */
     get_value_type(): string {
         return this.value_type_;
     }
 
-
+    /**
+     * Gets the value of the expression.
+     * @param context The context object.
+     * @returns The value of the expression.
+     */
     get_value(context: Context): string | number | boolean | undefined {
         let left_value = this.left_.get_value(context);
         let right_value = this.right_.get_value(context);
@@ -41,6 +62,10 @@ export class ArithmeticExpr implements Expression {
         return result;
     }
 
+    /**
+     * Tries to get the value of the expression.
+     * @returns The value of the expression.
+     */
     try_get_value(): string | number | boolean | undefined {
         let left_value = this.left_.try_get_value();
         let right_value = this.right_.try_get_value();
@@ -50,6 +75,13 @@ export class ArithmeticExpr implements Expression {
         return result;
     }
 
+    /**
+     * Calculates the result of an arithmetic expression.
+     * 
+     * @param left_value The left value of the expression.
+     * @param right_value The right value of the expression.
+     * @returns The result of the arithmetic expression.
+     */
     private calculate(left_value: string | number | boolean | undefined, 
                     right_value: string | number | boolean | undefined)
                     : string | number | boolean | undefined {

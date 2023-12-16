@@ -25,21 +25,31 @@ import { cslVisitor } from "../parser/cslVisitor.js";
 // ExpressionVisitor 类实现了 cslVisitor 接口
 // 用于解析表达式
 // 以下解析的顺序为优先级别顺序，越底层的优先级越高
-export class ExpressionVisitor extends cslVisitor<Expression>
-{
-    /* expression: logical_or_expression */
-    override visitExpression = (ctx: ExpressionContext): Expression =>{
+/**
+ * ExpressionVisitor class is responsible for visiting different types of expressions in the DSL.
+ * It extends the cslVisitor class.
+ */
+export class ExpressionVisitor extends cslVisitor<Expression> {
+    /**
+     * Visits the expression and returns the evaluated expression.
+     * @param ctx The expression context.
+     * @returns The evaluated expression.
+     * @throws Error if the expression parse error occurs.
+     */
+    override visitExpression = (ctx: ExpressionContext): Expression => {
         let expr = this.visit(ctx.logical_or_expression());
-        if ( expr == null) {
+        if (expr == null) {
             throw new Error("Expression Parse error");
         }
         return expr;
     }
 
-    /*
-    // logical_or_expression: logical_or_expression OR logical_and_expression
-    //                      | logical_and_expression; 
-    */
+    /**
+     * Visits the logical OR expression and returns the evaluated expression.
+     * @param ctx The logical OR expression context.
+     * @returns The evaluated expression.
+     * @throws Error if the logical OR expression parse error occurs.
+     */
     override visitLogical_or_expression = (ctx: Logical_or_expressionContext): Expression => {
         let expr: Expression;
         let right = this.visit(ctx.logical_and_expression());
@@ -61,12 +71,12 @@ export class ExpressionVisitor extends cslVisitor<Expression>
     }
 
     /**
-     * logical_and_expression: logical_and_expression AND equality_expression
-                       | equality_expression;
-     * @param ctx Logical_and_expressionContext
-     * @returns Expression
+     * Visits the logical AND expression and returns the evaluated expression.
+     * @param ctx The logical AND expression context.
+     * @returns The evaluated expression.
+     * @throws Error if the logical AND expression parse error occurs.
      */
-    override visitLogical_and_expression = (ctx: Logical_and_expressionContext): Expression =>{
+    override visitLogical_and_expression = (ctx: Logical_and_expressionContext): Expression => {
         let expr: Expression;
         let right = this.visit(ctx.equality_expression());
         if (right == undefined) {
@@ -86,13 +96,11 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         return expr;
     }
 
-
     /**
-     * equality_expression: equality_expression EQUAL relational_expression
-                     | equality_expression NOT_EQUAL relational_expression    
-                     | relational_expression;
-     * @param ctx Equality_expressionContext
-     * @returns Expression
+     * Visits the equality expression and returns the evaluated expression.
+     * @param ctx The equality expression context.
+     * @returns The evaluated expression.
+     * @throws Error if the equality expression parse error occurs.
      */
     override visitEquality_expression = (ctx: Equality_expressionContext): Expression => {
         let expr: Expression;
@@ -115,15 +123,10 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         return expr;
     }
 
-
     /**
-     * relational_expression: relational_expression GREATER additive_expression
-                      | relational_expression GREATER_EQUAL additive_expression
-                      | relational_expression LESS additive_expression
-                      | relational_expression LESS_EQUAL additive_expression
-                      | additive_expression;
-     * @param ctx Relational_expressionContext
-     * @returns Expression
+     * Visits the relational expression and returns the evaluated expression.
+     * @param ctx The relational expression context.
+     * @returns The evaluated expression.
      */
     override visitRelational_expression = (ctx: Relational_expressionContext): Expression => {
         let expr: Expression;
@@ -138,22 +141,20 @@ export class ExpressionVisitor extends cslVisitor<Expression>
             expr = right;
         } else {
             let operator = ctx.GREATER() != undefined ? ComparisonExprType.GREATER :
-                       ctx.GREATER_EQUAL() != undefined ? ComparisonExprType.GREATER_EQUAL :
-                       ctx.LESS() != undefined ? ComparisonExprType.LESS :
-                       ComparisonExprType.LESS_EQUAL;
+                ctx.GREATER_EQUAL() != undefined ? ComparisonExprType.GREATER_EQUAL :
+                    ctx.LESS() != undefined ? ComparisonExprType.LESS :
+                        ComparisonExprType.LESS_EQUAL;
             expr = new ComparisonExpr(left, right, operator);
         }
         return expr;
     }
 
     /**
-     * additive_expression: additive_expression PLUS multiplicative_expression
-                     | additive_expression MINUS multiplicative_expression
-                     | multiplicative_expression;
-     * @param ctx Additive_expressionContext
-     * @returns Expression
+     * Visits the additive expression and returns the evaluated expression.
+     * @param ctx The additive expression context.
+     * @returns The evaluated expression.
      */
-    override visitAdditive_expression = (ctx: Additive_expressionContext): Expression =>{
+    override visitAdditive_expression = (ctx: Additive_expressionContext): Expression => {
         let expr: Expression;
         let right = this.visitMultiplicative_expression(ctx.multiplicative_expression());
         let left: Expression | undefined;
@@ -165,22 +166,19 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         if (left == undefined) {
             expr = right;
         } else {
-            let operator = ctx.PLUS() != undefined ? ArithmeticExprType.ADD 
-                           : ArithmeticExprType.SUB;
+            let operator = ctx.PLUS() != undefined ? ArithmeticExprType.ADD
+                : ArithmeticExprType.SUB;
             expr = new ArithmeticExpr(left, right, operator);
         }
         return expr;
     }
 
     /**
-     * multiplicative_expression: multiplicative_expression MULTIPLY unary_expression
-                          | multiplicative_expression DIVIDE unary_expression
-                          | multiplicative_expression MOD unary_expression
-                          | unary_expression;
-     * @param ctx Multiplicative_expressionContext
-     * @returns Expression
+     * Visits the multiplicative expression and returns the evaluated expression.
+     * @param ctx The multiplicative expression context.
+     * @returns The evaluated expression.
      */
-    override visitMultiplicative_expression = (ctx: Multiplicative_expressionContext): Expression =>{
+    override visitMultiplicative_expression = (ctx: Multiplicative_expressionContext): Expression => {
         let expr: Expression;
         let right = this.visitUnary_expression(ctx.unary_expression());
         let left: Expression | undefined;
@@ -192,27 +190,32 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         if (left == undefined) {
             expr = right;
         } else {
-            let operator = ctx.MULTIPLY() != undefined ? ArithmeticExprType.MUL 
-                           : ctx.DIVIDE() != undefined ? ArithmeticExprType.DIV 
-                           : ArithmeticExprType.MOD;
+            let operator = ctx.MULTIPLY() != undefined ? ArithmeticExprType.MUL
+                : ctx.DIVIDE() != undefined ? ArithmeticExprType.DIV
+                    : ArithmeticExprType.MOD;
             expr = new ArithmeticExpr(left, right, operator);
         }
         return expr;
     }
 
-    // 一元运算符解析
-    override visitUnary_expression = (ctx: Unary_expressionContext): Expression =>{
+    /**
+     * Visits the unary expression and returns the evaluated expression.
+     * @param ctx The unary expression context.
+     * @returns The evaluated expression.
+     * @throws Error if the unary expression parse error occurs.
+     */
+    override visitUnary_expression = (ctx: Unary_expressionContext): Expression => {
         let expr: Expression;
         let postfix_expr = ctx.postfix_expression();
         if (postfix_expr != undefined) {
             expr = this.visitPostfix_expression(postfix_expr);
         } else {
-            let type = ctx.MINUS() != undefined ? UnaryExprType.NEGATIVE 
-                      : UnaryExprType.NOT;
+            let type = ctx.MINUS() != undefined ? UnaryExprType.NEGATIVE
+                : UnaryExprType.NOT;
             let unary_stmt = ctx.unary_expression();
             if (unary_stmt == undefined) {
-                throw new Error("Unary expression Parse error,No unary expression after" 
-                        + ctx.MINUS() != null ? "-" : "!");
+                throw new Error("Unary expression Parse error,No unary expression after" +
+                    ctx.MINUS() != null ? "-" : "!");
             }
             let unary_expr = this.visitUnary_expression(unary_stmt);
             expr = new UnaryExpression(unary_expr, type);
@@ -220,7 +223,13 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         return expr;
     }
 
-    override visitPostfix_expression = (ctx: Postfix_expressionContext): Expression =>{
+    /**
+     * Visits the postfix expression and returns the evaluated expression.
+     * @param ctx The postfix expression context.
+     * @returns The evaluated expression.
+     * @throws Error if the postfix expression parse error occurs.
+     */
+    override visitPostfix_expression = (ctx: Postfix_expressionContext): Expression => {
         let expr: Expression;
         let postfix_expr = ctx.postfix_expression();
         if (postfix_expr != undefined) {
@@ -234,8 +243,14 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         }
         return expr;
     }
-    
-    override visitPrimary_expression = (ctx: Primary_expressionContext): Expression =>{
+
+    /**
+     * Visits the primary expression and returns the evaluated expression.
+     * @param ctx The primary expression context.
+     * @returns The evaluated expression.
+     * @throws Error if the primary expression parse error occurs.
+     */
+    override visitPrimary_expression = (ctx: Primary_expressionContext): Expression => {
         let expr: Expression;
         let value_stmt = ctx.value();
         let field_stmt = ctx.ID();
@@ -244,7 +259,7 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         } else if (field_stmt != undefined) {
             expr = new FieldExpr(field_stmt.getText());
         } else {
-            // 括号表达式
+            // Parenthesized expression
             let expr_stmt = ctx.expression();
             if (expr_stmt == undefined) {
                 throw new Error("Primary expression Parse error,No expression between parentheses");
@@ -254,7 +269,12 @@ export class ExpressionVisitor extends cslVisitor<Expression>
         return expr;
     }
 
-    override visitValue = (ctx: ValueContext): Expression =>{
+    /**
+     * Visits the value and returns the evaluated expression.
+     * @param ctx The value context.
+     * @returns The evaluated expression.
+     */
+    override visitValue = (ctx: ValueContext): Expression => {
         let expr: Expression;
         let int_stmt = ctx.INTS();
         let float_stmt = ctx.FLOATS();
@@ -268,7 +288,11 @@ export class ExpressionVisitor extends cslVisitor<Expression>
             str = str.substring(1, str.length - 1);
             expr = new ValueExpr(str);
         } else {
-            throw new Error("Value expression Parse error");
+            if (ctx.TRUE() != undefined) {
+                expr = new ValueExpr(true);
+            } else {
+                expr = new ValueExpr(false);
+            }
         }
         return expr;
     }

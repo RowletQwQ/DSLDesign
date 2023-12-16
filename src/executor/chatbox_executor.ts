@@ -6,6 +6,9 @@ import { CommandExecutor } from "./command_executor.js";
 import { Executor, ExecutorType } from "./executor.js";
 
 // ChatBox需要有输入才能触发，所以open的时候不会初始化分支
+/**
+ * Represents a ChatBoxExecutor that implements the Executor interface.
+ */
 export class ChatBoxExecutor implements Executor {
     private children_: CommandExecutor[] = [];
     private index_: number = 0; // 当前执行的index
@@ -13,6 +16,11 @@ export class ChatBoxExecutor implements Executor {
     private jump_map_: Map<string, number>; // 跳转表
     private default_index_: number = -1; // 默认分支
     private local_context_: Context;
+
+    /**
+     * Creates an instance of ChatBoxExecutor.
+     * @param stmt The ChatBoxStmt object.
+     */
     constructor(stmt: ChatBoxStmt) {
         this.jump_map_ = new Map<string, number>();
         this.local_context_ = new Context();
@@ -31,6 +39,11 @@ export class ChatBoxExecutor implements Executor {
             this.children_.push(new CommandExecutor(stmt));
         }
     }
+
+    /**
+     * Opens the ChatBoxExecutor and sets the context.
+     * @param context The Context object.
+     */
     open(context: Context): void {
         // chatbox外层就是全局
         this.is_running_ = false;
@@ -38,6 +51,11 @@ export class ChatBoxExecutor implements Executor {
         this.local_context_.set_global_context(context);
     }
 
+    /**
+     * Moves to the next step in the execution.
+     * @param input The ScriptInputEvent object.
+     * @returns The ResultEvent object.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         if (!this.is_running_) {
             // 不在分支内,需要检查是否有input,如果有input则进入分支
@@ -67,6 +85,10 @@ export class ChatBoxExecutor implements Executor {
         return result;
     }
 
+    /**
+     * Closes the ChatBoxExecutor and returns the context.
+     * @returns The Context object.
+     */
     close(): Context {
         if (this.is_running_) {
             // GOTO跳出,需要保留context
@@ -80,6 +102,10 @@ export class ChatBoxExecutor implements Executor {
         return upper_context;
     }
 
+    /**
+     * Gets the executor type.
+     * @returns The ExecutorType.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.CHATBOX;
     }

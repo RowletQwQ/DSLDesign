@@ -5,10 +5,18 @@ import { HelloStmt } from "../stmt/hello_stmt.js";
 import { CommandExecutor } from "./command_executor.js";
 import { Executor, ExecutorType } from "./executor.js";
 
+/**
+ * Represents an executor for the HelloStmt.
+ */
 export class HelloExecutor implements Executor {
     private children_: CommandExecutor[] = [];
     private index_: number = 0;
     private local_context_: Context;
+
+    /**
+     * Creates a new instance of HelloExecutor.
+     * @param stmt The HelloStmt to be executed.
+     */
     constructor(stmt: HelloStmt) {
         this.local_context_ = new Context();
         let stmts = stmt.get_command_seq();
@@ -16,6 +24,11 @@ export class HelloExecutor implements Executor {
             this.children_.push(new CommandExecutor(stmt));
         }
     }
+
+    /**
+     * Opens the executor and sets the initial context.
+     * @param context The global context.
+     */
     open(context: Context): void {
         // Hello语句的外层上下文为全局上下文
         this.local_context_ = new Context();
@@ -24,9 +37,13 @@ export class HelloExecutor implements Executor {
         if (this.children_.length != 0) {
             this.children_[0].open(context);
         }
-        
     }
 
+    /**
+     * Moves to the next step in the execution and returns the result.
+     * @param input The script input event.
+     * @returns The result event.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         if (this.children_.length == 0) {
             // 什么都不做
@@ -46,6 +63,10 @@ export class HelloExecutor implements Executor {
         return result;
     }
 
+    /**
+     * Closes the executor and returns the final context.
+     * @returns The final context.
+     */
     close(): Context {
         if (this.index_ < this.children_.length) {
             // GOTO退出
@@ -58,6 +79,10 @@ export class HelloExecutor implements Executor {
         return global_context;
     }
 
+    /**
+     * Gets the executor type.
+     * @returns The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.HELLO;
     }

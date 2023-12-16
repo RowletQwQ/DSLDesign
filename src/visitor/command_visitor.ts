@@ -33,11 +33,20 @@ import { ExitStmt } from "../stmt/command/exit_stmt.js";
 export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     private expr_visitor_: ExpressionVisitor;
     private template_str_visitor_: TemplateStringVisitor;
+    /**
+     * Creates an instance of CommandVisitor.
+     */
     constructor() {
         super();
         this.expr_visitor_ = new ExpressionVisitor();
         this.template_str_visitor_ = new TemplateStringVisitor();
     }
+    /**
+     * Visits the Command_sequnces context and returns an array of CommandStmt objects.
+     * 
+     * @param ctx The Command_sequncesContext object to visit.
+     * @returns An array of CommandStmt objects.
+     */
     override visitCommand_sequnces = (ctx: Command_sequncesContext): CommandStmt [] =>{
         // 在这里实现访问 Command_sequnces 的逻辑
         let command_stmts = ctx.command_stmt();
@@ -51,6 +60,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
         return command_seq;
     }
     
+    /**
+     * Visits a command statement node in the DSL AST.
+     * 
+     * @param ctx The context object representing the command statement node.
+     * @returns The parsed command statement.
+     * @throws Error if the command parse error occurs.
+     */
     override visitCommand_stmt = (ctx: Command_stmtContext): CommandStmt =>{
         // visitChildren会返回最后一个非空的子节点的返回值
         let command = this.visitChildren(ctx);
@@ -60,9 +76,15 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
         return command;
     }
 
-    // 以下是对应语法
 
     // assert 语句
+    /**
+     * Visits an assert statement context and returns a CommandStmt object.
+     * 
+     * @param ctx The assert statement context to visit.
+     * @returns A CommandStmt object representing the assert statement.
+     * @throws Error if there is a parse error or the expression is invalid.
+     */
     override visitAssert_stmt = (ctx: Assert_stmtContext): CommandStmt =>{
         let expr = this.expr_visitor_.visit(ctx.expression());
         if (expr instanceof Array || expr == null) {
@@ -72,11 +94,24 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // break 命令
+    /**
+     * Visits a Break_stmtContext and returns a CommandStmt representing a break statement.
+     * 
+     * @param ctx The Break_stmtContext to visit.
+     * @returns A CommandStmt representing a break statement.
+     */
     override visitBreak_stmt = (ctx: Break_stmtContext): CommandStmt => {
         return new BreakStmt();
     }
 
     // case分支
+    /**
+     * Visits the case_list production rule in the DSLDesign grammar.
+     * 
+     * @param ctx - The Case_listContext object representing the parse tree node.
+     * @returns An array of CommandStmt objects representing the visited case_list.
+     * @throws Error if there is a parse error in the case_list.
+     */
     override visitCase_list = (ctx: Case_listContext): CommandStmt[] => {
         let case_list_stmt = ctx.case_list();
         let case_list : CommandStmt[];
@@ -94,6 +129,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
         return case_list;
     }
 
+    /**
+     * Visits a case branch in the DSLDesign language.
+     * 
+     * @param ctx - The context representing the case branch.
+     * @returns The command statement representing the case branch.
+     * @throws Error if there is a parse error in the case branch.
+     */
     override visitCase_branch = (ctx: Case_branchContext): CommandStmt => {
         let pattern_stmt = ctx.expression();
         if (pattern_stmt == null) {
@@ -122,6 +164,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
         return new CaseStmt(command_stmts, pattern, false);
     }
 
+    /**
+     * Visits the default branch of a DSL command.
+     * 
+     * @param ctx - The context of the default branch.
+     * @returns The command statement representing the default branch.
+     * @throws Error if there is a parse error in the default branch.
+     */
     override visitDefault_branch = (ctx: Default_branchContext): CommandStmt => {
         let pattern = "";
         let command_seq_stmt = ctx.command_sequnces();
@@ -138,17 +187,37 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
         }
         return new CaseStmt(command_stmts, pattern, true);
     }
+
     // continue 命令
+    /**
+     * Visits a continue statement node in the AST.
+     * 
+     * @param ctx The continue statement context.
+     * @returns A CommandStmt representing the continue statement.
+     */
     override visitContinue_stmt = (ctx: Continue_stmtContext): CommandStmt => {
         return new ContinueStmt();
     }
 
     // exit 命令
+    /**
+     * Visits the exit statement context and returns a CommandStmt object.
+     * 
+     * @param ctx The exit statement context.
+     * @returns A CommandStmt object representing the exit statement.
+     */
     override visitExit_stmt = (ctx: Exit_stmtContext): CommandStmt => {
         return new ExitStmt();
     }
 
     // fetch 命令
+    /**
+     * Visits a fetch statement in the DSL and returns the corresponding CommandStmt object.
+     * 
+     * @param ctx - The fetch statement context.
+     * @returns The CommandStmt object representing the fetch statement.
+     * @throws Error if there is a parse error.
+     */
     override visitFetch_stmt = (ctx: Fetch_stmtContext): CommandStmt => {
         let url = ctx.STRING();
         let identifier = ctx.ID().toString();
@@ -167,6 +236,12 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
     
     // goto 命令
+    /**
+     * Visits a Goto_stmtContext and returns a CommandStmt.
+     * 
+     * @param ctx The Goto_stmtContext to visit.
+     * @returns A CommandStmt representing the visited Goto_stmtContext.
+     */
     override visitGoto_stmt = (ctx: Goto_stmtContext): CommandStmt => {
         let identifier = ctx.ID();
         if (identifier == null) {
@@ -176,6 +251,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // if语句
+    /**
+     * Visits an if statement context and returns a CommandStmt.
+     * 
+     * @param ctx - The if statement context to visit.
+     * @returns The CommandStmt representing the if statement.
+     * @throws Error if there is a parse error.
+     */
     override visitIf_stmt = (ctx: If_stmtContext): CommandStmt => {
         let expr = this.expr_visitor_.visit(ctx.expression());
         if (expr instanceof Array || expr == null) {
@@ -217,6 +299,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
         return new IfStmt(expr, command_stmts, else_if_instance, else_command_stmts);
     }
 
+    /**
+     * Visits the Else_if_stmtContext and returns a CommandStmt.
+     * 
+     * @param ctx The Else_if_stmtContext to visit.
+     * @returns A CommandStmt representing the else if statement.
+     * @throws Error if there is a parse error.
+     */
     override visitElse_if_stmt = (ctx: Else_if_stmtContext): CommandStmt => {
         let expr = this.expr_visitor_.visit(ctx.expression());
         if (expr instanceof Array || expr == null) {
@@ -249,6 +338,12 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // input 命令
+    /**
+     * Visits an input statement context and returns a CommandStmt object.
+     * 
+     * @param ctx The input statement context to visit.
+     * @returns A CommandStmt object representing the input statement.
+     */
     override visitInput_stmt = (ctx: Input_stmtContext): CommandStmt => {
         let identifier = ctx.ID().toString();
         let assert_stmt = ctx.assert_stmt();
@@ -265,6 +360,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // loop 语句
+    /**
+     * Visits a loop statement and returns a CommandStmt object.
+     * 
+     * @param ctx - The Loop_stmtContext object representing the loop statement.
+     * @returns A CommandStmt object representing the loop statement.
+     * @throws Error if there is a parse error in the loop statement.
+     */
     override visitLoop_stmt = (ctx: Loop_stmtContext): CommandStmt => {
         let command_seq_stmt = ctx.command_sequnces();
         if (command_seq_stmt == null) {
@@ -283,6 +385,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // match 语句
+    /**
+     * Visits a Match_stmtContext and returns a CommandStmt.
+     * 
+     * @param ctx The Match_stmtContext to visit.
+     * @returns A CommandStmt representing the visited Match_stmtContext.
+     * @throws Error if there is a parse error in the Match_stmtContext.
+     */
     override visitMatch_stmt = (ctx: Match_stmtContext): CommandStmt => {
         let match_list_stmt = ctx.case_list();
         if (match_list_stmt == null) {
@@ -305,6 +414,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     
 
     // menu 语句
+    /**
+     * Visits a Menu_stmt context and returns a CommandStmt object.
+     * 
+     * @param ctx - The Menu_stmtContext to visit.
+     * @returns A CommandStmt object representing the visited Menu_stmt.
+     * @throws Error if there is a parse error in the Menu_stmt.
+     */
     override visitMenu_stmt = (ctx: Menu_stmtContext): CommandStmt => {
         let match_list_stmt = ctx.case_list();
         if (match_list_stmt == null) {
@@ -315,6 +431,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // post 语句
+    /**
+     * Visits a Post_stmtContext and returns a CommandStmt object.
+     * 
+     * @param ctx - The Post_stmtContext to visit.
+     * @returns The CommandStmt object representing the visited Post_stmtContext.
+     * @throws Error if there is a parse error or if the fetch statement is invalid.
+     */
     override visitPost_stmt = (ctx: Post_stmtContext): CommandStmt => {
         let url = ctx.STRING();
         let identifier = ctx.ID().toString();
@@ -333,6 +456,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // say 语句
+    /**
+     * Visits the "say_stmt" production rule in the DSL grammar and returns a CommandStmt object.
+     * 
+     * @param ctx The Say_stmtContext object representing the parse tree node.
+     * @returns A CommandStmt object representing the "say_stmt" production rule.
+     * @throws Error if there is a parse error.
+     */
     override visitSay_stmt = (ctx: Say_stmtContext): CommandStmt => {
         let expr_stmt = ctx.expression();
         let template_str_stmt = ctx.template_string();
@@ -357,6 +487,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // set 语句
+    /**
+     * Visits an assign statement and returns a CommandStmt object.
+     * 
+     * @param ctx - The assign statement context.
+     * @returns The CommandStmt object representing the assign statement.
+     * @throws Error if there is a parse error in the assign statement.
+     */
     override visitAssign_stmt = (ctx: Assign_stmtContext): CommandStmt => {
         let identifier = ctx.ID().toString();
         let expr_stmt = ctx.expression();
@@ -371,6 +508,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // set global 语句
+    /**
+     * Visits an Assign_global_stmtContext and returns a CommandStmt.
+     * 
+     * @param ctx The Assign_global_stmtContext to visit.
+     * @returns A CommandStmt representing the assignment statement.
+     * @throws Error if there is a parse error or the expression is invalid.
+     */
     override visitAssign_global_stmt = (ctx: Assign_global_stmtContext): CommandStmt => {
         let identifier = ctx.ID().toString();
         let expr_stmt = ctx.expression();
@@ -385,6 +529,13 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // when silence 语句
+    /**
+     * Visits a When_silence_stmtContext and returns a CommandStmt.
+     * 
+     * @param ctx The When_silence_stmtContext to visit.
+     * @returns The CommandStmt generated from visiting the context.
+     * @throws Error if there is a parse error.
+     */
     override visitWhen_silence_stmt = (ctx: When_silence_stmtContext): CommandStmt => {
         let expr_stmt = ctx.expression();
         if (expr_stmt == null) {
@@ -406,6 +557,12 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
     }
 
     // when 语句
+    /**
+     * Visits a when_clause node and returns a CommandStmt.
+     * @param ctx The when_clause context.
+     * @returns The CommandStmt representing the when_clause.
+     * @throws Error if there is a parse error.
+     */
     override visitWhen_clause = (ctx: When_clauseContext): CommandStmt => {
         let expr_stmt = ctx.expression();
         if (expr_stmt == null) {
