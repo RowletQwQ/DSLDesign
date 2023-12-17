@@ -1,44 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '@chatui/core/es/styles/index.less';
 // 引入组件
 import Chat, { Bubble, useMessages } from '@chatui/core';
 // 引入样式
 import '@chatui/core/dist/index.css';
+import ChatBot from './components/Chatbot';
+import Editor from './components/Editor';
 
 const App = () => {
-  const { messages, appendMsg, setTyping } = useMessages([]);
+  const [wsConn, setWsConn] = React.useState<WebSocket | null>(null);
+  const [botName, setBotName] = React.useState<string>('');
 
-  function handleSend(type: any, val : any) {
-    if (type === 'text' && val.trim()) {
-      appendMsg({
-        type: 'text',
-        content: { text: val },
-        position: 'right',
-      });
-
-      setTyping(true);
-
-      setTimeout(() => {
-        appendMsg({
-          type: 'text',
-          content: { text: 'Bala bala' },
-        });
-      }, 1000);
-    }
-  }
-
-  function renderMessageContent(msg: any) {
-    const { content } = msg;
-    return <Bubble content={content.text} />;
+  function getWsConn(ws_url:string, bot_name:string): void {
+    const ws = new WebSocket(ws_url);
+    setWsConn(ws);
+    setBotName(bot_name);
   }
 
   return (
-    <Chat
-      navbar={{ title: '智能助理' }}
-      messages={messages}
-      renderMessageContent={renderMessageContent}
-      onSend={handleSend}
-    />
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: 1 }}>
+        {wsConn === null ? (
+          <p>Chatbot not initialized. Please upload a script to initialize.</p>
+        ) : (
+          <ChatBot titleName={botName} wsConn={wsConn} />
+        )}
+      </div>
+      <div style={{ flex: 1 }}>
+        <Editor onUpload={getWsConn} />
+      </div>
+    </div>
   );
 };
 export default App;

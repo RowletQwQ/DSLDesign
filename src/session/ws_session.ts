@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { SessionStage } from "./session_stage.js";
 import { SessionEvent } from "../event/session_event.js";
 import { Instance } from "../runtime/instance.js";
-import WebSocket from "ws";
+import {WebSocketServer} from "ws";
 import { InterruptEvent } from "../event/interrupt_event.js";
 import { assert } from "console";
 
@@ -24,7 +24,7 @@ export class WsSession {
     private session_stage_: SessionStage;
     private session_id_: string;
     private bot_name_: string;
-    private ws_: WebSocket.Server;
+    private ws_: WebSocketServer;
     private instance_: Instance | null = null;
     private message_queue_: string[] = [];
 
@@ -46,12 +46,13 @@ export class WsSession {
             throw new Error("instance is null");
         }
         // Create a websocket
-        this.ws_ = new WebSocket.Server({ port: 0 });
+        this.ws_ = new WebSocketServer({port: 8891});
         // Register the event handler
-        this.ws_.on("connection", this.onWsConnection);
-        this.ws_.on("message", this.onWsMessage);
-        this.ws_.on("close", this.onWsClose);
-        this.ws_.on("error", this.onWsClose);
+        this.ws_.on("connection", this.onWsConnection.bind(this));
+        this.ws_.on("message", this.onWsMessage.bind(this));
+        this.ws_.on("close", this.onWsClose.bind(this));
+        this.ws_.on("error", this.onWsClose.bind(this));
+        console.log(`WebSocket server is listening on ${this.get_ws_addr()}`);
     }
 
     /**
@@ -91,7 +92,7 @@ export class WsSession {
             throw new Error("instance is null");
         }
         this.instance_.start();
-        this.instance_.run(this.onInterruptEvent)
+        this.instance_.run(this.onInterruptEvent.bind(this));
     }
 
     /**
@@ -99,13 +100,14 @@ export class WsSession {
      * @param message - The WebSocket message.
      * @throws Error if the instance is null or not running.
      */
-    onWsMessage(message: WebSocket.Data) {
+    onWsMessage(message: string) {
         if (this.instance_ == null) {
             throw new Error("instance is null");
         }
         if (!this.instance_.is_running()) {
             throw new Error("instance is not running");
         }
+        console.log(`Received message: ${message}`);
         this.message_queue_.push(message.toString());
     }
 

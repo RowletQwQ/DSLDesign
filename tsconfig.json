@@ -23,8 +23,8 @@
     "compileOnSave": true,
     "include": [
         "src/**/*.ts",
-        "index.ts"
-, "src/index.tsx", "test/session/ws_session.test.ts"    ],
+        "index.ts", 
+        "src/index.tsx",   ],
     "exclude": [
         "node_modules",
         "lib/**/*",

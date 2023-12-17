@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import WebSocket from 'ws';
 import Server  from 'ws';
 import { WsSession } from './session/ws_session.js';
+import cors from 'cors';
 
 const app = express();
 const server = createServer(app);
@@ -26,6 +27,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use(cors());
 
 // Use express.json() to parse json data
 app.use(express.json());
@@ -33,40 +35,39 @@ app.use(express.json());
 /**
  * @swagger
  * /api/upload:
- *  post:
+ *   post:
  *     description: Upload script
- *    requestBody:
- *     required: true
- *     content:
- *      application/json:
- *     schema:
- *      type: object
- *     properties:
- *      script:
- *          type: string
- *          description: script to be uploaded
- *          example: "say \"hello world\""
- *      bot_name:
- *          type: string
- *          description: name of the bot
- *          example: "bot1" 
- *   responses:
- *     200:
- *      description: Success
- *      content:
- *          application/json:
- *      schema:
- *         type: object
- *         properties:
- *          uuid:
- *             type: string
- *             description: uuid of the script
- *             example: "1234567890"
- *          ws_url:
- *            type: string
- *            description: websocket url
- *            example: "ws://localhost:8080"
- *  
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               script:
+ *                 type: string
+ *                 description: script to be uploaded
+ *                 example: "say \"hello world\""
+ *               bot_name:
+ *                 type: string
+ *                 description: name of the bot
+ *                 example: "bot1" 
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 uuid:
+ *                   type: string
+ *                   description: uuid of the script
+ *                   example: "1234567890"
+ *                 ws_url:
+ *                   type: string
+ *                   description: websocket url
+ *                   example: "ws://localhost:8080"
  */
 app.post('/api/upload', (req, res) => {
     let req_json = req.body
@@ -74,4 +75,8 @@ app.post('/api/upload', (req, res) => {
     let ws_session = new WsSession(req_json.bot_name,req_json.script);
     sessionMap.set(ws_session.get_session_id(), ws_session);
     res.send({uuid: ws_session.get_session_id(), ws_url: ws_session.get_ws_addr()});    
+});
+
+app.listen(8080, () => {
+    console.log('Server listening on port 8080');
 });
