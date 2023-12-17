@@ -24,7 +24,7 @@
     "include": [
         "src/**/*.ts",
         "index.ts"
-, "src/index.tsx"    ],
+, "src/index.tsx", "test/session/ws_session.test.ts"    ],
     "exclude": [
         "node_modules",
         "lib/**/*",
