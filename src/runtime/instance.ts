@@ -24,6 +24,15 @@ export class Instance {
     constructor(name: string,main_executor: Executor) {
         this.main_executor_ = main_executor;
         this.instance_id_ = name;
+        this.is_running_ = false;
+    }
+
+    /**
+     * Returns a boolean value indicating whether the instance is currently running.
+     * @returns {boolean} True if the instance is running, false otherwise.
+     */
+    is_running(): boolean {
+        return this.is_running_;
     }
 
     /**
@@ -32,6 +41,13 @@ export class Instance {
     start(): void {
         this.main_executor_.open(new Context());
         this.is_running_ = true;
+    }
+
+    /**
+     * Closes the instance.
+     */
+    close(): void {
+        this.is_running_ = false;
     }
 
     /**
@@ -53,7 +69,7 @@ export class Instance {
         let input = this.input_buffer_.shift();
         let result = this.main_executor_.next(new ScriptInputEvent(input));
 
-        while (!result.is_exit() && !result.is_finished()) {
+        while (!result.is_exit() && !result.is_finished() && this.is_running_) {
             // 在此处不应该出现break和continue
             if (result.is_break() || result.is_continue()) {
                 throw new Error("break and continue should only be used in loop");
