@@ -95,8 +95,7 @@ hello_stmt: HELLO LBRACE command_sequnces RBRACE;
 
 constance_stmt: CONSTANCE LBRACE constance_list RBRACE;
 
-constance_list: constance_list constance
-              | constance;
+constance_list: constance+;
             
 constance: ID ASSIGN expression;
 
@@ -108,8 +107,7 @@ default_branch: DEFAULT ARROW LBRACE command_sequnces RBRACE;
 
 topic_stmt: TOPIC ID LBRACE command_sequnces RBRACE;
 
-command_sequnces: command_sequnces command_stmt
-                | command_stmt;
+command_sequnces: command_stmt*;
 
 command_stmt: say_stmt | goto_stmt | input_stmt | menu_stmt | match_stmt 
             | if_stmt | when_silence_stmt | assign_stmt | assign_global_stmt
@@ -140,8 +138,7 @@ match_stmt: MATCH INPUT LBRACE case_list default_branch? RBRACE when_silence_stm
 
 menu_stmt: MENU LBRACE case_list RBRACE;
 
-case_list: case_list case_branch
-         | case_branch;
+case_list: case_branch+;
 
 case_branch: expression ARROW LBRACE command_sequnces RBRACE;
 
@@ -158,6 +155,11 @@ when_clause: WHEN expression;
 fetch_stmt: FETCH (STRING | template_string) ARROW ID;
 
 post_stmt: POST ID ARROW (STRING | template_string);
+
+json_object: json_object COMMA json_pair
+            | json_pair;
+
+json_pair: STRING COLON expression;
 
 /* Expression */
 expression: logical_or_expression;
@@ -192,8 +194,8 @@ unary_expression: NOT unary_expression
                 | postfix_expression;
 
 postfix_expression: primary_expression
-                  | postfix_expression LBRACK expression RBRACK /* 下标访问 */
-                  | postfix_expression DOT ID;
+                  | ID LBRACK expression RBRACK /* 下标访问 */
+                  | ID DOT ID;
 
 primary_expression: ID
                   | value
@@ -204,5 +206,6 @@ primary_expression: ID
 value: INTS
     | FLOATS
     | STRING
+    | LBRACE json_object RBRACE
     | TRUE
     | FALSE;

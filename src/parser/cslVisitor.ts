@@ -38,6 +38,8 @@ import { Loop_stmtContext } from "./cslParser.js";
 import { When_clauseContext } from "./cslParser.js";
 import { Fetch_stmtContext } from "./cslParser.js";
 import { Post_stmtContext } from "./cslParser.js";
+import { Json_objectContext } from "./cslParser.js";
+import { Json_pairContext } from "./cslParser.js";
 import { ExpressionContext } from "./cslParser.js";
 import { Logical_or_expressionContext } from "./cslParser.js";
 import { Logical_and_expressionContext } from "./cslParser.js";
@@ -269,6 +271,18 @@ export class cslVisitor<Result> extends AbstractParseTreeVisitor<Result> {
      * @return the visitor result
      */
     visitPost_stmt?: (ctx: Post_stmtContext) => Result;
+    /**
+     * Visit a parse tree produced by `cslParser.json_object`.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    visitJson_object?: (ctx: Json_objectContext) => Result;
+    /**
+     * Visit a parse tree produced by `cslParser.json_pair`.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    visitJson_pair?: (ctx: Json_pairContext) => Result;
     /**
      * Visit a parse tree produced by `cslParser.expression`.
      * @param ctx the parse tree

@@ -37,36 +37,30 @@ export class ConstanceVisitor extends cslVisitor<ConstanceStmt | [any, Expressio
      * @returns An array of constant name-value pairs.
      */
     override visitConstance_list = (ctx: Constance_listContext): ConstanceStmt => {
-        let constance_list = ctx.constance_list();
-        let constance_stmt: ConstanceStmt;
+        let constance_list = ctx.constance();
+        let constance_stmt = new ConstanceStmt();
 
-        if (constance_list == undefined) {
-            constance_stmt = new ConstanceStmt();
-        } else {
-            constance_stmt = this.visitConstance_list(constance_list);
-        }
-
-        let constance_pair_stmt = ctx.constance();
-        let constance_pair = this.visitConstance(constance_pair_stmt);
-        let constance_name = constance_pair[0];
-        let value = constance_pair[1].try_get_value();
-
-        if (value == undefined) {
-            value = constance_pair[1].get_value(this.context_);
+        for (let constance of constance_list) {
+            let constance_pair = this.visitConstance(constance);
+            let constance_name = constance_pair[0];
+            let value = constance_pair[1].try_get_value();
 
             if (value == undefined) {
-                throw new Error(`Constance value ${constance_name} is undefined`);
+                value = constance_pair[1].get_value(this.context_);
+
+                if (value == undefined) {
+                    throw new Error(`Constance value ${constance_name} is undefined`);
+                }
             }
+
+            constance_stmt.add_constance(constance_name, value);
+
+            if (this.context_.get_symbol(constance_name) != undefined) {
+                throw new Error(`Constance ${constance_name} is multiply defined`);
+            }
+
+            this.context_.set_symbol(constance_name, value);
         }
-
-        constance_stmt.add_constance(constance_name, value);
-
-        if (this.context_.get_symbol(constance_name) != undefined) {
-            throw new Error(`Constance ${constance_name} is multiply defined`);
-        }
-
-        this.context_.set_symbol(constance_name, value);
-
         return constance_stmt;
     }
 

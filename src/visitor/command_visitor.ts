@@ -49,14 +49,12 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
      */
     override visitCommand_sequnces = (ctx: Command_sequncesContext): CommandStmt [] =>{
         // 在这里实现访问 Command_sequnces 的逻辑
-        let command_stmts = ctx.command_stmt();
-        let seq_stmts = ctx.command_sequnces();
+        let command_stmt_list = ctx.command_stmt();
         let command_seq = new Array<CommandStmt>();
-        if (seq_stmts != undefined) {
-            command_seq = this.visitCommand_sequnces(seq_stmts);
+        for (let command_stmt of command_stmt_list) {
+            let command = this.visitCommand_stmt(command_stmt);
+            command_seq.push(command);
         }
-        let command = this.visitCommand_stmt(command_stmts);
-        command_seq.push(command);
         return command_seq;
     }
     
@@ -113,18 +111,15 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
      * @throws Error if there is a parse error in the case_list.
      */
     override visitCase_list = (ctx: Case_listContext): CommandStmt[] => {
-        let case_list_stmt = ctx.case_list();
-        let case_list : CommandStmt[];
-        if (case_list_stmt != null) {
-            case_list = this.visitCase_list(case_list_stmt);
-        } else {
-            case_list = new Array<CommandStmt>();
-        }
-        let case_branch = this.visit(ctx.case_branch());
-        if (case_branch instanceof Array || case_branch == null) {
-            throw new Error("Case_list Parse error");
-        } else {
-            case_list.push(case_branch);
+        let case_branch_ctx_list = ctx.case_branch();
+        let case_list = new Array<CommandStmt>();
+        for (let case_branch_ctx of case_branch_ctx_list) {
+            let case_branch = this.visitCase_branch(case_branch_ctx);
+            if (case_branch instanceof Array || case_branch == null) {
+                throw new Error("Case_list Parse error");
+            } else {
+                case_list.push(case_branch);
+            }
         }
         return case_list;
     }

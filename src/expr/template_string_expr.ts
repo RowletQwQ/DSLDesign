@@ -36,16 +36,18 @@ export class TemplateStringExpr implements Expression {
     /**
      * Gets the value of the expression.
      * @param context - The context object.
-     * @returns The value of the expression as a string, number, boolean, or undefined.
+     * @returns The value of the expression as a string or undefined.
      */
-    get_value(context: Context): string | number | boolean | undefined {
+    get_value(context: Context): string | undefined{
         let result = "";
         for (let part of this.template_parts_) {
             if (typeof part == "string") {
                 result += part + " ";
             } else {
                 let value = part.get_value(context);
-                if (typeof value != "undefined") {
+                if (typeof value == "object") {
+                    result += JSON.stringify(value) + " ";
+                }else if (typeof value != "undefined") {
                     result += value.toString() + " ";
                 } else {
                     return undefined;
@@ -59,7 +61,7 @@ export class TemplateStringExpr implements Expression {
      * Tries to get the value of the expression.
      * @returns The value of the expression as a string, number, boolean, or undefined.
      */
-    try_get_value(): string | number | boolean | undefined {
+    try_get_value(): string | undefined{
         let result = "";
         for (let part of this.template_parts_) {
             if (typeof part == "string") {

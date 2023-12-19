@@ -38,12 +38,25 @@ chatbox{
         say "让我们来试试match吧"
         goto Main_Menu
     }
+    "print json" => {
+        say "Here is a json:"
+        goto json
+    }
     default => {
         say "Sorry, I don't understand."
-    }
+    }    
+}
 
-    
-    
+topic json {
+    set json := {
+        "name": "Ruby",
+        "version": "1.0.0",
+        "author": "Yukihiro Matsumoto"
+    }
+    say `My name is ${json.name}`
+    say `My version is ${json.version}`
+    say `My author is ${json.author}`
+    goto chatbox
 }
 
 topic looping {

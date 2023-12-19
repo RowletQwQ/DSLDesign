@@ -3,6 +3,8 @@ import { ComparisonExpr,ComparisonExprType } from "../expr/comparison_expr.js";
 import { ConjunctionExpr,ConjunctionExprType } from "../expr/conjunction_expr.js";
 import { Expression } from "../expr/expression.js";
 import { FieldExpr } from "../expr/field_expr.js";
+import { JsonExpr } from "../expr/json_expr.js";
+import { PostfixExpr, PostfixExprType } from "../expr/postfix_expr.js";
 import { UnaryExprType, UnaryExpression } from "../expr/unary_expr.js";
 import { ValueExpr } from "../expr/value_expr.js";
 import 
@@ -17,10 +19,12 @@ import
     Unary_expressionContext,
     Postfix_expressionContext,
     Primary_expressionContext,
-    ValueContext
+    ValueContext,
+    Json_objectContext
 } 
 from "../parser/cslParser.js";
 import { cslVisitor } from "../parser/cslVisitor.js";
+import { Instance } from "../runtime/instance.js";
 
 // ExpressionVisitor 类实现了 cslVisitor 接口
 // 用于解析表达式
@@ -231,9 +235,12 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
      */
     override visitPostfix_expression = (ctx: Postfix_expressionContext): Expression => {
         let expr: Expression;
-        let postfix_expr = ctx.postfix_expression();
-        if (postfix_expr != undefined) {
-            expr = this.visitPostfix_expression(postfix_expr);
+        let id_list = ctx.ID();
+        if (id_list != undefined && id_list.length > 0) {
+            if (ctx.LBRACK() != undefined) {
+                throw new Error("Not implemented for array access");
+            }
+            expr = new PostfixExpr(id_list[0].getText(), PostfixExprType.MEMBER_ACCESS, id_list[1].getText());
         } else {
             let primary_stmt = ctx.primary_expression();
             if (primary_stmt == undefined) {
@@ -279,6 +286,7 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
         let int_stmt = ctx.INTS();
         let float_stmt = ctx.FLOATS();
         let string_stmt = ctx.STRING();
+        let json_stmt = ctx.json_object();
         if (int_stmt != undefined) {
             expr = new ValueExpr(parseInt(int_stmt.getText()));
         } else if (float_stmt != undefined) {
@@ -287,6 +295,8 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
             let str = string_stmt.getText();
             str = str.substring(1, str.length - 1);
             expr = new ValueExpr(str);
+        } else if (json_stmt != undefined) {
+            expr = this.visitJson_object(json_stmt);
         } else {
             if (ctx.TRUE() != undefined) {
                 expr = new ValueExpr(true);
@@ -294,6 +304,27 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
                 expr = new ValueExpr(false);
             }
         }
+        return expr;
+    }
+    override visitJson_object = (ctx: Json_objectContext):Expression => {
+        let expr: Expression;
+        let tmp_expr: JsonExpr = new JsonExpr(new Map<string, Expression>());
+        let json_stmt = ctx.json_object();
+        if (json_stmt != undefined) {
+            tmp_expr = this.visitJson_object(json_stmt) as JsonExpr;
+        } 
+        if (ctx.json_pair() != undefined) {
+            let key = ctx.json_pair().STRING().getText();
+            key = key.substring(1, key.length - 1);
+            let value = this.visit(ctx.json_pair().expression());
+            if (value == undefined) {
+                throw new Error("Json object parse error");
+            }
+            let map = new Map<string, Expression>();
+            map.set(key, value);
+            tmp_expr.add_map(map);
+        } 
+        expr = tmp_expr;
         return expr;
     }
 }

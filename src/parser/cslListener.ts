@@ -38,6 +38,8 @@ import { Loop_stmtContext } from "./cslParser.js";
 import { When_clauseContext } from "./cslParser.js";
 import { Fetch_stmtContext } from "./cslParser.js";
 import { Post_stmtContext } from "./cslParser.js";
+import { Json_objectContext } from "./cslParser.js";
+import { Json_pairContext } from "./cslParser.js";
 import { ExpressionContext } from "./cslParser.js";
 import { Logical_or_expressionContext } from "./cslParser.js";
 import { Logical_and_expressionContext } from "./cslParser.js";
@@ -406,6 +408,26 @@ export class cslListener implements ParseTreeListener {
      * @param ctx the parse tree
      */
     exitPost_stmt?: (ctx: Post_stmtContext) => void;
+    /**
+     * Enter a parse tree produced by `cslParser.json_object`.
+     * @param ctx the parse tree
+     */
+    enterJson_object?: (ctx: Json_objectContext) => void;
+    /**
+     * Exit a parse tree produced by `cslParser.json_object`.
+     * @param ctx the parse tree
+     */
+    exitJson_object?: (ctx: Json_objectContext) => void;
+    /**
+     * Enter a parse tree produced by `cslParser.json_pair`.
+     * @param ctx the parse tree
+     */
+    enterJson_pair?: (ctx: Json_pairContext) => void;
+    /**
+     * Exit a parse tree produced by `cslParser.json_pair`.
+     * @param ctx the parse tree
+     */
+    exitJson_pair?: (ctx: Json_pairContext) => void;
     /**
      * Enter a parse tree produced by `cslParser.expression`.
      * @param ctx the parse tree

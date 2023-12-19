@@ -1,20 +1,31 @@
 import { Expression,ExprType } from "./expression.js";
 import { Context,JsonObj } from "../context/context.js";
 
+export enum PostfixExprType {
+    DIRECT_ACCESS,     //< 直接访问
+    MEMBER_ACCESS,     //< 成员访问
+    ARRAY_ACCESS,      //< 数组访问
+}
 
 /**
  * Represents a postfix expression.
  */
 export class PostfixExpr implements Expression {
     private item_: boolean | number | string | JsonObj | undefined;
-    private name_: string;
+    private id_: string;
+    private type_: PostfixExprType;
+    private postfix_: string | number;
 
     /**
-     * Creates a new instance of PostfixExpr.
-     * @param name The name of the expression.
+     * Constructs a new PostfixExpr object.
+     * @param id The identifier of the expression.
+     * @param type The type of the postfix expression.
+     * @param postfix The postfix.
      */
-    constructor(name: string) {
-        this.name_ = name;
+    constructor(id: string, type: PostfixExprType, postfix: string | number = "") {
+        this.id_ = id;
+        this.type_ = type;
+        this.postfix_ = postfix;
     }
 
     /**
@@ -38,22 +49,23 @@ export class PostfixExpr implements Expression {
      * @param context The context object.
      * @returns The value of the expression.
      */
-    get_value(context: Context): string | number | boolean | undefined {
-        this.item_ = context.get_symbol(this.name_);
-        if (typeof this.item_ == "undefined") {
-            return undefined;
+    get_value(context: Context): string | number | boolean | object | undefined {
+        if (this.type_ == PostfixExprType.DIRECT_ACCESS) {
+            this.item_ = context.get_symbol(this.id_);
+        } else if (this.type_ == PostfixExprType.MEMBER_ACCESS) {
+            let obj = context.get_symbol(this.id_) as JsonObj;
+            this.item_ = obj[this.postfix_];
+        } else if (this.type_ == PostfixExprType.ARRAY_ACCESS) {
+            throw new Error("Not implemented.");
         }
-        if (typeof this.item_ == "object") {
-            return this.item_[this.name_];
-        }
-        return undefined;
+        return this.item_;
     }
 
     /**
      * Tries to get the value of the expression.
      * @returns The value of the expression, or undefined if it cannot be obtained.
      */
-    try_get_value(): string | number | boolean | undefined {
+    try_get_value(): undefined {
         return undefined;
     }
 }

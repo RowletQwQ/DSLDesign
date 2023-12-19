@@ -82,8 +82,8 @@ export class ArithmeticExpr implements Expression {
      * @param right_value The right value of the expression.
      * @returns The result of the arithmetic expression.
      */
-    private calculate(left_value: string | number | boolean | undefined, 
-                    right_value: string | number | boolean | undefined)
+    private calculate(left_value: string | number | boolean | undefined | object, 
+                    right_value: string | number | boolean | undefined | object)
                     : string | number | boolean | undefined {
         // 做类型检查
         if (typeof left_value == "undefined" || typeof right_value == "undefined") {

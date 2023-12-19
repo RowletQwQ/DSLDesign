@@ -39,12 +39,9 @@ export class FieldExpr implements Expression {
      * @param context The context object.
      * @returns The value of the field.
      */
-    get_value(context: Context): string | number | boolean | undefined {
+    get_value(context: Context): string | number | boolean | undefined | object {
         let value = context.get_symbol(this.name_);
         this.value_type_ = typeof value;
-        if (typeof value == "undefined" || typeof value == "object") {
-            return undefined;
-        }
         return value;
     }
 
@@ -52,7 +49,7 @@ export class FieldExpr implements Expression {
      * Tries to get the value of the field.
      * @returns The value of the field, if available; otherwise, undefined.
      */
-    try_get_value(): string | number | boolean | undefined {
+    try_get_value(): undefined {
         return undefined;
     }
 }

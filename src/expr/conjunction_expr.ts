@@ -78,11 +78,12 @@ export class ConjunctionExpr implements Expression {
      * @param right_value - The right value of the expression.
      * @returns The result of the conjunction expression.
      */
-    private calculate(left_value: string | number | boolean | undefined,
-        right_value: string | number | boolean | undefined)
+    private calculate(left_value: string | number | boolean | undefined | object,
+        right_value: string | number | boolean | undefined | object)
        :string | number | boolean | undefined
     {
-        if (typeof left_value == "undefined" || typeof right_value == "undefined") {
+        if (typeof left_value == "undefined" || typeof right_value == "undefined"
+            || typeof left_value == "object" || typeof right_value == "object") {
             return undefined;
         }
         switch (this.type_) {
