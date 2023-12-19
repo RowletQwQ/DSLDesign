@@ -99,8 +99,6 @@ constance_list: constance+;
             
 constance: ID ASSIGN expression;
 
-
-
 chatbox_stmt: CHATBOX LBRACE case_list? default_branch RBRACE;
 
 default_branch: DEFAULT ARROW LBRACE command_sequnces RBRACE;
@@ -120,9 +118,9 @@ break_stmt: BREAK;
 
 say_stmt: SAY (expression | template_string);
 
-assign_stmt: SET ID ASSIGN expression;
+assign_stmt: SET ID (ASSIGN | EQUAL) expression;
 
-assign_global_stmt: SET GLOBAL ID ASSIGN expression;
+assign_global_stmt: SET GLOBAL ID (ASSIGN | EQUAL) expression;
 
 goto_stmt: GOTO (ID | CHATBOX);
 

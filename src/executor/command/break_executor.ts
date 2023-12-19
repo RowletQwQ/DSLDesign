@@ -15,7 +15,7 @@ export class BreakExecutor implements Executor {
      * @param stmt The break statement.
      */
     constructor(stmt: BreakStmt) {
-        // 什么都不做
+        // Do nothing
     }
 
     /**
@@ -44,10 +44,9 @@ export class BreakExecutor implements Executor {
     }
 
     /**
-     * Closes the executor and returns the upper context.
-     * @returns The upper context.
+     * Closes the executor 
      */
-    close(): Context {
-        return this.upper_context_;
+    close(): void {
+        // Do nothing
     }
 }

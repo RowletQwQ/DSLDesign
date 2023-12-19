@@ -19,7 +19,6 @@ export class TopicExecutor implements Executor {
      * @throws Error if TopicExecutor does not have at least one CommandStmt.
      */
     constructor(stmt: TopicStmt) {
-        this.local_context_ = new Context();
         let stmts = stmt.get_command_seq();
         for (let stmt of stmts) {
             this.children_.push(new CommandExecutor(stmt));
@@ -34,8 +33,8 @@ export class TopicExecutor implements Executor {
      * @param context The context to be used.
      */
     open(context: Context): void {
-        this.local_context_ = new Context();
-        this.local_context_.set_global_context(context);
+        this.local_context_ = context;
+        this.local_context_.enter_new_scope();
         this.index_ = 0;
         this.children_[0].open(this.local_context_);
     }
@@ -48,33 +47,27 @@ export class TopicExecutor implements Executor {
     next(input: ScriptInputEvent): ResultEvent {
         let result = this.children_[this.index_].next(input);
         while (result.is_finished()) {
-            let context = this.children_[this.index_].close();
-            this.local_context_ = context;
+            this.children_[this.index_].close();
             this.index_++;
             if (this.index_ >= this.children_.length) {
                 return new ResultEvent(0, "", ResultType.END);
             }
-            this.children_[this.index_].open(context);
+            this.children_[this.index_].open(this.local_context_);
             result = this.children_[this.index_].next(input);
         }
         return result;
     }
 
     /**
-     * Closes the TopicExecutor and returns the context.
-     * @returns The context.
-     * @throws Error if the upper context is null.
+     * Closes the executor and exits the current scope.
      */
-    close(): Context {
+    close(): void {
         if (this.index_ < this.children_.length) {
             // GOTO退出
-            return this.children_[this.index_].close();
+            this.children_[this.index_].close();
         }
-        let global_context = this.local_context_.get_upper_context();
-        if (global_context == null) {
-            throw new Error("Upper context is null");
-        }
-        return global_context;
+        this.local_context_.exit_current_scope();
+        return;
     }
 
     /**

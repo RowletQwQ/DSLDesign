@@ -38,11 +38,13 @@ try {
                     }, timer * 1000);
                     rl.question(">>>", (answer) => {
                         clearTimeout(timeoutId);
+                        answer.trim();
                         instance?.push_input(answer);
                         resolve();
                     });
                 } else {
                     rl.question(">>>", (answer) => {
+                        answer.trim();
                         instance?.push_input(answer);
                         resolve();
                     });
@@ -67,6 +69,7 @@ try {
                 while (!validInput) {
                     input = await new Promise<string>((resolve) => {
                         rl.question(">>>", (answer) => {
+                            answer.trim();
                             resolve(answer);
                         });
                     });

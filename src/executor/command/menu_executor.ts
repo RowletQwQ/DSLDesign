@@ -12,9 +12,12 @@ export class MenuExecutor implements Executor {
     private menu_pattern_: string[] = [];
     private match_map_: Map<string, number>;
     private local_context_: Context;
+    /**
+     * Creates an instance of MenuExecutor.
+     * @param stmt The MenuStmt object.
+     */
     constructor(stmt: MenuStmt) {
         this.match_map_ = new Map<string, number>();
-        this.local_context_ = new Context();
         let stmts = stmt.get_cases();
         for (let stmt of stmts) {
             let pattern = stmt.get_pattren();
@@ -27,12 +30,26 @@ export class MenuExecutor implements Executor {
             this.children_.push(new CommandExecutor(stmt));
         }
     }
+    /**
+     * Opens the menu executor with the given context.
+     * @param context The context to open the menu executor with.
+     */
     open(context: Context): void {
-        this.current_index_ = 0;
-        this.local_context_ = new Context();
-        this.local_context_.set_upper_context(context);
+        this.current_index_ = -1;
+        this.local_context_ = context;
         this.is_running_ = false;
     }
+    /**
+     * Advances the execution to the next step based on the provided input.
+     * If not currently running, checks if there is any input. If input is available, enters the branch.
+     * If no input is available, returns the menu options.
+     * If input is available, finds the corresponding branch and opens it.
+     * Then proceeds to execute the branch.
+     * 
+     * @param input The input event containing the user's selection.
+     * @returns The result event of the next step in the execution.
+     * @throws Error if the input is invalid.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         if (!this.is_running_) {
             // 不在分支内,需要检查是否有input,如果有input则进入分支
@@ -55,13 +72,18 @@ export class MenuExecutor implements Executor {
         // 接下来正常执行分支
         return this.children_[this.current_index_].next(input);
     }
-    close(): Context {
-       let upper_context = this.local_context_.get_upper_context();
-       if (upper_context == null) {
-            throw new Error("MenuExecutor should have upper context");
-       }
-       return upper_context;
+    /**
+     * Closes the current menu item.
+     */
+    close(): void {
+        if (this.current_index_ != -1) {
+            this.children_[this.current_index_].close();
+        }
     }
+    /**
+     * Gets the executor type.
+     * @returns {ExecutorType} The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.MENU;
     }

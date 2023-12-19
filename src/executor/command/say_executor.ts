@@ -9,13 +9,27 @@ export class SayExecutor implements Executor {
     private expr_: Expression;
     private upper_context_: Context;
     private is_printed_: boolean = false;
+    /**
+     * Creates a new instance of the SayExecutor class.
+     * @param stmt The SayStmt object.
+     */
     constructor(stmt: SayStmt) {
         this.expr_ = stmt.get_expr();
     }
+    /**
+     * Opens the context and initializes the upper context and is_printed_ flag.
+     * @param context The context to be opened.
+     */
     open(context: Context): void {
         this.upper_context_ = context;
         this.is_printed_ = false;
     }
+    /**
+     * Executes the next command in the script.
+     * @param input The input event for the script.
+     * @returns The result event of executing the command.
+     * @throws Error if the value is undefined.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         if (this.is_printed_) {
             return new ResultEvent(0, "", ResultType.END);
@@ -27,9 +41,16 @@ export class SayExecutor implements Executor {
         this.is_printed_ = true;
         return new ResultEvent(0, value.toString(), ResultType.OUTPUT);
     }
-    close(): Context {
-        return this.upper_context_;
+    /**
+     * Closes the executor.
+     */
+    close(): void {
+        // Do nothing
     }
+    /**
+     * Gets the executor type.
+     * @returns {ExecutorType} The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.SAY;
     }

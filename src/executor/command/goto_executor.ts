@@ -8,7 +8,6 @@ import { Executor, ExecutorType } from "../executor.js";
  * Represents an executor for the Goto statement.
  */
 export class GotoExecutor implements Executor {
-    private upper_context_: Context;
     private target_topic_: string;
 
     /**
@@ -29,10 +28,9 @@ export class GotoExecutor implements Executor {
 
     /**
      * Opens the executor with the specified context.
-     * @param context The context to open with.
      */
     open(context: Context): void {
-        this.upper_context_ = context;
+        // Do nothing
     }
 
     /**
@@ -45,10 +43,9 @@ export class GotoExecutor implements Executor {
     }
 
     /**
-     * Closes the executor and returns the upper context.
-     * @returns The upper context.
+     * Closes the executor 
      */
-    close(): Context {
-        return this.upper_context_;
+    close(): void {
+        // Do nothing
     }
 }

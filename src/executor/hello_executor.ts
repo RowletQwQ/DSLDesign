@@ -18,7 +18,6 @@ export class HelloExecutor implements Executor {
      * @param stmt The HelloStmt to be executed.
      */
     constructor(stmt: HelloStmt) {
-        this.local_context_ = new Context();
         let stmts = stmt.get_command_seq();
         for (let stmt of stmts) {
             this.children_.push(new CommandExecutor(stmt));
@@ -31,8 +30,8 @@ export class HelloExecutor implements Executor {
      */
     open(context: Context): void {
         // Hello语句的外层上下文为全局上下文
-        this.local_context_ = new Context();
-        this.local_context_.set_global_context(context);
+        this.local_context_ = context;
+        this.local_context_.enter_new_scope();
         this.index_ = 0;
         if (this.children_.length != 0) {
             this.children_[0].open(context);
@@ -51,32 +50,27 @@ export class HelloExecutor implements Executor {
         }
         let result = this.children_[this.index_].next(input);
         while (result.is_finished()) {
-            let context = this.children_[this.index_].close();
-            this.local_context_ = context;
+            this.children_[this.index_].close();
             this.index_++;
             if (this.index_ >= this.children_.length) {
                 return new ResultEvent(0, "", ResultType.END);
             }
-            this.children_[this.index_].open(context);
+            this.children_[this.index_].open(this.local_context_);
             result = this.children_[this.index_].next(input);
         }
         return result;
     }
 
+
     /**
-     * Closes the executor and returns the final context.
-     * @returns The final context.
+     * Closes the executor.
      */
-    close(): Context {
+    close():void {
         if (this.index_ < this.children_.length) {
             // GOTO退出
-            return this.children_[this.index_].close();
+            this.children_[this.index_].close();
         }
-        let global_context = this.local_context_.get_global_context();
-        if (global_context == undefined) {
-            throw new Error("Global context is undefined");
-        }
-        return global_context;
+        this.local_context_.exit_current_scope();
     }
 
     /**

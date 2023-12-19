@@ -27,7 +27,6 @@ export class ScriptExecutor implements Executor {
      * @param stmt The script statement to execute.
      */
     constructor(stmt: ScriptStmt) {
-        this.global_context_ = new Context();
         this.topic_id_map_ = new Map<string, number>();
         let hello_stmt = stmt.get_hello_stmt() as HelloStmt;
         let chatbox_stmt = stmt.get_chatbox_stmt() as ChatBoxStmt;
@@ -36,7 +35,9 @@ export class ScriptExecutor implements Executor {
 
         // Set global variables
         if (constance_stmt) {
-            this.global_context_.import_symbol_table(constance_stmt.get_map());
+            this.global_context_ = new Context(constance_stmt.get_map());
+        } else {
+            this.global_context_ = new Context(new Map<string,any>());
         }
 
         // Execution order: hello, chatbox, topic
@@ -78,8 +79,7 @@ export class ScriptExecutor implements Executor {
         let result = this.child_executors_[this.current_child_index_].next(input);
         while (result.is_finished()) {
             // If the current executor is finished, move to the next executor
-            let context = this.child_executors_[this.current_child_index_].close();
-            this.global_context_ = context;
+            this.child_executors_[this.current_child_index_].close();
             this.current_child_index_++;
             if (this.current_child_index_ >= this.child_executors_.length) {
                 // If there is no next executor, return END
@@ -91,10 +91,9 @@ export class ScriptExecutor implements Executor {
         if (result.get_result_type() == ResultType.GOTO) {
             // If it is a GOTO instruction, jump to the corresponding topic
             let topic_index = this.topic_id_map_.get(result.get_result());
-            let context = this.child_executors_[this.current_child_index_].close();
+            this.child_executors_[this.current_child_index_].close();
             if (topic_index != undefined) {
                 // If the topic or chatbox exists, jump to it
-                this.global_context_ = context;
                 this.current_child_index_ = topic_index;
                 this.child_executors_[this.current_child_index_].open(this.global_context_);
                 return result;
@@ -108,11 +107,10 @@ export class ScriptExecutor implements Executor {
     }
 
     /**
-     * Closes the ScriptExecutor and returns the global context.
-     * @returns The global context.
+     * Closes the ScriptExecutor.
      */
-    close(): Context {
-        return this.global_context_;
+    close(): void {
+        // Nothing to do
     }
 
     /**

@@ -47,9 +47,9 @@ export interface Executor {
     /**
      * 关闭命令
      * 会销毁命令对应的资源
-     * 会返回当前执行器的上层上下文
+     * 会释放命令执行对应的上下文
      */
-    close(): Context;
+    close(): void;
 
     /**
      * 获取执行器类型

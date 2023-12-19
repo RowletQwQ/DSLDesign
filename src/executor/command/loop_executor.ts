@@ -13,8 +13,11 @@ export class LoopExecutor implements Executor {
     private current_index_: number = 0;
     private local_context_: Context;
     
+    /**
+     * Creates a new LoopExecutor instance.
+     * @param stmt The LoopStmt object representing the loop statement.
+     */
     constructor(stmt: LoopStmt) {
-        this.local_context_ = new Context();
         if (stmt.get_when_stmt() != null) {
             let when_stmt = stmt.get_when_stmt()!;
             this.condition_expr_ = when_stmt.get_expr();
@@ -29,23 +32,36 @@ export class LoopExecutor implements Executor {
         }
     }
 
+    /**
+     * Gets the executor type.
+     * @returns {ExecutorType} The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.LOOP;
     }
 
+    /**
+     * Opens the loop executor with the given context.
+     * @param context - The context to be used by the loop executor.
+     */
     open(context: Context): void {
-        this.local_context_ = new Context();
-        this.local_context_.set_upper_context(context);
+        this.local_context_ = context;
+        this.local_context_.enter_new_scope();
         this.current_index_ = 0;
         this.in_command_ = false;
     }
 
+    /**
+     * Advances the loop executor to the next iteration.
+     * 
+     * @param input - The script input event.
+     * @returns The result event indicating the status of the loop iteration.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         if (this.in_command_) {
             let result = this.children_[this.current_index_].next(input);
             while (result.is_finished()) {
-                let context = this.children_[this.current_index_].close();
-                this.local_context_ = context;
+                this.children_[this.current_index_].close();
                 this.current_index_++;
                 if (this.current_index_ == this.children_.length) {
                     // 本轮循环结束
@@ -60,8 +76,7 @@ export class LoopExecutor implements Executor {
             if (result.is_continue()) {
                 // 继续循环
                 this.in_command_ = false;
-                let context = this.children_[this.current_index_].close();
-                this.local_context_ = context;
+                this.children_[this.current_index_].close();
                 // 检查是否需要继续循环
                 if (this.condition_expr_ != null) {
                     let condition = this.condition_expr_.get_value(this.local_context_);
@@ -74,8 +89,7 @@ export class LoopExecutor implements Executor {
             }
             if (result.is_break()) {
                 this.in_command_ = false;
-                let context = this.children_[this.current_index_].close();
-                this.local_context_ = context;
+                this.children_[this.current_index_].close();
                 return new ResultEvent(0, "Break Loop", ResultType.END);
             }
             // 其他情况，直接返回
@@ -96,12 +110,11 @@ export class LoopExecutor implements Executor {
         return new ResultEvent(0, "Enter Looping", ResultType.SUCCESS);
     }
 
-    close(): Context {
+    /**
+     * Closes the loop executor and returns to the parent context.
+     */
+    close(): void {
         // 返回上层context
-        let upper_context = this.local_context_.get_upper_context();
-        if (upper_context == null) {
-            throw new Error("Upper context should not be null");
-        }
-        return upper_context;
+        this.local_context_.exit_current_scope();
     }
 }

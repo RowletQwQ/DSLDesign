@@ -69,7 +69,7 @@ export class FetchExecutor implements Executor {
             .then(response => response.json())
             .then(data => {
                 // Process the response data
-                this.upper_context_.set_symbol(this.target_id_, data);
+                this.upper_context_.set_local_symbol(this.target_id_, data);
             })
             .catch(error => {
                 // Handle the error

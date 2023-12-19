@@ -118,8 +118,7 @@ export class CommandExecutor implements Executor {
     
     /**
      * Opens the context.
-     * 
-     * @param context - The context to open.
+     * @param context - The context to be used.
      */
     open(context: Context): void {
         this.executor_.open(context);
@@ -135,11 +134,10 @@ export class CommandExecutor implements Executor {
     }
 
     /**
-     * Closes the executor and returns the context.
-     * @returns The context after closing the executor.
+     * Closes the executor 
      */
-    close(): Context {
-        return this.executor_.close();
+    close(): void {
+        this.executor_.close();
     }
 
     /**

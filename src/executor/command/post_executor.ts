@@ -11,6 +11,10 @@ export class PostExecutor implements Executor {
     private url_str_: string | null = null;
     private source_id_: string;
     private upper_context_: Context;
+    /**
+     * Creates a new instance of the PostExecutor class.
+     * @param stmt The PostStmt object.
+     */
     constructor(stmt: PostStmt) {
         this.source_id_ = stmt.get_source_id();
         let url = stmt.get_target_url();
@@ -20,6 +24,12 @@ export class PostExecutor implements Executor {
             this.url_str_ = url;
         }
     }
+    /**
+     * Opens the executor and sets the upper context.
+     * If the URL is not provided, it generates the target URL based on the URL expression.
+     * @param context The context object.
+     * @throws Error if both url and url_expr are null, or if url_expr is undefined.
+     */
     open(context: Context): void {
         this.upper_context_ = context;
         // 生成TargetURL
@@ -36,6 +46,11 @@ export class PostExecutor implements Executor {
             this.target_url_ = new URL(this.url_str_);
         }
     }
+    /**
+     * Executes the next command in the script.
+     * @param input - The input event for the command.
+     * @returns The result event after executing the command.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         // 先获取对象
         let source = this.upper_context_.get_symbol(this.source_id_);
@@ -53,9 +68,16 @@ export class PostExecutor implements Executor {
         // 请求发送结束
         return new ResultEvent(0, "", ResultType.END);
     }
-    close(): Context {
-        return this.upper_context_;
+    /**
+     * Closes the executor.
+     */
+    close(): void {
+        // Do nothing
     }
+    /**
+     * Gets the executor type.
+     * @returns {ExecutorType} The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.POST;
     }

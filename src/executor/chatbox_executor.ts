@@ -23,7 +23,6 @@ export class ChatBoxExecutor implements Executor {
      */
     constructor(stmt: ChatBoxStmt) {
         this.jump_map_ = new Map<string, number>();
-        this.local_context_ = new Context();
         let stmts = stmt.get_cases();
         for (let stmt of stmts) {
             if (stmt.is_default()) {
@@ -47,8 +46,8 @@ export class ChatBoxExecutor implements Executor {
     open(context: Context): void {
         // chatbox外层就是全局
         this.is_running_ = false;
-        this.local_context_ = new Context();
-        this.local_context_.set_global_context(context);
+        this.local_context_ = context;
+        this.local_context_.enter_new_scope();
     }
 
     /**
@@ -77,8 +76,7 @@ export class ChatBoxExecutor implements Executor {
         let result = this.children_[this.index_].next(input);
         while (result.is_finished()) {
             // 分支执行结束, 回退到未运行状态
-            let context = this.children_[this.index_].close();
-            this.local_context_ = context;
+            this.children_[this.index_].close();
             this.is_running_ = false;
             return new ResultEvent(0, "", ResultType.INPUT);
         }
@@ -89,17 +87,12 @@ export class ChatBoxExecutor implements Executor {
      * Closes the ChatBoxExecutor and returns the context.
      * @returns The Context object.
      */
-    close(): Context {
+    close(): void {
         if (this.is_running_) {
             // GOTO跳出,需要保留context
-            let context = this.children_[this.index_].close();
-            return context;
+            this.children_[this.index_].close();
         }
-        let upper_context = this.local_context_.get_upper_context();
-        if (upper_context == undefined) {
-            throw new Error("Executor has not been opened");
-        }
-        return upper_context;
+        this.local_context_.exit_current_scope();
     }
 
     /**

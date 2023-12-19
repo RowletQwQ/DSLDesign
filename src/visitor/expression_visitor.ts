@@ -236,7 +236,7 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
     override visitPostfix_expression = (ctx: Postfix_expressionContext): Expression => {
         let expr: Expression;
         let id_list = ctx.ID();
-        if (id_list != undefined && id_list.length > 0) {
+        if (ctx.DOT() != undefined || ctx.LBRACK() != undefined) {
             if (ctx.LBRACK() != undefined) {
                 throw new Error("Not implemented for array access");
             }

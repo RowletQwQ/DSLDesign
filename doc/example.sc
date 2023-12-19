@@ -7,6 +7,7 @@ constance{
 
 hello{
     say "Hello, world!"
+    set global is_run := false
     goto Welcome
 }
 
@@ -38,6 +39,13 @@ chatbox{
         say "让我们来试试match吧"
         goto Main_Menu
     }
+    "field" => {
+        say "让我们来试试field吧"
+        if (is_run) => {
+            say "field已经运行过了"
+        }
+        goto field
+    }
     "print json" => {
         say "Here is a json:"
         goto json
@@ -45,6 +53,23 @@ chatbox{
     default => {
         say "Sorry, I don't understand."
     }    
+}
+
+topic field {
+    set value := 114514
+    say `The value is ${value}`
+    if ( value = 114514) => {
+        set value := 1919810
+        say `The value is ${value}`
+        if ( value = 1919810) => {
+            set value = "suka"
+            say `The value is ${value}`
+        }
+        say `The value is ${value}`
+    }
+    set global is_run = true
+    say `The value is ${value}`
+    goto chatbox
 }
 
 topic json {

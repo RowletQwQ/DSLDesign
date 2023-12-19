@@ -39,7 +39,7 @@ export class Instance {
      * Starts the execution of the program.
      */
     start(): void {
-        this.main_executor_.open(new Context());
+        this.main_executor_.open(new Context(new Map<string,any>()));
         this.is_running_ = true;
     }
 

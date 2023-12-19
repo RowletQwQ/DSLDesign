@@ -17,7 +17,7 @@ export class ConstanceVisitor extends cslVisitor<ConstanceStmt | [any, Expressio
      */
     constructor() {
         super();
-        this.context_ = new Context();
+        this.context_ = new Context(new Map<string, any>());
         this.expr_visitor_ = new ExpressionVisitor();
     }
 
@@ -59,7 +59,7 @@ export class ConstanceVisitor extends cslVisitor<ConstanceStmt | [any, Expressio
                 throw new Error(`Constance ${constance_name} is multiply defined`);
             }
 
-            this.context_.set_symbol(constance_name, value);
+            this.context_.set_global_symbol(constance_name, value);
         }
         return constance_stmt;
     }

@@ -43,8 +43,8 @@ export class CaseExecutor implements Executor {
      */
     open(context: Context): void {
         this.current_index_ = 0;
-        this.local_context_ = new Context();
-        this.local_context_.set_upper_context(context);
+        this.local_context_ = context;
+        this.local_context_.enter_new_scope();
         this.children_[this.current_index_].open(this.local_context_);
     }
 
@@ -56,8 +56,7 @@ export class CaseExecutor implements Executor {
     next(input: ScriptInputEvent): ResultEvent {
         let result = this.children_[this.current_index_].next(input);
         while (result.is_finished()) {
-            let context = this.children_[this.current_index_].close();
-            this.local_context_ = context;
+            this.children_[this.current_index_].close();
             this.current_index_++;
             if (this.current_index_ >= this.children_.length) {
                 return new ResultEvent(0,"",ResultType.END);
@@ -69,15 +68,9 @@ export class CaseExecutor implements Executor {
     }
 
     /**
-     * Closes the executor and returns the upper context.
-     * @returns The upper context.
-     * @throws Error if CaseExecutor does not have an upper context.
+     * Closes the executor and exits the current scope.
      */
-    close(): Context {
-        let upper_context = this.local_context_.get_upper_context();
-        if (upper_context == null) {
-            throw new Error("CaseExecutor should have upper context");
-        }
-        return upper_context;
+    close(): void {
+        this.local_context_.exit_current_scope();
     }
 }

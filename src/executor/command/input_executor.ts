@@ -14,9 +14,14 @@ export class InputExecutor implements Executor {
     private timeout_expr_: Expression | null = null;
     private timeout_: number | undefined = undefined;
     private local_context_: Context;
+    private input_value_: any;
+    /**
+     * Represents the constructor of the InputExecutor class.
+     * @param stmt The InputStmt object used to initialize the InputExecutor.
+     */
     constructor(stmt: InputStmt) {
-        this.local_context_ = new Context();
         this.target_id_ = stmt.get_target_id();
+        this.input_value_ = undefined;
         let assert_stmt = stmt.get_assert_stmt();
         if (assert_stmt) {
             this.assert_expr_ = assert_stmt.get_expr();
@@ -27,18 +32,35 @@ export class InputExecutor implements Executor {
             this.child_ = new WhenSilenceExecutor(when_silence_stmt);
         }
     }
+
+    /**
+     * Gets the executor type.
+     * @returns {ExecutorType} The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.INPUT;
     }
+
+    /**
+     * Opens the input executor.
+     * 
+     * @param context The context for the input executor.
+     */
     open(context: Context): void {
         // Input的时候也创建一个新的上下文，方便assert判断为false后回滚
-        this.local_context_ = new Context();
-        this.local_context_.set_upper_context(context);
+        this.local_context_ = context;
+        this.local_context_.enter_new_scope();
         if (this.timeout_expr_ != null) {
             this.child_.open(this.local_context_);
         
         }
     }
+
+    /**
+     * Advances the execution to the next step based on the provided input.
+     * @param input The input event containing the user's input.
+     * @returns The result event indicating the outcome of the execution.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         let input_str = input.get_input();
         if (input.is_handled() && input_str == null) {
@@ -62,9 +84,9 @@ export class InputExecutor implements Executor {
         let input_value = parseFloat(input_str);
         if (isNaN(input_value) && input_str != input_value.toString()) {
             // 不是数字
-            this.local_context_.set_symbol(this.target_id_, input_str);
+            this.local_context_.set_local_symbol(this.target_id_, input_str);
         } else {
-            this.local_context_.set_symbol(this.target_id_, input_value);
+            this.local_context_.set_local_symbol(this.target_id_, input_value);
         }
         // 接着执行assert表达式
         if (this.assert_expr_ != null) {
@@ -74,24 +96,23 @@ export class InputExecutor implements Executor {
                 return new ResultEvent(0, "Assert Failed", ResultType.INPUT);
             }
         }
-        // 如果通过了assert,那么将输入设置到上级上下文中
-        let upper_context = this.local_context_.get_upper_context();
-        if (upper_context == null) {
-            throw new Error("Upper context is null");
-        }
+        // 如果通过了assert,那么将输入暂存到input_value_中
         if (isNaN(input_value) && input_str != input_value.toString()) {
             // 不是数字
-            this.local_context_.set_upper_symbol(this.target_id_, input_str);
+            this.input_value_ = input_str;
         } else {
-            this.local_context_.set_upper_symbol(this.target_id_, input_value);
+            this.input_value_ = input_value;
         }
         return new ResultEvent(0, "Input Success", ResultType.END);
     }
-    close(): Context {
-        let upper_context = this.local_context_.get_upper_context();
-        if (upper_context == null) {
-            throw new Error("Upper context is null");
-        }
-        return upper_context;
+
+    /**
+     * Closes the input executor.
+     * 
+     * This method exits the current scope and sets the local symbol with the target ID and input value.
+     */
+    close(): void {
+        this.local_context_.exit_current_scope();
+        this.local_context_.set_local_symbol(this.target_id_, this.input_value_);
     }
 }

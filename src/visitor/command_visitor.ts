@@ -499,7 +499,8 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
         if (expr instanceof Array || expr == null) {
             throw new Error("Assign_stmt Parse error");
         }
-        return new SetStmt(identifier, expr);
+        let is_declare = ctx.ASSIGN() != null;
+        return new SetStmt(identifier, expr, is_declare);
     }
 
     // set global 语句
@@ -520,7 +521,8 @@ export class CommandVisitor extends cslVisitor<CommandStmt [] | CommandStmt> {
         if (expr instanceof Array || expr == null) {
             throw new Error("Assign_global_stmt Parse error");
         }
-        return new SetStmt(identifier, expr, true);
+        let is_declare = ctx.ASSIGN() != null;
+        return new SetStmt(identifier, expr, is_declare, true);
     }
 
     // when silence 语句

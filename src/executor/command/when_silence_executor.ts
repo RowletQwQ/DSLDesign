@@ -9,24 +9,38 @@ export class WhenSilenceExecutor implements Executor {
     private children_: Executor[] = [];
     private current_index_: number = 0;
     private local_context_: Context;
+
+    /**
+     * Creates a new instance of the WhenSilenceExecutor class.
+     * @param stmt The WhenSilenceStmt object.
+     */
     constructor(stmt: WhenSilenceStmt) {
-        // timeout已经在外面处理了，这里执行命令就行了
-        this.local_context_ = new Context();
+        // timeout has been handled outside
         let command_seq = stmt.get_command_seq();
         for (let command of command_seq) {
             this.children_.push(new CommandExecutor(command));
         }
     }
+    /**
+     * Opens the executor and initializes the local context.
+     * @param context The context to be used.
+     * @returns void
+     */
     open(context: Context): void {
-        this.local_context_ = new Context();
-        this.local_context_.set_upper_context(context);
+        this.local_context_ = context
+        this.local_context_.enter_new_scope();
         this.current_index_ = 0;
     }
+    /**
+     * Advances to the next child executor and processes the input event.
+     * 
+     * @param input - The input event to be processed.
+     * @returns The result event after processing the input event.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         let result = this.children_[this.current_index_].next(input);
         while (result.is_finished()) {
-            let context = this.children_[this.current_index_].close();
-            this.local_context_ = context;
+            this.children_[this.current_index_].close();
             this.current_index_++;
             if (this.current_index_ >= this.children_.length) {
                 return new ResultEvent(0,"",ResultType.END);
@@ -36,14 +50,17 @@ export class WhenSilenceExecutor implements Executor {
         }
         return result;
     }
-    close(): Context {
+    /**
+     * Closes the executor.
+     */
+    close(): void {
         // 执行完毕退出
-        let upper_context = this.local_context_.get_upper_context();
-        if (upper_context == null) {
-            throw new Error("CaseExecutor should have upper context");
-        }
-        return upper_context;
+        this.local_context_.exit_current_scope();
     }
+    /**
+     * Gets the executor type.
+     * @returns {ExecutorType} The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.WHEN_SILENCE;
     }

@@ -13,9 +13,13 @@ export class MatchExecutor implements Executor {
     private children_: Executor[] = [];
     private match_map_: Map<string, number>;
     private local_context_: Context;
+    
+    /**
+     * Creates an instance of MatchExecutor.
+     * @param stmt - The MatchStmt object.
+     */
     constructor(stmt: MatchStmt) {
         this.match_map_ = new Map<string, number>();
-        this.local_context_ = new Context();
         let stmts = stmt.get_cases();
         let default_stmt = stmt.get_default_case();
         if (default_stmt != null) {
@@ -32,12 +36,24 @@ export class MatchExecutor implements Executor {
             this.children_.push(new CommandExecutor(stmt));
         }
     }
+
+    /**
+     * Opens the match executor with the given context.
+     * @param context - The context to open the executor with.
+     */
     open(context: Context): void {
-        this.local_context_ = new Context();
-        this.local_context_.set_upper_context(context);
+        this.local_context_ = context;
+        this.local_context_.enter_new_scope();
         this.current_index_ = 0;
         this.is_running_ = false;
     }
+
+    /**
+     * Advances the execution to the next step based on the provided input.
+     * 
+     * @param input The input event to be processed.
+     * @returns The result event indicating the next step in the execution.
+     */
     next(input: ScriptInputEvent): ResultEvent {
         if (!this.is_running_) {
             // 不在分支内,需要检查是否有input,如果有input则进入分支
@@ -62,13 +78,18 @@ export class MatchExecutor implements Executor {
         // 接下来正常执行分支
         return this.children_[this.current_index_].next(input);
     }
-    close(): Context {
-       let upper_context = this.local_context_.get_upper_context();
-       if (upper_context == null) {
-            throw new Error("MatchExecutor should have upper context");
-       }
-       return upper_context;
+
+    /**
+     * Closes the match executor.
+     */
+    close(): void {
+       this.local_context_.exit_current_scope();
     }
+
+    /**
+     * Gets the executor type.
+     * @returns {ExecutorType} The executor type.
+     */
     get_executor_type(): ExecutorType {
         return ExecutorType.MATCH;
     }

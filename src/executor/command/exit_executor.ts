@@ -8,7 +8,6 @@ import { Executor, ExecutorType } from "../executor.js";
  * Represents an executor for the "exit" command.
  */
 export class ExitExecutor implements Executor {
-    private upper_context_: Context;
 
     /**
      * Creates a new instance of ExitExecutor.
@@ -31,7 +30,7 @@ export class ExitExecutor implements Executor {
      * @param context The context.
      */
     open(context: Context): void {
-        this.upper_context_ = context;
+        // Do nothing
     }
 
     /**
@@ -44,10 +43,9 @@ export class ExitExecutor implements Executor {
     }
 
     /**
-     * Closes the executor and returns the upper context.
-     * @returns The upper context.
+     * Closes the executor
      */
-    close(): Context {
-        return this.upper_context_;
+    close(): void {
+        // Do nothing
     }
 }
