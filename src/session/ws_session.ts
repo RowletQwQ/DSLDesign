@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { SessionStage } from "./session_stage.js";
 import { SessionEvent } from "../event/session_event.js";
 import { Instance } from "../runtime/instance.js";
-import {WebSocketServer} from "ws";
+import {WebSocketServer,WebSocket} from "ws";
 import { InterruptEvent } from "../event/interrupt_event.js";
 import { assert } from "console";
 
@@ -25,6 +25,7 @@ export class WsSession {
     private session_id_: string;
     private bot_name_: string;
     private ws_: WebSocketServer;
+    private ws_conn: WebSocket;
     private instance_: Instance | null = null;
     private message_queue_: string[] = [];
 
@@ -32,8 +33,9 @@ export class WsSession {
      * Creates a new instance of WsSession.
      * @param name - The name of the session.
      * @param script - The script associated with the session.
+     * @param port - The port number of the WebSocket server.
      */
-    constructor(name: string, script: string) {
+    constructor(name: string, script: string, port: number) {
         // Generate a session ID
         this.session_id_ = randomUUID();
         this.session_stage_ = new SessionStage();
@@ -42,17 +44,35 @@ export class WsSession {
         this.session_stage_.handle_event(session_event);
         // Get the instance
         this.instance_ = session_event.get_instance();
-        if (this.instance_ == null) {
-            throw new Error("instance is null");
-        }
         // Create a websocket
-        this.ws_ = new WebSocketServer({port: 8891});
+        this.ws_ = new WebSocketServer({port: port});
         // Register the event handler
-        this.ws_.on("connection", this.onWsConnection.bind(this));
-        this.ws_.on("message", this.onWsMessage.bind(this));
-        this.ws_.on("close", this.onWsClose.bind(this));
-        this.ws_.on("error", this.onWsClose.bind(this));
-        console.log(`WebSocket server is listening on ${this.get_ws_addr()}`);
+        this.ws_.on("connection", (ws) => {
+            ws.onmessage = (message) => {
+                this.onWsMessage(message.data.toString());
+            };
+            ws.onclose = () => {
+                this.onWsClose();
+            };
+            ws.onerror = (error) => {
+                console.log(error);
+                this.onWsClose();
+            };
+            if (this.instance_ == null) {
+                console.log("实例不存在，请检查脚本是否正确");
+                ws.close();
+                return;
+            }
+            this.ws_conn = ws;
+            this.onWsConnection.bind(this)();
+        });
+        if (this.ws_conn != undefined) {
+            console.log(`WebSocket server is listening on ${this.get_ws_addr()}`);
+        }
+    }
+
+    is_instance_exist(): boolean {
+        return this.instance_ != null;
     }
 
     /**
@@ -79,14 +99,16 @@ export class WsSession {
         if (this.ws_.options.port == undefined) {
             throw new Error("port is undefined");
         }
+        if (this.instance_ == null) {
+            return "";
+        }
         return `ws://localhost:${this.ws_.options.port}`;
     }
 
     /**
      * Handles a WebSocket connection.
-     * @param ws - The WebSocket object representing the connection.
      */
-    onWsConnection(ws: WebSocket) {
+    onWsConnection() {
         // Initialize the instance
         if (this.instance_ == null) {
             throw new Error("instance is null");
@@ -121,52 +143,45 @@ export class WsSession {
         }
     }
 
-    /**
-     * Handles the interrupt event from the instance.
-     * @param interrupt_event - The interrupt event to handle.
-     * @param timer - The timer value in seconds.
-     * @returns A promise that resolves when the interrupt event is handled.
-     */
-    onInterruptEvent(interrupt_event: InterruptEvent, timer: number): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
-            if (interrupt_event.is_output()) {
-                // Send the output to the client
-                const ws_message: WsMessage = {
-                    type: WsMessageType.NormalMsg,
-                    content: interrupt_event.get_description()
-                }
-                this.ws_.clients.forEach((client) => {
-                    client.send(JSON.stringify(ws_message));
-                });
-            } else if (interrupt_event.is_error()) {
-                const ws_message: WsMessage = {
-                    type: WsMessageType.ErrorMsg,
-                    content: interrupt_event.get_description()
-                }
-                this.ws_.clients.forEach((client) => {
-                    client.send(JSON.stringify(ws_message));
-                });
-                reject(new Error(interrupt_event.get_description()));
-            } else if (interrupt_event.is_exit()) {
-                this.ws_.close();
-            } else if (interrupt_event.is_show_menu()) {
-                // Show the menu
-                const ws_message: WsMessage = {
-                    type: WsMessageType.Menu,
-                    content: interrupt_event.get_description(),
-                    menu: interrupt_event.get_menu()
-                }
-                this.ws_.clients.forEach((client) => {
-                    client.send(JSON.stringify(ws_message));
-                });
-                // Wait for the input, No timer for menu
+    sendMsgToClient(message: string) {
+        const ws_message: WsMessage = {
+            type: WsMessageType.NormalMsg,
+            content: message
+        }
+        this.ws_conn.send(JSON.stringify(ws_message));
+    }
+
+    sendErrorMsgToClient(message: string) {
+        const ws_message: WsMessage = {
+            type: WsMessageType.ErrorMsg,
+            content: message
+        }
+        this.ws_conn.send(JSON.stringify(ws_message));
+    }
+
+    sendMenuToClient(message: string, menu: string[]) {
+        const ws_message: WsMessage = {
+            type: WsMessageType.Menu,
+            content: message,
+            menu: menu
+        }
+        this.ws_conn.send(JSON.stringify(ws_message));
+    }
+
+    waitInput(timer: number) {
+        return new Promise<string>((resolve) => {
+            if (timer > 0) {
+                const timeoutId = setTimeout(() => {
+                    resolve("");
+                }, timer * 1000);
                 if (this.message_queue_.length > 0) {
                     const message = this.message_queue_.shift();
                     if (message == undefined || this.instance_ == null) {
                         throw new Error("message is undefined or instance is null");
                     }
                     this.instance_.push_input(message);
-                    resolve();
+                    clearTimeout(timeoutId);
+                    resolve(message);
                 } else {
                     // Wait for the input
                     const checkQueue = () => {
@@ -176,67 +191,66 @@ export class WsSession {
                                 throw new Error("message is undefined or instance is null");
                             }
                             this.instance_.push_input(message);
-                            resolve();
+                            clearTimeout(timeoutId);
+                            resolve(message);
                         } else {
                             setTimeout(checkQueue, 100);
                         }
                     }
                 }
-            } else if (interrupt_event.is_input()) {
-                // Wait for the input
-                if (timer) {
-                    const timeoutId = setTimeout(() => {
-                        resolve();
-                    }, timer * 1000);
-                    if (this.message_queue_.length > 0) {
-                        const message = this.message_queue_.shift();
-                        if (message == undefined || this.instance_ == null) {
-                            throw new Error("message is undefined or instance is null");
-                        }
-                        this.instance_.push_input(message);
-                        clearTimeout(timeoutId);
-                        resolve();
-                    } else {
-                        // Wait for the input
-                        const checkQueue = () => {
-                            if (this.message_queue_.length > 0) {
-                                const message = this.message_queue_.shift();
-                                if (message == undefined || this.instance_ == null) {
-                                    throw new Error("message is undefined or instance is null");
-                                }
-                                this.instance_.push_input(message);
-                                clearTimeout(timeoutId);
-                                resolve();
-                            } else {
-                                setTimeout(checkQueue, 100);
-                            }
-                        }
+            } else {
+                if (this.message_queue_.length > 0) {
+                    const message = this.message_queue_.shift();
+                    if (message == undefined || this.instance_ == null) {
+                        throw new Error("message is undefined or instance is null");
                     }
+                    this.instance_.push_input(message);
+                    resolve(message);
                 } else {
-                    if (this.message_queue_.length > 0) {
-                        const message = this.message_queue_.shift();
-                        if (message == undefined || this.instance_ == null) {
-                            throw new Error("message is undefined or instance is null");
-                        }
-                        this.instance_.push_input(message);
-                        resolve();
-                    } else {
-                        // Wait for the input
-                        const checkQueue = () => {
-                            if (this.message_queue_.length > 0) {
-                                const message = this.message_queue_.shift();
-                                if (message == undefined || this.instance_ == null) {
-                                    throw new Error("message is undefined or instance is null");
-                                }
-                                this.instance_.push_input(message);
-                                resolve();
-                            } else {
-                                setTimeout(checkQueue, 100);
+                    // Wait for the input
+                    const checkQueue = () => {
+                        if (this.message_queue_.length > 0) {
+                            const message = this.message_queue_.shift();
+                            if (message == undefined || this.instance_ == null) {
+                                throw new Error("message is undefined or instance is null");
                             }
+                            this.instance_.push_input(message);
+                            resolve(message);
+                        } else {
+                            setTimeout(checkQueue, 100);
                         }
                     }
+                    checkQueue();
                 }
             }
         });
+    }
+
+
+    /**
+     * Handles the interrupt event from the instance.
+     * @param interrupt_event - The interrupt event to handle.
+     * @param timer - The timer value in seconds.
+     * @returns A promise that resolves when the interrupt event is handled.
+     */
+    async onInterruptEvent(interrupt_event: InterruptEvent, timer: number): Promise<void> {
+        try {
+            if (interrupt_event.is_output()) {
+                this.sendMsgToClient(interrupt_event.get_description());
+            } else if (interrupt_event.is_error()) {
+                this.sendErrorMsgToClient(interrupt_event.get_description());
+                throw new Error(interrupt_event.get_description());
+            } else if (interrupt_event.is_exit()) {
+                this.ws_conn.close();
+            } else if (interrupt_event.is_show_menu()) {
+                this.sendMenuToClient(interrupt_event.get_description(), interrupt_event.get_menu());
+                await this.waitInput(0);
+            } else if (interrupt_event.is_input()) {
+                await this.waitInput(timer);
+            }   
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 }

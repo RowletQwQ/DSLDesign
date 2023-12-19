@@ -214,8 +214,8 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
                 : UnaryExprType.NOT;
             let unary_stmt = ctx.unary_expression();
             if (unary_stmt == undefined) {
-                throw new Error("Unary expression Parse error,No unary expression after" +
-                    ctx.MINUS() != null ? "-" : "!");
+                throw new Error(`Unary expression Parse error,No unary expression after\
+                ${ctx.MINUS() != null ? "-" : "!"}`);
             }
             let unary_expr = this.visitUnary_expression(unary_stmt);
             expr = new UnaryExpression(unary_expr, type);

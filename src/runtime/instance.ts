@@ -66,7 +66,7 @@ export class Instance {
             throw new Error("instance is not running");
         }
         // 先检查输入缓冲区
-        let input = this.input_buffer_.shift();
+        let input = this. input_buffer_.shift();
         let result = this.main_executor_.next(new ScriptInputEvent(input));
 
         while (!result.is_exit() && !result.is_finished() && this.is_running_) {
@@ -92,6 +92,7 @@ export class Instance {
                 }
                 // 有输入，直接执行
                 result = this.main_executor_.next(new ScriptInputEvent(input));
+                input = this.input_buffer_.shift();
                 continue;
             }
 

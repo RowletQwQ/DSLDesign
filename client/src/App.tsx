@@ -17,16 +17,26 @@ const App = () => {
     setBotName(bot_name);
   }
 
+  function closeWsConn(): void {
+    if (wsConn !== null) {
+      wsConn.close();
+      setWsConn(null);
+    }
+  }
+
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ flex: 1 }}>
+    <div style={{ display: 'flex' ,overflow: 'auto', height: '100vh' }}>
+      <div style={{ flex: 1 ,overflow: 'auto', height: '100vh' }}>
         {wsConn === null ? (
-          <p>Chatbot not initialized. Please upload a script to initialize.</p>
+          <div>
+          <p>Chatbot not initialized. </p>
+          <p>Please upload a script to initialize.</p>
+          </div>
         ) : (
-          <ChatBot titleName={botName} wsConn={wsConn} />
+          <ChatBot titleName={botName} wsConn={wsConn} onClose={closeWsConn}/>
         )}
       </div>
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1 ,overflow: 'auto', height: '100vh'}}>
         <Editor onUpload={getWsConn} />
       </div>
     </div>

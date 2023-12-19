@@ -6,6 +6,7 @@ import '@chatui/core/dist/index.css';
 interface ChatBotProps {
     titleName: string,
     wsConn: WebSocket
+    onClose?: () => void
 }
 
 enum WsMessageType {
@@ -26,15 +27,19 @@ interface WsMessage{
  * @param wsConn - The WebSocket connection.
  * @returns The chatbot component.
  */
-const ChatBot: React.FC<ChatBotProps> = ({titleName,wsConn}) => {
+const ChatBot: React.FC<ChatBotProps> = ({titleName,wsConn,onClose}) => {
+    const { messages, appendMsg, setTyping } = useMessages([]);
     // Use ref to store the websocket connection
     const ws = React.useRef<WebSocket>(wsConn);
-    const { messages, appendMsg, setTyping } = useMessages([]);
-    let menuArray: string[] = [];
-    let inputMode = 'text';
+    const [menuArray, setMenuArray] = React.useState<string[]>([]);
+    const [inputMode, setInputMode] = React.useState<'text' | 'menu'>('text');
     useEffect(() => {
         // When receive message from server, append it to the message list
+        ws.current.onopen = () => {
+            console.log('connected');
+        };
         ws.current.onmessage = (message) => {
+            console.log(message);
             const data = JSON.parse(message.data);
             if (data.type === WsMessageType.NormalMsg) {
                 appendMsg({
@@ -55,18 +60,18 @@ const ChatBot: React.FC<ChatBotProps> = ({titleName,wsConn}) => {
                     position: 'left',
                 });
                 // Switch input type to menu
-                inputMode = 'menu';
-                menuArray = data.menu;
+                setInputMode('menu');
+                setMenuArray(data.menu);
             }
             
         };
 
         ws.current = wsConn;
         // When websocket is closed, set the websocket to null
-        return () => {
-            if (ws.current) {
-                ws.current.close();
-            }
+        ws.current.onclose = () => {
+            console.log('disconnected');
+            window.alert('Chatbot disconnected!');
+            onClose && onClose();
         };
     }, [wsConn]);
 
@@ -92,7 +97,7 @@ const ChatBot: React.FC<ChatBotProps> = ({titleName,wsConn}) => {
                 content: { text: val },
                 position: 'right',
             });
-            if (inputMode === 'text') {
+            if (inputMode === 'text' || menuArray.length === 0) {
                 ws.current.send(val);
             } else {
                 if (menuArray.includes(val)) {
@@ -109,12 +114,25 @@ const ChatBot: React.FC<ChatBotProps> = ({titleName,wsConn}) => {
         }
     }
 
+    function handleQuickReplyClick(item: any) {
+        handleSend('text', item.name);
+        setMenuArray([]);
+        setInputMode('text');
+    }
+
     return (
         <Chat
             navbar={{ title: titleName }}
             messages={messages}
             renderMessageContent={renderMessageContent}
             onSend={handleSend}
+            quickReplies={menuArray.map((item) => ({
+                icon: 'message',
+                name: item,
+                isNew: true,
+                isHighlight: true,
+            }) as any)}
+            onQuickReplyClick={handleQuickReplyClick}
         />
     );
 };

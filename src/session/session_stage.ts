@@ -31,15 +31,14 @@ export class SessionStage {
             if (script_stmt == null) {
                 throw new Error("script_stmt is null");
             }
-
             // 生成执行器
             let main_executor = new ScriptExecutor(script_stmt);
-
             // 生成实例
             let instance = new Instance(session_event.get_session_id(), main_executor);
             session_event.set_instance(instance);
         } catch (error) {
             console.log(error);
+            throw new Error("Failed to parse script:" + error.message);
         }
     }
 }
