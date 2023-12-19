@@ -42,110 +42,109 @@ import { WhenStmt } from "../stmt/command/when_stmt.js";
  * 构造函数会负责将CommandStmt解析为对应的stmt,并创建对应的Executor
  */
 export class CommandExecutor implements Executor {
-    private executor_: Executor;
-    /**
-     * Creates a new CommandExecutor instance.
-     * @param stmt The command statement to be executed.
-     */
-    constructor (stmt: CommandStmt) {
-        let command_type = stmt.get_cmd_type();
-        switch(command_type) {
-            case CommandStmtType.BREAK_STMT: {
-                this.executor_ = new BreakExecutor(stmt as BreakStmt);
-                break;
-            }
-            case CommandStmtType.CASE_STMT: {
-                this.executor_ = new CaseExecutor(stmt as CaseStmt);
-                break;
-            }
-            case CommandStmtType.CONTINUE_STMT: {
-                this.executor_ = new ContinueExecutor(stmt as ContinueStmt);
-                break;
-            }
-            case CommandStmtType.EXIT_STMT: {
-                this.executor_ = new ExitExecutor(stmt as ExitStmt);
-                break;
-            }
-            case CommandStmtType.FETCH_STMT: {
-                this.executor_ = new FetchExecutor(stmt as FetchStmt);
-                break;
-            }
-            case CommandStmtType.GOTO_STMT: {
-                this.executor_ = new GotoExecutor(stmt as GotoStmt);
-                break;
-            }
-            case CommandStmtType.IF_STMT: {
-                this.executor_ = new IfExecutor(stmt as IfStmt);
-                break;
-            }
-            case CommandStmtType.INPUT_STMT: {
-                this.executor_ = new InputExecutor(stmt as InputStmt);
-                break;
-            }
-            case CommandStmtType.LOOP_STMT: {
-                this.executor_ = new LoopExecutor(stmt as LoopStmt);
-                break;
-            }
-            case CommandStmtType.MATCH_STMT: {
-                this.executor_ = new MatchExecutor(stmt as MatchStmt);
-                break;
-            }
-            case CommandStmtType.MENU_STMT: {
-                this.executor_ = new MenuExecutor(stmt as MenuStmt);
-                break;
-            }
-            case CommandStmtType.POST_STMT: {
-                this.executor_ = new PostExecutor(stmt as PostStmt);
-                break;
-            }
-            case CommandStmtType.SAY_STMT: {
-                this.executor_ = new SayExecutor(stmt as SayStmt);
-                break;
-            }
-            case CommandStmtType.SET_STMT: {
-                this.executor_ = new SetExecutor(stmt as SetStmt);
-                break;
-            }
-            case CommandStmtType.WHEN_SILENCE_STMT: {
-                this.executor_ = new WhenSilenceExecutor(stmt as WhenSilenceStmt);
-                break;
-            }
-            default: {
-                throw new Error("Unimplemented command stmt type");
-            }
-        }
+  private executor_: Executor;
+  /**
+   * Creates a new CommandExecutor instance.
+   * @param stmt The command statement to be executed.
+   */
+  constructor(stmt: CommandStmt) {
+    let command_type = stmt.get_cmd_type();
+    switch (command_type) {
+      case CommandStmtType.BREAK_STMT: {
+        this.executor_ = new BreakExecutor(stmt as BreakStmt);
+        break;
+      }
+      case CommandStmtType.CASE_STMT: {
+        this.executor_ = new CaseExecutor(stmt as CaseStmt);
+        break;
+      }
+      case CommandStmtType.CONTINUE_STMT: {
+        this.executor_ = new ContinueExecutor(stmt as ContinueStmt);
+        break;
+      }
+      case CommandStmtType.EXIT_STMT: {
+        this.executor_ = new ExitExecutor(stmt as ExitStmt);
+        break;
+      }
+      case CommandStmtType.FETCH_STMT: {
+        this.executor_ = new FetchExecutor(stmt as FetchStmt);
+        break;
+      }
+      case CommandStmtType.GOTO_STMT: {
+        this.executor_ = new GotoExecutor(stmt as GotoStmt);
+        break;
+      }
+      case CommandStmtType.IF_STMT: {
+        this.executor_ = new IfExecutor(stmt as IfStmt);
+        break;
+      }
+      case CommandStmtType.INPUT_STMT: {
+        this.executor_ = new InputExecutor(stmt as InputStmt);
+        break;
+      }
+      case CommandStmtType.LOOP_STMT: {
+        this.executor_ = new LoopExecutor(stmt as LoopStmt);
+        break;
+      }
+      case CommandStmtType.MATCH_STMT: {
+        this.executor_ = new MatchExecutor(stmt as MatchStmt);
+        break;
+      }
+      case CommandStmtType.MENU_STMT: {
+        this.executor_ = new MenuExecutor(stmt as MenuStmt);
+        break;
+      }
+      case CommandStmtType.POST_STMT: {
+        this.executor_ = new PostExecutor(stmt as PostStmt);
+        break;
+      }
+      case CommandStmtType.SAY_STMT: {
+        this.executor_ = new SayExecutor(stmt as SayStmt);
+        break;
+      }
+      case CommandStmtType.SET_STMT: {
+        this.executor_ = new SetExecutor(stmt as SetStmt);
+        break;
+      }
+      case CommandStmtType.WHEN_SILENCE_STMT: {
+        this.executor_ = new WhenSilenceExecutor(stmt as WhenSilenceStmt);
+        break;
+      }
+      default: {
+        throw new Error("Unimplemented command stmt type");
+      }
     }
-    
-    /**
-     * Opens the context.
-     * @param context - The context to be used.
-     */
-    open(context: Context): void {
-        this.executor_.open(context);
-    }
+  }
 
-    /**
-     * Executes the next command in the script.
-     * @param input The input event for the script.
-     * @returns The result event of the executed command.
-     */
-    next(input: ScriptInputEvent): ResultEvent {
-        return this.executor_.next(input);
-    }
+  /**
+   * Opens the context.
+   * @param context - The context to be used.
+   */
+  open(context: Context): void {
+    this.executor_.open(context);
+  }
 
-    /**
-     * Closes the executor 
-     */
-    close(): void {
-        this.executor_.close();
-    }
+  /**
+   * Executes the next command in the script.
+   * @param input The input event for the script.
+   * @returns The result event of the executed command.
+   */
+  next(input: ScriptInputEvent): ResultEvent {
+    return this.executor_.next(input);
+  }
 
-    /**
-     * Gets the type of the executor.
-     * @returns {ExecutorType} The executor type.
-     */
-    get_executor_type(): ExecutorType {
-        return ExecutorType.COMMAND;
-    }
+  /**
+   * Closes the executor
+   */
+  close(): void {
+    this.executor_.close();
+  }
 
+  /**
+   * Gets the type of the executor.
+   * @returns {ExecutorType} The executor type.
+   */
+  get_executor_type(): ExecutorType {
+    return ExecutorType.COMMAND;
+  }
 }

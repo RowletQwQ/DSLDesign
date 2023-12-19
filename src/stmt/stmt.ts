@@ -1,11 +1,11 @@
 // Statement的类型，对应语法中涉及的所有语句类型
 export enum StmtType {
-    SCRIPT_STMT,    //< 脚本
-    CONSTANCE_STMT, //< 常量声明
-    HELLO_STMT,     //< 初始问候声明
-    CHATBOX_STMT,   //< 初始聊天回复声明
-    TOPIC_STMT,     //< 话题声明
-    COMMAND_STMT,   //< 命令语句
+  SCRIPT_STMT, //< 脚本
+  CONSTANCE_STMT, //< 常量声明
+  HELLO_STMT, //< 初始问候声明
+  CHATBOX_STMT, //< 初始聊天回复声明
+  TOPIC_STMT, //< 话题声明
+  COMMAND_STMT, //< 命令语句
 }
 
 /**
@@ -16,7 +16,6 @@ export enum StmtType {
  */
 
 export interface Stmt {
-
-    // 获取表达式的类型
-    get_type(): StmtType;
+  // 获取表达式的类型
+  get_type(): StmtType;
 }

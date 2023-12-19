@@ -11,19 +11,19 @@ import { StdioNull } from "child_process";
  * Represents a parser stage that handles the parsing of a script.
  */
 export class ParserStage {
-    /**
-     * Handles the parsing of a script.
-     * @param script The script to be parsed.
-     * @returns The parsed script statement or null if parsing fails.
-     */
-    handle_script(script: string): ScriptStmt | null {
-        // 先进行词法分析
-        let lexer = new cslLexer(CharStreams.fromString(script));
-        let tokens = new CommonTokenStream(lexer);
-        // 语法分析
-        let parser = new cslParser(tokens);
-        let visitor = new ScriptVisitor();
-        let stmt = visitor.visit(parser.script());
-        return stmt;
-    }
+  /**
+   * Handles the parsing of a script.
+   * @param script The script to be parsed.
+   * @returns The parsed script statement or null if parsing fails.
+   */
+  handle_script(script: string): ScriptStmt | null {
+    // 先进行词法分析
+    let lexer = new cslLexer(CharStreams.fromString(script));
+    let tokens = new CommonTokenStream(lexer);
+    // 语法分析
+    let parser = new cslParser(tokens);
+    let visitor = new ScriptVisitor();
+    let stmt = visitor.visit(parser.script());
+    return stmt;
+  }
 }

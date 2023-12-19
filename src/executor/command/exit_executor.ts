@@ -8,44 +8,43 @@ import { Executor, ExecutorType } from "../executor.js";
  * Represents an executor for the "exit" command.
  */
 export class ExitExecutor implements Executor {
+  /**
+   * Creates a new instance of ExitExecutor.
+   * @param stmt The exit statement.
+   */
+  constructor(stmt: ExitStmt) {
+    // 什么都不做
+  }
 
-    /**
-     * Creates a new instance of ExitExecutor.
-     * @param stmt The exit statement.
-     */
-    constructor(stmt: ExitStmt) {
-        // 什么都不做
-    }
+  /**
+   * Gets the executor type.
+   * @returns The executor type.
+   */
+  get_executor_type(): ExecutorType {
+    return ExecutorType.EXIT;
+  }
 
-    /**
-     * Gets the executor type.
-     * @returns The executor type.
-     */
-    get_executor_type(): ExecutorType {
-        return ExecutorType.EXIT;
-    }
+  /**
+   * Opens the executor.
+   * @param context The context.
+   */
+  open(context: Context): void {
+    // Do nothing
+  }
 
-    /**
-     * Opens the executor.
-     * @param context The context.
-     */
-    open(context: Context): void {
-        // Do nothing
-    }
+  /**
+   * Processes the next input event.
+   * @param input The script input event.
+   * @returns The result event.
+   */
+  next(input: ScriptInputEvent): ResultEvent {
+    return new ResultEvent(0, "", ResultType.EXIT);
+  }
 
-    /**
-     * Processes the next input event.
-     * @param input The script input event.
-     * @returns The result event.
-     */
-    next(input: ScriptInputEvent): ResultEvent {
-        return new ResultEvent(0, "", ResultType.EXIT);
-    }
-
-    /**
-     * Closes the executor
-     */
-    close(): void {
-        // Do nothing
-    }
+  /**
+   * Closes the executor
+   */
+  close(): void {
+    // Do nothing
+  }
 }

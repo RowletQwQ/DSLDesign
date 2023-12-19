@@ -23,23 +23,28 @@ const options = {
   apis: ["./src/index.tsx"],
 };
 
+/**
+ * Get available port
+ * @param startPort start port number
+ * @returns Promise<number> available port number
+ */
 function getAvailablePort(startPort: number): Promise<number> {
-    return new Promise((resolve, reject) => {
-        const port = startPort;
-        const server = createServer(app);
-        server.listen(port, () => {
-            console.log(`Server listening on port ${port}`);
-            server.once("close", () => {
-                resolve(port);
-            });
-            server.close();
-        });
-        server.on("error", () => {
-            getAvailablePort(port + 1)
-                .then(resolve)
-                .catch(reject);
-        });
+  return new Promise((resolve, reject) => {
+    const port = startPort;
+    const server = createServer(app);
+    server.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
+      server.once("close", () => {
+        resolve(port);
+      });
+      server.close();
     });
+    server.on("error", () => {
+      getAvailablePort(port + 1)
+        .then(resolve)
+        .catch(reject);
+    });
+  });
 }
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -88,28 +93,29 @@ app.use(express.json());
  *                   example: "ws://localhost:8080"
  */
 app.post("/api/upload", async (req, res) => {
-    let req_json = req.body;
-    console.log(req_json);
-    try {
-        const port = await getAvailablePort(8081);
-        let ws_session = new WsSession(req_json.bot_name, req_json.script, port);
-        sessionMap.set(ws_session.get_session_id(), ws_session);
-        if (!ws_session.is_instance_exist()) {
-            res.status(500).send({
-                message: "Error occur when creating instance, please check your script!",
-            });
-            return;
-        }
-        res.status(200).send({
-            uuid: ws_session.get_session_id(),
-            ws_url: ws_session.get_ws_addr(),
-        });
-    } catch (error) {
-        console.log(`Create session error: ${error.message}`);
-        res.status(500).send({
-            message: error.message,
-        });
+  let req_json = req.body;
+  console.log(req_json);
+  try {
+    const port = await getAvailablePort(8081);
+    let ws_session = new WsSession(req_json.bot_name, req_json.script, port);
+    sessionMap.set(ws_session.get_session_id(), ws_session);
+    if (!ws_session.is_instance_exist()) {
+      res.status(500).send({
+        message:
+          "Error occur when creating instance, please check your script!",
+      });
+      return;
     }
+    res.status(200).send({
+      uuid: ws_session.get_session_id(),
+      ws_url: ws_session.get_ws_addr(),
+    });
+  } catch (error) {
+    console.log(`Create session error: ${error.message}`);
+    res.status(500).send({
+      message: error.message,
+    });
+  }
 });
 
 app.listen(8080, () => {
