@@ -12,6 +12,7 @@ export class InputExecutor implements Executor {
   private child_: WhenSilenceExecutor; // When Silence Stmt
   private timeout_expr_: Expression | null = null;
   private timeout_: number | undefined = undefined;
+  private is_timeout_: boolean = false;
   private local_context_: Context;
   private input_value_: any;
   /**
@@ -52,6 +53,7 @@ export class InputExecutor implements Executor {
     if (this.timeout_expr_ != null) {
       this.child_.open(this.local_context_);
     }
+    this.is_timeout_ = false;
   }
 
   /**
@@ -63,6 +65,11 @@ export class InputExecutor implements Executor {
     let input_str = input.get_input();
     if (input.is_handled() && input_str == null) {
       // 超时了, 执行超时分支
+      this.is_timeout_ = true;
+      return this.child_.next(input);
+    }
+    if (this.is_timeout_) {
+      // 超时了，直接返回
       return this.child_.next(input);
     }
 
@@ -110,6 +117,9 @@ export class InputExecutor implements Executor {
    * This method exits the current scope and sets the local symbol with the target ID and input value.
    */
   close(): void {
+    if (this.timeout_expr_ != null) {
+      this.child_.close();
+    }
     this.local_context_.exit_current_scope();
     this.local_context_.set_local_symbol(this.target_id_, this.input_value_);
   }

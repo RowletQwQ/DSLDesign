@@ -30,6 +30,7 @@ export class WhenSilenceExecutor implements Executor {
     this.local_context_ = context;
     this.local_context_.enter_new_scope();
     this.current_index_ = 0;
+    this.children_[this.current_index_].open(this.local_context_);
   }
   /**
    * Advances to the next child executor and processes the input event.

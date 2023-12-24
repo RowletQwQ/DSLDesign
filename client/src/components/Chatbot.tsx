@@ -5,7 +5,7 @@ import '@chatui/core/dist/index.css';
 
 interface ChatBotProps {
     titleName: string,
-    wsConn: WebSocket
+    wsConn: WebSocket,
     onClose?: () => void
 }
 
@@ -31,12 +31,15 @@ const ChatBot: React.FC<ChatBotProps> = ({titleName,wsConn,onClose}) => {
     const { messages, appendMsg, setTyping } = useMessages([]);
     // Use ref to store the websocket connection
     const ws = React.useRef<WebSocket>(wsConn);
+    const [isRunning, setIsRunning] = React.useState<boolean>(false);
     const [menuArray, setMenuArray] = React.useState<string[]>([]);
     const [inputMode, setInputMode] = React.useState<'text' | 'menu'>('text');
+    const [refreshKey, setRefreshKey] = React.useState<number>(0);
     useEffect(() => {
         // When receive message from server, append it to the message list
         ws.current.onopen = () => {
             console.log('connected');
+            setIsRunning(true);
         };
         ws.current.onmessage = (message) => {
             console.log(message);
@@ -68,12 +71,20 @@ const ChatBot: React.FC<ChatBotProps> = ({titleName,wsConn,onClose}) => {
 
         ws.current = wsConn;
         // When websocket is closed, set the websocket to null
-        ws.current.onclose = () => {
+        ws.current.onclose = async () => {
             console.log('disconnected');
+            handleRefresh();
             window.alert('Chatbot disconnected!');
+            setIsRunning(false);
+            await new Promise(resolve => setTimeout(resolve, 2000)); // 休眠2秒
             onClose && onClose();
+            
         };
     }, [wsConn]);
+
+    function handleRefresh() {
+        setRefreshKey(refreshKey + 1);
+    }
 
     /**
      * Renders the content of a message.
@@ -91,6 +102,10 @@ const ChatBot: React.FC<ChatBotProps> = ({titleName,wsConn,onClose}) => {
      * @param val - The value of the message.
      */
     function handleSend(type: any, val: any) {
+        if (!isRunning) {
+            window.alert('Chatbot is not running!');
+            return;
+        }
         if (type === 'text' && val.trim()) {
             appendMsg({
                 type: 'text',

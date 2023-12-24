@@ -45,6 +45,7 @@ export class CommandExecutor implements Executor {
   private executor_: Executor;
   /**
    * Creates a new CommandExecutor instance.
+   * Parses the command statement and creates the corresponding executor.
    * @param stmt The command statement to be executed.
    */
   constructor(stmt: CommandStmt) {

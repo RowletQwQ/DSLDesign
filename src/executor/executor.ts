@@ -28,7 +28,7 @@ export enum ExecutorType {
   MOCK,         //< mock, 用于测试
 }
 /*
- * @brief: executor.js 执行器
+ * 执行器
  * 用于执行一条指令
  */
 export interface Executor {
@@ -58,6 +58,10 @@ export interface Executor {
    */
   get_executor_type(): ExecutorType;
 }
+
+/**
+ * Mock executor for testing.
+ */
 export class ExecutorMock implements Executor {
   open(context: Context): void {
     // Mock implementation

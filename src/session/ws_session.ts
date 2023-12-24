@@ -170,8 +170,30 @@ export class WsSession {
 
   waitInput(timer: number) {
     return new Promise<string>((resolve) => {
+      let checkQueueTimeoutId: NodeJS.Timeout | null = null;
+      let timeoutId: NodeJS.Timeout | null = null;
+      // Wait for the input
+      const checkQueue = () => {
+        if (this.message_queue_.length > 0) {
+          const message = this.message_queue_.shift();
+          if (message == undefined || this.instance_ == null) {
+            throw new Error("message is undefined or instance is null");
+          }
+          this.instance_.push_input(message);
+          if (checkQueueTimeoutId != null) {
+            clearTimeout(checkQueueTimeoutId);
+          }
+          resolve(message);
+        } else {
+          checkQueueTimeoutId = setTimeout(checkQueue, 100);
+        }
+      };
       if (timer > 0) {
-        const timeoutId = setTimeout(() => {
+        timeoutId = setTimeout(() => {
+          if (checkQueueTimeoutId != null) {
+            clearTimeout(checkQueueTimeoutId);
+          }
+          checkQueueTimeoutId = null;
           resolve("");
         }, timer * 1000);
         if (this.message_queue_.length > 0) {
@@ -183,20 +205,7 @@ export class WsSession {
           clearTimeout(timeoutId);
           resolve(message);
         } else {
-          // Wait for the input
-          const checkQueue = () => {
-            if (this.message_queue_.length > 0) {
-              const message = this.message_queue_.shift();
-              if (message == undefined || this.instance_ == null) {
-                throw new Error("message is undefined or instance is null");
-              }
-              this.instance_.push_input(message);
-              clearTimeout(timeoutId);
-              resolve(message);
-            } else {
-              setTimeout(checkQueue, 100);
-            }
-          };
+          checkQueue();
         }
       } else {
         if (this.message_queue_.length > 0) {
@@ -207,19 +216,6 @@ export class WsSession {
           this.instance_.push_input(message);
           resolve(message);
         } else {
-          // Wait for the input
-          const checkQueue = () => {
-            if (this.message_queue_.length > 0) {
-              const message = this.message_queue_.shift();
-              if (message == undefined || this.instance_ == null) {
-                throw new Error("message is undefined or instance is null");
-              }
-              this.instance_.push_input(message);
-              resolve(message);
-            } else {
-              setTimeout(checkQueue, 100);
-            }
-          };
           checkQueue();
         }
       }
