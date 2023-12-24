@@ -132,7 +132,7 @@ assert_stmt: ASSERT expression;
 
 when_silence_stmt: WHEN SILENCE expression ARROW LBRACE command_sequnces RBRACE;
 
-match_stmt: MATCH INPUT LBRACE case_list default_branch? RBRACE when_silence_stmt?;
+match_stmt: MATCH INPUT LBRACE case_list default_branch RBRACE when_silence_stmt?;
 
 menu_stmt: MENU LBRACE case_list RBRACE;
 

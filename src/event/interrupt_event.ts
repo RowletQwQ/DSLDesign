@@ -1,9 +1,12 @@
+import * as e from "express";
+
 export enum InterruptReason {
   EXIT,     // 退出
   INPUT,    // 输入
   OUTPUT,   // 输出
   ERROR,    // 报错
   SHOW_MENU,// 显示菜单
+  MOCK,     // 用于测试
 }
 /**
  * @brief 用于中断实例执行，从而获取输入，或者报错
@@ -96,5 +99,11 @@ export class InterruptEvent {
    */
   is_show_menu(): boolean {
     return this.reason_ == InterruptReason.SHOW_MENU;
+  }
+}
+
+export class InterruptEventMock extends InterruptEvent {
+  constructor() {
+    super(InterruptReason.MOCK, "mock");
   }
 }

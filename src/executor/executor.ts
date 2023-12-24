@@ -1,5 +1,5 @@
 import { Context } from "../context/context.js";
-import { ResultEvent } from "../event/result_event.js";
+import { ResultEvent, ResultType } from "../event/result_event.js";
 import { ScriptInputEvent } from "../event/script_input_event.js";
 
 export enum ExecutorType {
@@ -25,6 +25,7 @@ export enum ExecutorType {
   CONTINUE,     //< continue命令执行器
   BREAK,        //< break命令执行器
   EXIT,         //< exit命令执行器
+  MOCK,         //< mock, 用于测试
 }
 /*
  * @brief: executor.js 执行器
@@ -56,4 +57,22 @@ export interface Executor {
    * @returns 返回执行器类型
    */
   get_executor_type(): ExecutorType;
+}
+export class ExecutorMock implements Executor {
+  open(context: Context): void {
+    // Mock implementation
+  }
+
+  next(input: ScriptInputEvent): ResultEvent {
+    // Mock implementation
+    return new ResultEvent(0, "", ResultType.END);
+  }
+
+  close(): void {
+    // Mock implementation
+  }
+
+  get_executor_type(): ExecutorType {
+    return ExecutorType.SCRIPT; // Mock implementation
+  }
 }

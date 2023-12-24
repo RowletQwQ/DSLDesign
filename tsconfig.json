@@ -4,7 +4,7 @@
         "module": "NodeNext",
         "typeRoots": ["types"],
         "target": "ES2022",
-        "moduleResolution": "Node16",
+        "moduleResolution": "NodeNext",
         "noEmit": false,
         "emitDeclarationOnly": false,
         "outDir": "lib",
@@ -23,12 +23,13 @@
     "compileOnSave": true,
     "include": [
         "src/**/*.ts",
-        "index.ts", 
-        "src/index.tsx",   ],
+        "src/exec.ts",
+        "test/**/*.ts",
+        "test/*.ts", 
+        "src/index.tsx"],
     "exclude": [
         "node_modules",
         "lib/**/*",
-        "tests/**/*"
     ]
     
 }

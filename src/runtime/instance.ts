@@ -1,5 +1,6 @@
 import { Context } from "../context/context.js";
 import { InterruptEvent, InterruptReason } from "../event/interrupt_event.js";
+import { AsycOp } from "../event/result_event.js";
 import { ScriptInputEvent } from "../event/script_input_event.js";
 import { Executor } from "../executor/executor.js";
 
@@ -8,7 +9,6 @@ import { Executor } from "../executor/executor.js";
  * 表示一个脚本文件的运行实例
  * 一个脚本文件可能会被多个用户同时访问
  */
-
 export class Instance {
   private main_executor_: Executor;
   private input_buffer_: string[] = [];
@@ -83,6 +83,53 @@ export class Instance {
         );
       }
 
+      if (result.is_need_async()) {
+        // 发送GET, 需要异步执行
+        let payload = result.get_payload();
+        if (payload == undefined) {
+          throw new Error("fetch payload is undefined");
+        }
+        if (payload.op == AsycOp.GET) {
+          let input_event = new ScriptInputEvent(undefined);
+          try {
+            let response = await fetch(payload.url);
+            if (response.ok) {
+              let data = await response.json();
+              input_event.set_payload({ op:AsycOp.POST, url: payload.url, data: data });
+            } else {
+              input_event.set_payload({ op:AsycOp.POST, url: payload.url, data: undefined });
+            }
+          } catch (error) {
+            throw new Error("fetch error:", error);
+          }
+          result = this.main_executor_.next(input_event);
+          continue;
+        } else if (payload.op == AsycOp.POST) {
+          let input_event = new ScriptInputEvent(undefined);
+          try {
+            let response = await fetch(payload.url, {
+              method: "POST",
+              body: JSON.stringify(payload.data),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+            if (response.ok) {
+              let data = await response.json();
+              input_event.set_payload({ op:AsycOp.POST, url: payload.url, data: data });
+            } else {
+              input_event.set_payload({ op:AsycOp.POST, url: payload.url, data: undefined });
+            }
+          } catch (error) {
+            throw new Error("fetch error:", error);
+          }
+          result = this.main_executor_.next(input_event);
+          continue;
+        } else {
+          throw new Error("Unknown async operation");
+        }
+      }
+
       if (result.is_menu()) {
         // 需要在前端显示选项菜单
         let menuInterruptEvent = new InterruptEvent(
@@ -148,5 +195,44 @@ export class Instance {
    */
   get_instance_id(): string {
     return this.instance_id_;
+  }
+}
+
+/**
+ * MockInstance is a mock implementation of the Instance class for testing purposes.
+ */
+export class MockInstance extends Instance {
+  constructor(name: string, main_executor: Executor) {
+    super(name, main_executor);
+  }
+
+  /**
+   * Overrides the start method to do nothing in the mock implementation.
+   */
+  override start(): void {
+    // Do nothing in the mock implementation
+  }
+
+  /**
+   * Overrides the close method to do nothing in the mock implementation.
+   */
+  override close(): void {
+    // Do nothing in the mock implementation
+  }
+
+  /**
+   * Overrides the run method to do nothing in the mock implementation.
+   */
+  override async run(
+    callback: (interrupt_event: InterruptEvent, timer: number) => Promise<void>
+  ): Promise<void> {
+    // Do nothing in the mock implementation
+  }
+
+  /**
+   * Overrides the push_input method to do nothing in the mock implementation.
+   */
+  override push_input(input: string): void {
+    // Do nothing in the mock implementation
   }
 }

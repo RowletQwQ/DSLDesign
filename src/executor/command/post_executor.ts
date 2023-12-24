@@ -1,5 +1,5 @@
 import { Context } from "../../context/context.js";
-import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { AsycOp, ResultEvent, ResultType } from "../../event/result_event.js";
 import { ScriptInputEvent } from "../../event/script_input_event.js";
 import { TemplateStringExpr } from "../../expr/template_string_expr.js";
 import { PostStmt } from "../../stmt/command/post_stmt.js";
@@ -52,19 +52,34 @@ export class PostExecutor implements Executor {
    * @returns The result event after executing the command.
    */
   next(input: ScriptInputEvent): ResultEvent {
-    // 先获取对象
-    let source = this.upper_context_.get_symbol(this.source_id_);
-    if (source == undefined) {
-      throw new Error("Source should be defined");
+    let payload = input.get_payload();
+    if (payload == null) {
+      // 还未发起请求
+      // 先获取对象
+      let source = this.upper_context_.get_symbol(this.source_id_);
+      if (source == undefined) {
+        throw new Error("Source should be defined");
+      }
+      // 生成payload，回传
+      let result = new ResultEvent(0, "", ResultType.NEED_ASYNC);
+      result.set_payload({
+        op: AsycOp.POST,
+        url: this.target_url_,
+        data: JSON.stringify(source),
+      });
+      return result;
     }
-    // 发起POST请求
-    fetch(this.target_url_, {
-      method: "POST",
-      body: JSON.stringify(source),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+
+    // 检查请求是否发送成功
+    let data = payload.data;
+    if (data == undefined) {
+      // 请求发送失败
+      return new ResultEvent(
+        -1,
+        `POST Request ERROR, url:${this.url_str_}`,
+        ResultType.ERROR
+      );
+    }
     // 请求发送结束
     return new ResultEvent(0, "", ResultType.END);
   }

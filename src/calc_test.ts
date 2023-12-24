@@ -1,7 +1,7 @@
 import { CharStreams, CommonTokenStream } from "antlr4ng";
-import { cslLexer } from "../src/parser/cslLexer.js";
-import { cslParser } from "../src/parser/cslParser.js";
-import { ExpressionVisitor } from "../src/visitor/expression_visitor.js";
+import { cslLexer } from "./parser/cslLexer.js";
+import { cslParser } from "./parser/cslParser.js";
+import { ExpressionVisitor } from "./visitor/expression_visitor.js";
 import { createInterface } from "readline";
 
 const rl = createInterface({

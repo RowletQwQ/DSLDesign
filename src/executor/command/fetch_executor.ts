@@ -1,5 +1,5 @@
 import { Context } from "../../context/context.js";
-import { ResultEvent, ResultType } from "../../event/result_event.js";
+import { AsycOp, ResultEvent, ResultType } from "../../event/result_event.js";
 import { ScriptInputEvent } from "../../event/script_input_event.js";
 import { Expression } from "../../expr/expression.js";
 import { TemplateStringExpr } from "../../expr/template_string_expr.js";
@@ -59,24 +59,31 @@ export class FetchExecutor implements Executor {
   }
 
   /**
-   * Processes the next input event and returns the result event.
+   * Tries to fetch data from the URL.
    * @param input The input event.
    * @returns The result event.
    */
   next(input: ScriptInputEvent): ResultEvent {
     // Send a GET request to the URL
-    fetch(this.url_)
-      .then((response) => response.json())
-      .then((data) => {
-        // Process the response data
-        this.upper_context_.set_local_symbol(this.target_id_, data);
-      })
-      .catch((error) => {
-        // Handle the error
-        return new ResultEvent(-1, error.toString(), ResultType.ERROR);
+    let payload = input.get_payload();
+    if (payload == null) {
+      let result = new ResultEvent(0, "", ResultType.NEED_ASYNC);
+      result.set_payload({
+        op: AsycOp.GET,
+        data: null,
+        url: this.url_,
       });
+      return result;
+    }
+    if (payload.data == undefined) {
+      return new ResultEvent(
+        -1,
+        `GET request execute error,url: ${this.url_str_}`,
+        ResultType.ERROR
+      );
+    }
+    this.upper_context_.set_local_symbol(this.target_id_, payload.data);
 
-    // Set the execution as finished
     return new ResultEvent(0, "", ResultType.END);
   }
 

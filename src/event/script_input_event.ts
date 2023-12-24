@@ -1,9 +1,13 @@
+import { ParsedUrlQuery } from "querystring";
+import { Payload } from "./result_event.js";
+
 /**
  * Represents a script input event.
  */
 export class ScriptInputEvent {
   private input_: string | undefined;
   private is_handled_: boolean = false; // 用于计时,如果在一定时间内没有处理,则认为是超时
+  private payload_: Payload | null; // 用于传递额外的数据
 
   /**
    * Constructs a new ScriptInputEvent instance.
@@ -13,6 +17,7 @@ export class ScriptInputEvent {
   constructor(input: string | undefined, is_handled: boolean = false) {
     this.input_ = input;
     this.is_handled_ = is_handled;
+    this.payload_ = null;
   }
 
   /**
@@ -29,5 +34,13 @@ export class ScriptInputEvent {
    */
   is_handled(): boolean {
     return this.is_handled_;
+  }
+
+  set_payload(payload: Payload) {
+    this.payload_ = payload;
+  }
+
+  get_payload(): Payload | null {
+    return this.payload_;
   }
 }

@@ -1,4 +1,3 @@
-import { time } from "console";
 import { Context } from "../../context/context.js";
 import { ResultEvent, ResultType } from "../../event/result_event.js";
 import { ScriptInputEvent } from "../../event/script_input_event.js";

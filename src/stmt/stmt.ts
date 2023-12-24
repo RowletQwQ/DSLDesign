@@ -1,3 +1,5 @@
+import * as exp from "constants";
+
 // Statement的类型，对应语法中涉及的所有语句类型
 export enum StmtType {
   SCRIPT_STMT, //< 脚本
@@ -18,4 +20,10 @@ export enum StmtType {
 export interface Stmt {
   // 获取表达式的类型
   get_type(): StmtType;
+}
+
+export class StmtMock implements Stmt {
+  get_type(): StmtType {
+    return StmtType.SCRIPT_STMT;
+  }
 }

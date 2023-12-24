@@ -6,6 +6,7 @@
 export enum ResultType {
   SUCCESS, // 成功执行
   RELOAD, // 重新加载
+  NEED_ASYNC, // 需要进行异步操作
   GOTO, // 跳转到某个标签
   BREAK, // 跳出循环
   CONTINUE, // 继续执行
@@ -17,6 +18,16 @@ export enum ResultType {
   ERROR, // 发生错误
 }
 
+export enum AsycOp {
+  GET, // get操作
+  POST, // post操作
+}
+
+export interface Payload {
+  op: AsycOp;
+  url: URL;
+  data: any;
+}
 /**
  * Represents a result event.
  */
@@ -26,6 +37,7 @@ export class ResultEvent {
   private result_type_: ResultType;
   private timer_: number; // 当输入时，需要设置一个超时时间
   private menu_: string[] = []; // 当需要菜单时，需要设置菜单内容
+  private payload_: Payload; // 用于传递额外的数据
 
   /**
    * Creates a new instance of ResultEvent.
@@ -52,6 +64,14 @@ export class ResultEvent {
    */
   set_menu(menu: string[]) {
     this.menu_ = menu;
+  }
+
+  set_payload(payload: Payload) {
+    this.payload_ = payload;
+  }
+
+  get_payload(): Payload {
+    return this.payload_;
   }
 
   /**
@@ -148,5 +168,9 @@ export class ResultEvent {
    */
   is_break(): boolean {
     return this.result_type_ == ResultType.BREAK;
+  }
+
+  is_need_async(): boolean {
+    return this.result_type_ == ResultType.NEED_ASYNC;
   }
 }

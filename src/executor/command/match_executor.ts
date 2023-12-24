@@ -13,6 +13,7 @@ export class MatchExecutor implements Executor {
   private children_: Executor[] = [];
   private match_map_: Map<string, number>;
   private local_context_: Context;
+  private pattern_list_: RegExp[] = [];
 
   /**
    * Creates an instance of MatchExecutor.
@@ -20,6 +21,7 @@ export class MatchExecutor implements Executor {
    */
   constructor(stmt: MatchStmt) {
     this.match_map_ = new Map<string, number>();
+    this.pattern_list_ = [];
     let stmts = stmt.get_cases();
     let default_stmt = stmt.get_default_case();
     if (default_stmt != null) {
@@ -33,7 +35,12 @@ export class MatchExecutor implements Executor {
         throw new Error("Duplicate pattern in MatchStmt");
       }
       this.match_map_.set(pattern, this.children_.length);
+      this.pattern_list_.push(new RegExp(pattern));
       this.children_.push(new CommandExecutor(stmt));
+    }
+    let when_silence_stmt = stmt.get_when_silence_stmt();
+    if (when_silence_stmt != null) {
+      this.when_silence_executor_ = new CommandExecutor(when_silence_stmt);
     }
   }
 
@@ -66,14 +73,24 @@ export class MatchExecutor implements Executor {
         // 无输入,请求输入
         return new ResultEvent(0, "", ResultType.INPUT);
       }
-      // 如果有输入,则检查是否有对应的分支,无对应分支则进入default
-      let index = this.match_map_.get(input_str);
-      if (index == undefined) {
-        index = this.default_index_;
+      // 遍历所有pattern,检查是否有匹配
+      for (let i = 0; i < this.pattern_list_.length; ++i) {
+        if (input_str.match(this.pattern_list_[i]) != null) {
+          this.is_running_ = true;
+          this.children_[i].open(this.local_context_);
+          this.current_index_ = i;
+          return this.children_[i].next(input);
+        }
       }
-      this.is_running_ = true;
-      this.children_[index].open(this.local_context_);
-      this.current_index_ = index;
+      // 没有匹配,执行default分支
+      let index = this.default_index_;
+      if (index != -1) {
+        this.is_running_ = true;
+        this.children_[index].open(this.local_context_);
+        this.current_index_ = index;
+      } else {
+        throw new Error("No match in MatchStmt");
+      }
     }
     // 接下来正常执行分支
     return this.children_[this.current_index_].next(input);

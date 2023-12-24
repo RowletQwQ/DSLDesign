@@ -21,9 +21,20 @@ export enum CommandStmtType {
   SET_STMT, //< 设置语句
   WHEN_SILENCE_STMT, //< when silence语句,在涉及到输入时使用
   WHEN_STMT, //< when语句,在循环中使用
+  MOCK_STMT, //< mock,用于测试
 }
 
 export interface CommandStmt extends Stmt {
   // 获取命令类型
   get_cmd_type(): CommandStmtType;
+}
+
+export class CommandStmtMock implements CommandStmt {
+  get_cmd_type(): CommandStmtType {
+    return CommandStmtType.MOCK_STMT;
+  }
+
+  get_type(): StmtType {
+    return StmtType.COMMAND_STMT;
+  }
 }

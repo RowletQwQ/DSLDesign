@@ -14,12 +14,12 @@ export class MatchStmt implements CommandStmt {
   /**
    * Creates a new MatchStmt instance.
    * @param cases The list of case statements.
-   * @param default_case The default case statement (optional).
+   * @param default_case The default case statement.
    * @param when_silence_stmt The when silence statement (optional).
    */
   constructor(
     cases: CaseStmt[],
-    default_case: CaseStmt | null = null,
+    default_case: CaseStmt,
     when_silence_stmt: WhenSilenceStmt | null = null
   ) {
     this.cases_ = cases;

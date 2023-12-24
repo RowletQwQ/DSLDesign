@@ -428,6 +428,8 @@ export class CommandVisitor extends cslVisitor<CommandStmt[] | CommandStmt> {
       default_stmt_instance = this.visitDefault_branch(
         default_stmt
       ) as CaseStmt;
+    } else {
+      throw new Error("Match_stmt Parse error");
     }
     let when_silence_stmt = ctx.when_silence_stmt();
     let when_silence_instance: WhenSilenceStmt | null = null;

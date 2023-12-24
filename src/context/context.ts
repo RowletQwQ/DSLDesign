@@ -99,15 +99,6 @@ export class Context {
         throw new Error("Symbol not found in global context.");
     }
 
-    
-
-    /**
-     * Sets the value of a symbol in the upper context.
-     * If the upper context is not defined, sets the symbol in this context.
-     * @param name The name of the symbol.
-     * @param value The value to set.
-     */
-
     /**
      * Gets the value of a symbol from this context.
      * If the symbol is not found in this context, searches in the upper context.
@@ -130,5 +121,19 @@ export class Context {
             return this.const_global_symbol_table_.get(name);
         }
         return undefined;
+    }
+
+    /**
+     * Determines whether the context is currently in scope.
+     * @returns {boolean} True if the context is in scope, false otherwise.
+     */
+    is_in_scope(): boolean {
+        return this.symbol_table_stack_.length > 0;
+    }
+}
+export class MockContext extends Context{
+
+    constructor() {
+        super(new Map<string, any>());
     }
 }

@@ -1,1 +1,0 @@
-antlr4-parse src\parser\csl.g4 scripts -tokens -trace

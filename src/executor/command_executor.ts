@@ -3,7 +3,7 @@ import { Context } from "../context/context.js";
 import { ResultEvent } from "../event/result_event.js";
 import { ScriptInputEvent } from "../event/script_input_event.js";
 import { CommandStmt, CommandStmtType } from "../stmt/command_stmt.js";
-import { Executor, ExecutorType } from "./executor.js";
+import { Executor, ExecutorMock, ExecutorType } from "./executor.js";
 import { AssertStmt } from "../stmt/command/assert_stmt.js";
 import { BreakExecutor } from "./command/break_executor.js";
 import { BreakStmt } from "../stmt/command/break_stmt.js";
@@ -108,6 +108,10 @@ export class CommandExecutor implements Executor {
       }
       case CommandStmtType.WHEN_SILENCE_STMT: {
         this.executor_ = new WhenSilenceExecutor(stmt as WhenSilenceStmt);
+        break;
+      }
+      case CommandStmtType.MOCK_STMT: {
+        this.executor_ = new ExecutorMock();
         break;
       }
       default: {

@@ -73,4 +73,21 @@ export class CaseExecutor implements Executor {
   close(): void {
     this.local_context_.exit_current_scope();
   }
+
+  /***************** FOR TESTING ************************/
+  /**
+   * Gets the current index of the executor.
+   * @returns The current index.
+   */
+  get_current_index(): number {
+    return this.current_index_;
+  }
+
+  /**
+   * Gets the local context of the executor.
+   * @returns The local context.
+   */
+  get_context(): Context {
+    return this.local_context_;
+  }
 }
