@@ -75,6 +75,15 @@ export class Instance {
         throw new Error("break and continue should only be used in loop");
       }
 
+      if (result.is_error()) {
+        // 是错误，向上抛出
+        await callback(
+          new InterruptEvent(InterruptReason.ERROR, result.get_result()),
+          0
+        );
+        break;
+      }
+
       if (result.is_output()) {
         // 是输出事件，发出中断请求
         await callback(
@@ -109,7 +118,7 @@ export class Instance {
           try {
             let response = await fetch(payload.url, {
               method: "POST",
-              body: JSON.stringify(payload.data),
+              body: payload.data,
               headers: {
                 "Content-Type": "application/json",
               },

@@ -173,4 +173,8 @@ export class ResultEvent {
   is_need_async(): boolean {
     return this.result_type_ == ResultType.NEED_ASYNC;
   }
+
+  is_error(): boolean {
+    return this.result_type_ == ResultType.ERROR;
+  }
 }

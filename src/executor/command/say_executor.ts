@@ -39,6 +39,9 @@ export class SayExecutor implements Executor {
       throw new Error("value should be defined");
     }
     this.is_printed_ = true;
+    if (typeof value == "object") {
+      value = JSON.stringify(value);
+    }
     return new ResultEvent(0, value.toString(), ResultType.OUTPUT);
   }
   /**

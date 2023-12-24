@@ -100,7 +100,7 @@ topic looping {
         } else => {
             say `This is the ${i + 1}th time`
         }
-        set i := i + 1
+        set i = i + 1
     }
     goto chatbox
 }

@@ -87,7 +87,7 @@ export class InputExecutor implements Executor {
     }
     // 有输入了，先进行类型推断, 仅支持数字和字符串
     let input_value = parseFloat(input_str);
-    if (isNaN(input_value) && input_str != input_value.toString()) {
+    if (!isFinite(input_value)) {
       // 不是数字
       this.local_context_.set_local_symbol(this.target_id_, input_str);
     } else {
@@ -102,7 +102,7 @@ export class InputExecutor implements Executor {
       }
     }
     // 如果通过了assert,那么将输入暂存到input_value_中
-    if (isNaN(input_value) && input_str != input_value.toString()) {
+    if (!isFinite(input_value)) {
       // 不是数字
       this.input_value_ = input_str;
     } else {

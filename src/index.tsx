@@ -118,6 +118,20 @@ app.post("/api/upload", async (req, res) => {
   }
 });
 
+
+/**
+ * Handles the POST request to "/api/test".
+ * @param req The request object.
+ * @param res The response object.
+ */
+app.post("/api/test", async (req, res) => {
+  let req_json = req.body;
+  console.log(req_json);
+  res.status(200).send({
+    message: "Success",
+  });
+});
+
 app.listen(8080, () => {
   console.log("Server listening on port 8080");
 });

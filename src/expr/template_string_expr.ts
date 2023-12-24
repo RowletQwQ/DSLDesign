@@ -58,6 +58,32 @@ export class TemplateStringExpr implements Expression {
   }
 
   /**
+   * Retrieves the raw value of the template string expression.(Without space)
+   * 
+   * @param context - The context object used for evaluating the expression.
+   * @returns The raw value of the template string expression as a string, or undefined if the value is not available.
+   */
+  get_raw_value(context: Context): string | undefined {
+    let result = "";
+    for (let part of this.template_parts_) {
+      if (typeof part == "string") {
+        result += part;
+      } else {
+        let value = part.get_value(context);
+        console.log(value);
+        if (typeof value == "object") {
+          result += JSON.stringify(value);
+        } else if (typeof value != "undefined") {
+          result += `${value}`;
+        } else {
+          return undefined;
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
    * Tries to get the value of the expression.
    * @returns The value of the expression as a string, number, boolean, or undefined.
    */

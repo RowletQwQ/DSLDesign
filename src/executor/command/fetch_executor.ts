@@ -48,11 +48,12 @@ export class FetchExecutor implements Executor {
       if (this.url_expr_ == null) {
         throw new Error("url and url_expr should not be null at the same time");
       }
-      let plain_text = this.url_expr_.get_value(context);
+      let plain_text = this.url_expr_.get_raw_value(context);
       if (plain_text == undefined) {
         throw new Error("url_expr should be defined");
       }
-      this.url_ = new URL(plain_text.toString());
+      console.log(plain_text);
+      this.url_ = new URL(plain_text);
     } else {
       this.url_ = new URL(this.url_str_);
     }

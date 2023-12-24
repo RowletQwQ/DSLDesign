@@ -245,7 +245,8 @@ export class CommandVisitor extends cslVisitor<CommandStmt[] | CommandStmt> {
       }
       return new FetchStmt(template_str, identifier);
     }
-    return new FetchStmt(url.toString(), identifier);
+    let str = url.toString();
+    return new FetchStmt(str.substring(1, str.length - 1), identifier);
   };
 
   // goto 命令
@@ -482,7 +483,8 @@ export class CommandVisitor extends cslVisitor<CommandStmt[] | CommandStmt> {
       }
       return new PostStmt(identifier, template_str);
     }
-    return new PostStmt(identifier, url.toString());
+    let str = url.toString();
+    return new PostStmt(identifier, str.substring(1, str.length - 1));
   };
 
   // say 语句

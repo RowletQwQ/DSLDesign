@@ -9,18 +9,42 @@ import Editor from './components/Editor';
 
 const App = () => {
   const [wsConn, setWsConn] = React.useState<WebSocket | null>(null);
+  const [newConn, setNewConn] = React.useState<WebSocket | null>(null);
+  const [newBotName, setNewBotName] = React.useState<string>('');
   const [botName, setBotName] = React.useState<string>('');
+  const [refreshKey, setRefreshKey] = React.useState<number>(0);
 
-  function getWsConn(ws_url:string, bot_name:string): void {
-    const ws = new WebSocket(ws_url);
-    setWsConn(ws);
-    setBotName(bot_name);
+  function refresh(): void {
+    setRefreshKey(refreshKey + 1);
   }
 
-  function closeWsConn(): void {
+  function getWsConn(ws_url:string, bot_name:string): void {
+    if (wsConn !== null) {
+      window.alert('You need to wait for the current chatbot to finish before uploading a new script.');
+      const ws = new WebSocket(ws_url);
+      setNewConn(ws);
+      setNewBotName(bot_name);
+      wsConn.close();
+    } else {
+      const ws = new WebSocket(ws_url);
+      setWsConn(ws);
+      setBotName(bot_name);
+    }
+    refresh();
+  }
+
+  function closeWsConn():void {
     if (wsConn !== null) {
       wsConn.close();
       setWsConn(null);
+      refresh();
+    }
+    if (newConn !== null) {
+      window.alert("Start new chatbot");
+      setWsConn(newConn);
+      setBotName(newBotName);
+      setNewConn(null);
+      setNewBotName('');
     }
   }
 
@@ -33,7 +57,7 @@ const App = () => {
           <p>Please upload a script to initialize.</p>
           </div>
         ) : (
-          <ChatBot titleName={botName} wsConn={wsConn} onClose={closeWsConn}/>
+          <ChatBot key={refreshKey} titleName={botName} wsConn={wsConn} onClose={closeWsConn}/>
         )}
       </div>
       <div style={{ flex: 1 ,overflow: 'auto', height: '100vh'}}>

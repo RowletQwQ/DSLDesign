@@ -37,11 +37,11 @@ export class PostExecutor implements Executor {
       if (this.url_expr_ == null) {
         throw new Error("url and url_expr should not be null at the same time");
       }
-      let plain_text = this.url_expr_.get_value(context);
+      let plain_text = this.url_expr_.get_raw_value(context);
       if (plain_text == undefined) {
         throw new Error("url_expr should be defined");
       }
-      this.target_url_ = new URL(plain_text.toString());
+      this.target_url_ = new URL(plain_text);
     } else {
       this.target_url_ = new URL(this.url_str_);
     }
@@ -80,6 +80,8 @@ export class PostExecutor implements Executor {
         ResultType.ERROR
       );
     }
+    // 将变量存入上下文
+    this.upper_context_.set_local_symbol(this.source_id_, data);
     // 请求发送结束
     return new ResultEvent(0, "", ResultType.END);
   }
