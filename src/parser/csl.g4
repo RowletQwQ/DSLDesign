@@ -74,6 +74,7 @@ ID: [a-zA-Z_][a-zA-Z_0-9]*;
 WS: [ \t\r\n]+ -> skip;
 
 /* Ignored Comments */
+
 COMMENT: '#' ~[\r\n]* -> skip;
 
 /* template string */
@@ -83,10 +84,13 @@ template_string: '`' template_string_part* '`';
 template_string_part: template_string_plain_text
                     | template_string_expr;
 
-template_string_plain_text: ~('`' | '$' | '\\') | '\\' '`' | '\\' '$';
+TEMPLATE_STRING_PLAIN_TEXT_CHAR: '\\' '`' | '\\' '$' | '\\' '\\' | '\u0000'..'\uFFFF';
+template_string_plain_text: TEMPLATE_STRING_PLAIN_TEXT_CHAR+ | ~('`' | '$' | '\\');
 
 template_string_expr: '$' LBRACE expression RBRACE;
-                    
+
+
+
 
 /* Non-terminal */
 script: ( constance_stmt | topic_stmt | chatbox_stmt | hello_stmt )+ EOF;

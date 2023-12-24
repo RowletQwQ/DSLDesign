@@ -27,5 +27,8 @@ topic overtime {
         goto chatbox
     }
     say `You have input ${id}`
+    say "请输入3+8的答案"
+    input ans assert ans = 11
+    say "你的答案是${ans},答对了"
     goto chatbox
 }

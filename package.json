@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "start": "tsc && ts-node lib/src/index.js",
-    "show_grammar": "antlr4-parse src/parser/csl.g4 script -gui < doc/example.sc",
+    "show_grammar": "echo \"请输入你需要解析的语法文件，以Ctrl+Z结尾\" && antlr4-parse src/parser/csl.g4 script -gui",
     "antlr4": "antlr4ng -Dlanguage=TypeScript -Werror -visitor -listener -o src/parser  src/parser/csl.g4",
     "test_grammar": "cd test && tsc && cd ../ && ts-node lib/test/printAST.js1",
     "local": "tsc && node lib/src/exec.js doc/example.sc",
