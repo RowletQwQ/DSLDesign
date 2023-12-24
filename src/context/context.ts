@@ -12,6 +12,7 @@ export class Context {
 
     /**
      * Creates a new instance of the Context class.
+     * @param const_global_symbol_table The global symbol table that stores constants.
      */
     constructor(const_global_symbol_table: Map<string, any>) {
         this.const_global_symbol_table_ = const_global_symbol_table;

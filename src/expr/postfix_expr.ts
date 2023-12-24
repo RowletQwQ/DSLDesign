@@ -50,7 +50,7 @@ export class PostfixExpr implements Expression {
 
   /**
    * Gets the value of the expression.
-   * @param context The context object.
+   * @param context The context object of the runtime.
    * @returns The value of the expression.
    */
   get_value(context: Context): string | number | boolean | object | undefined {

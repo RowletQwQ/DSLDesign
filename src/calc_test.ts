@@ -1,17 +1,24 @@
+// calc_test.ts
+/**
+ * @module calc_test
+ * A simple calculator that can calculate expressions.
+ * Use for testing the parser and visitor.
+ */
 import { CharStreams, CommonTokenStream } from "antlr4ng";
 import { cslLexer } from "./parser/cslLexer.js";
 import { cslParser } from "./parser/cslParser.js";
 import { ExpressionVisitor } from "./visitor/expression_visitor.js";
 import { createInterface } from "readline";
 
+
+
 const rl = createInterface({
     input: process.stdin,
     output: process.stdout
 });
-class TestCalcExpression {
-  /**
+export class TestCalcExpression {
+    /**
      * Handles the execution of an expression script.
-     * 
      * @param expr_script - The expression script to be executed.
      * @returns void
      */

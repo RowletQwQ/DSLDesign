@@ -10,6 +10,11 @@ const rl = createInterface({
   output: process.stdout,
 });
 
+/**
+ * The entry of the CLI chatbot.
+ * @param script_path The path of the script file.
+ * @usage node <path-to-exec.js> <path-to-script>
+ */
 try {
   // 语法文件通过命令行参数传入
   let script_path = process.argv[2];
