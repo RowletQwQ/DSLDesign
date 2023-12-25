@@ -78,7 +78,9 @@ export class ScriptExecutor implements Executor {
    */
   next(input: ScriptInputEvent): ResultEvent {
     // Execute the current executor
-    let result = this.child_executors_[this.current_child_index_].next(input);
+    let err_result = new ResultEvent(-1, "", ResultType.ERROR);
+    try {
+      let result = this.child_executors_[this.current_child_index_].next(input);
     while (result.is_finished()) {
       // If the current executor is finished, move to chatbox
       this.child_executors_[this.current_child_index_].close();
@@ -117,8 +119,17 @@ export class ScriptExecutor implements Executor {
         this.global_context_
       );
     }
-    // Return the result
-    return result;
+      // Return the result
+      return result;
+    } catch (error) {
+      err_result = new ResultEvent(-1, error.message, ResultType.ERROR);
+      this.child_executors_[this.current_child_index_].close();
+      this.current_child_index_ = this.chatbox_index_;
+      this.child_executors_[this.current_child_index_].open(
+        this.global_context_
+      );
+    }
+    return err_result;
   }
 
   /**

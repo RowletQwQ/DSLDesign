@@ -81,7 +81,6 @@ export class Instance {
           new InterruptEvent(InterruptReason.ERROR, result.get_result()),
           0
         );
-        break;
       }
 
       if (result.is_output()) {
