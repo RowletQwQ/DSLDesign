@@ -1,3 +1,4 @@
+import { Expression } from "../../expr/expression.js";
 import { CommandStmt, CommandStmtType } from "../command_stmt.js";
 import { StmtType } from "../stmt.js";
 import { CaseStmt } from "./case_stmt.js";
@@ -20,7 +21,7 @@ export class MatchStmt implements CommandStmt {
   constructor(
     cases: CaseStmt[],
     default_case: CaseStmt,
-    when_silence_stmt: WhenSilenceStmt | null = null
+    when_silence_stmt: WhenSilenceStmt | null = null,
   ) {
     this.cases_ = cases;
     this.default_case_ = default_case;

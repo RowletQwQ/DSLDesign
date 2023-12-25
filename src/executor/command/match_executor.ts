@@ -1,6 +1,7 @@
 import { Context } from "../../context/context.js";
 import { ResultEvent, ResultType } from "../../event/result_event.js";
 import { ScriptInputEvent } from "../../event/script_input_event.js";
+import { Expression } from "../../expr/expression.js";
 import { MatchStmt } from "../../stmt/command/match_stmt.js";
 import { CommandExecutor } from "../command_executor.js";
 import { Executor, ExecutorType } from "../executor.js";
@@ -14,7 +15,9 @@ export class MatchExecutor implements Executor {
   private match_map_: Map<string, number>;
   private local_context_: Context;
   private pattern_list_: RegExp[] = [];
-
+  private is_timeout_: boolean = false;
+  private timeout_expr_: Expression | null = null;
+  private timeout_: number | undefined = undefined;
   /**
    * Creates an instance of MatchExecutor.
    * @param stmt - The MatchStmt object.
@@ -24,10 +27,7 @@ export class MatchExecutor implements Executor {
     this.pattern_list_ = [];
     let stmts = stmt.get_cases();
     let default_stmt = stmt.get_default_case();
-    if (default_stmt != null) {
-      this.default_index_ = this.children_.length;
-      this.children_.push(new CommandExecutor(default_stmt));
-    }
+    
     for (let stmt of stmts) {
       let pattern = stmt.get_pattren();
       // 检查是否出现重复
@@ -41,6 +41,11 @@ export class MatchExecutor implements Executor {
     let when_silence_stmt = stmt.get_when_silence_stmt();
     if (when_silence_stmt != null) {
       this.when_silence_executor_ = new CommandExecutor(when_silence_stmt);
+      this.timeout_expr_ = when_silence_stmt.get_timeout();
+    }
+    if (default_stmt != null) {
+      this.default_index_ = this.children_.length;
+      this.children_.push(new CommandExecutor(default_stmt));
     }
   }
 
@@ -51,8 +56,10 @@ export class MatchExecutor implements Executor {
   open(context: Context): void {
     this.local_context_ = context;
     this.local_context_.enter_new_scope();
-    this.current_index_ = 0;
+    this.current_index_ = -1;
     this.is_running_ = false;
+    this.is_timeout_ = false;
+    this.timeout_ = undefined;
   }
 
   /**
@@ -67,19 +74,28 @@ export class MatchExecutor implements Executor {
       let input_str = input.get_input();
       if (input.is_handled() && input_str == null) {
         // 超时了, 执行超时分支
+        this.is_timeout_ = true;
         return this.when_silence_executor_.next(input);
+      }
+      if (this.timeout_expr_ != null) {
+        let result = this.timeout_expr_.get_value(this.local_context_);
+        if (typeof result != "number") {
+          throw new Error("Timeout must be a number");
+        }
+        this.timeout_ = result;
       }
       if (input_str == null) {
         // 无输入,请求输入
-        return new ResultEvent(0, "", ResultType.INPUT);
+        return new ResultEvent(0, "", ResultType.INPUT, this.timeout_);
       }
       // 遍历所有pattern,检查是否有匹配
       for (let i = 0; i < this.pattern_list_.length; ++i) {
-        if (input_str.match(this.pattern_list_[i]) != null) {
+        if (this.pattern_list_[i].test(input_str)) {
           this.is_running_ = true;
           this.children_[i].open(this.local_context_);
           this.current_index_ = i;
-          return this.children_[i].next(input);
+          let new_input = new ScriptInputEvent(undefined);
+          return this.children_[i].next(new_input);
         }
       }
       // 没有匹配,执行default分支
@@ -88,9 +104,15 @@ export class MatchExecutor implements Executor {
         this.is_running_ = true;
         this.children_[index].open(this.local_context_);
         this.current_index_ = index;
+        let new_input = new ScriptInputEvent(undefined);
+        return this.children_[index].next(new_input);
       } else {
         throw new Error("No match in MatchStmt");
       }
+    }
+    if (this.is_timeout_) {
+      // 超时了,执行超时分支
+      return this.when_silence_executor_.next(input);
     }
     // 接下来正常执行分支
     return this.children_[this.current_index_].next(input);

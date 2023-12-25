@@ -69,7 +69,6 @@ export class ScriptExecutor implements Executor {
     // Open the first executor
     this.child_executors_[0].open(this.global_context_);
     this.current_child_index_ = 0;
-    this.chatbox_index_ = 0;
   }
 
   /**
@@ -81,13 +80,9 @@ export class ScriptExecutor implements Executor {
     // Execute the current executor
     let result = this.child_executors_[this.current_child_index_].next(input);
     while (result.is_finished()) {
-      // If the current executor is finished, move to the next executor
+      // If the current executor is finished, move to chatbox
       this.child_executors_[this.current_child_index_].close();
-      this.current_child_index_++;
-      if (this.current_child_index_ >= this.child_executors_.length) {
-        // If there is no next executor, return END
-        return new ResultEvent(0, "", ResultType.END);
-      }
+      this.current_child_index_ = this.chatbox_index_;
       this.child_executors_[this.current_child_index_].open(
         this.global_context_
       );
@@ -112,6 +107,15 @@ export class ScriptExecutor implements Executor {
           ResultType.ERROR
         );
       }
+    }
+
+    if (result.is_error()) {
+      // When Error occurs, return error msg then reset to chatbox
+      this.child_executors_[this.current_child_index_].close();
+      this.current_child_index_ = this.chatbox_index_;
+      this.child_executors_[this.current_child_index_].open(
+        this.global_context_
+      );
     }
     // Return the result
     return result;

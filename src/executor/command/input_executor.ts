@@ -54,6 +54,7 @@ export class InputExecutor implements Executor {
       this.child_.open(this.local_context_);
     }
     this.is_timeout_ = false;
+    this.timeout_ = undefined;
   }
 
   /**

@@ -68,6 +68,8 @@ export class MenuExecutor implements Executor {
       this.is_running_ = true;
       this.children_[index].open(this.local_context_);
       this.current_index_ = index;
+      // 清空menu带来的input
+      input = new ScriptInputEvent(undefined);
     }
     // 接下来正常执行分支
     return this.children_[this.current_index_].next(input);
