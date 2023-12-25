@@ -1,6 +1,7 @@
 import { useState } from "react"
 import ChatBot from "./Chatbot"
 import { Button, Input } from '@chatui/core';
+import MonacoEditor from "react-monaco-editor";
 
 export interface UploadScriptProps {
     bot_name: string,
@@ -44,6 +45,15 @@ const Editor: React.FC<EditorProps> = ({onUpload}) => {
         
     }
 
+    function editorDidMount(editor: any, monaco: any) {
+        console.log('editorDidMount', editor);
+        editor.focus();
+    }
+
+    const options = {
+        selectOnLineNumbers: true
+    };
+
     return (
         <div style={{overflow: 'auto', height: '100vh'}}>
             <h2>客服脚本编辑器</h2>
@@ -55,8 +65,14 @@ const Editor: React.FC<EditorProps> = ({onUpload}) => {
             <Input maxLength={20} value={bot_name} onChange={val => setBotName(val)} placeholder="请输入..." />
 
             <h3>脚本</h3>
-            <Input minRows={10} maxRows={20} autoSize autoSave={script} value={script} onChange={val => setScript(val)} placeholder="请输入..." />
-
+            <MonacoEditor
+                language="javascript"
+                theme="vs"
+                value={script}
+                options={options}
+                editorDidMount={editorDidMount}
+                onChange={(val: string) => setScript(val)}
+            ></MonacoEditor>
             <Button color = "primary" block onClick={() => uploadScript({bot_name, script})}>上传脚本</Button>
         </div>
     );
