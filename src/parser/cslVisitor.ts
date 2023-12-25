@@ -50,6 +50,7 @@ import { Multiplicative_expressionContext } from "./cslParser.js";
 import { Unary_expressionContext } from "./cslParser.js";
 import { Postfix_expressionContext } from "./cslParser.js";
 import { Primary_expressionContext } from "./cslParser.js";
+import { Array_listContext } from "./cslParser.js";
 import { ValueContext } from "./cslParser.js";
 
 
@@ -343,6 +344,12 @@ export class cslVisitor<Result> extends AbstractParseTreeVisitor<Result> {
      * @return the visitor result
      */
     visitPrimary_expression?: (ctx: Primary_expressionContext) => Result;
+    /**
+     * Visit a parse tree produced by `cslParser.array_list`.
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    visitArray_list?: (ctx: Array_listContext) => Result;
     /**
      * Visit a parse tree produced by `cslParser.value`.
      * @param ctx the parse tree

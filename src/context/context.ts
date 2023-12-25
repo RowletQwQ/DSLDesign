@@ -6,17 +6,17 @@ export interface JsonObj {
  * Represents a context that stores symbols and provides access to them.
  */
 export class Context {
-    private const_global_symbol_table_: Map<string, string | number | boolean | undefined | object>;
-    private global_symbol_table_: Map<string, string | number | boolean | undefined | object>;
-    private symbol_table_stack_: Map<string, string | number | boolean | undefined | object>[]; 
+    private const_global_symbol_table_: Map<string, any>;
+    private global_symbol_table_: Map<string, any>;
+    private symbol_table_stack_: Map<string, any>[]; 
 
     /**
      * Creates a new instance of the Context class.
      * @param const_global_symbol_table The global symbol table that stores constants.
      */
-    constructor(const_global_symbol_table: Map<string, string | number | boolean | undefined | object>) {
+    constructor(const_global_symbol_table: Map<string, any>) {
         this.const_global_symbol_table_ = const_global_symbol_table;
-        this.global_symbol_table_ = new Map<string, string | number | boolean | undefined | object>();
+        this.global_symbol_table_ = new Map<string, any>();
         this.symbol_table_stack_ = [];
     }
 
@@ -25,7 +25,7 @@ export class Context {
      * Enters a new scope in the symbol table stack.
      */
     enter_new_scope() {
-        this.symbol_table_stack_.push(new Map<string, string | number | boolean | undefined | object>());
+        this.symbol_table_stack_.push(new Map<string, any>());
     }
 
     /**
@@ -40,7 +40,7 @@ export class Context {
      * @param name The name of the symbol.
      * @param value The value to set.
      */
-    set_local_symbol(name: string, value: string | number | boolean | undefined | object) {
+    set_local_symbol(name: string, value: any) {
         if (this.symbol_table_stack_.length == 0) {
             throw new Error("Local symbol table stack is empty.");
         }
@@ -53,7 +53,7 @@ export class Context {
      * @param name The name of the symbol.
      * @param value The value to set.
      */
-    set_global_symbol(name: string, value: string | number | boolean | undefined | object) {
+    set_global_symbol(name: string, value: any) {
         if (this.global_symbol_table_ == undefined) {
             throw new Error("Global symbol table is undefined.");
         }
@@ -69,7 +69,7 @@ export class Context {
      * @param value - The value to assign to the symbol.
      * @throws Error if the symbol is not found in the local context.
      */
-    assign_local_symbol(name: string, value: string | number | boolean | undefined | object) {
+    assign_local_symbol(name: string, value: any) {
         if (this.symbol_table_stack_.length > 0) {
             for (let i = this.symbol_table_stack_.length - 1; i >= 0; i--) {
                 if (this.symbol_table_stack_[i].has(name)) {
@@ -89,7 +89,7 @@ export class Context {
      * @throws Error if the symbol is not found in the global context.
      * @throws Error if the symbol is a constant and its value cannot be changed.
      */
-    assign_global_symbol(name: string, value: string | number | boolean | undefined | object) {
+    assign_global_symbol(name: string, value: any) {
         if (this.global_symbol_table_.has(name)) {
             this.global_symbol_table_.set(name, value);
             return;

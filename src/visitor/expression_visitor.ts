@@ -1,4 +1,5 @@
 import { ArithmeticExpr, ArithmeticExprType } from "../expr/arithmetic_expr.js";
+import { ArrayExpr } from "../expr/array_expr.js";
 import { ComparisonExpr, ComparisonExprType } from "../expr/comparison_expr.js";
 import {
   ConjunctionExpr,
@@ -23,6 +24,7 @@ import {
   Primary_expressionContext,
   ValueContext,
   Json_objectContext,
+  Array_listContext,
 } from "../parser/cslParser.js";
 import { cslVisitor } from "../parser/cslVisitor.js";
 import { Instance } from "../runtime/instance.js";
@@ -275,13 +277,27 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
     let id_list = ctx.ID();
     if (ctx.DOT() != undefined || ctx.LBRACK() != undefined) {
       if (ctx.LBRACK() != undefined) {
-        throw new Error("Not implemented for array access");
+        // Add array access
+        let index_stmt = ctx.expression();
+        if (index_stmt == undefined) {
+          throw new Error("Postfix expression Parse error,No expression in []");
+        }
+        let index_expr = this.visitExpression(index_stmt);
+        if (index_expr == undefined) {
+          throw new Error("Postfix expression Parse error,No index expression");
+        }
+        expr = new PostfixExpr(
+          id_list[0].getText(),
+          PostfixExprType.ARRAY_ACCESS,
+          index_expr
+        );
+      } else {
+        expr = new PostfixExpr(
+          id_list[0].getText(),
+          PostfixExprType.MEMBER_ACCESS,
+          id_list[1].getText()
+        );
       }
-      expr = new PostfixExpr(
-        id_list[0].getText(),
-        PostfixExprType.MEMBER_ACCESS,
-        id_list[1].getText()
-      );
     } else {
       let primary_stmt = ctx.primary_expression();
       if (primary_stmt == undefined) {
@@ -332,6 +348,7 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
     let float_stmt = ctx.FLOATS();
     let string_stmt = ctx.STRING();
     let json_stmt = ctx.json_object();
+    let array_stmt = ctx.array_list();
     if (int_stmt != undefined) {
       expr = new ValueExpr(parseInt(int_stmt.getText()));
     } else if (float_stmt != undefined) {
@@ -342,6 +359,8 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
       expr = new ValueExpr(str);
     } else if (json_stmt != undefined) {
       expr = this.visitJson_object(json_stmt);
+    } else if (array_stmt != undefined) {
+      expr = this.visitArray_list(array_stmt);
     } else {
       if (ctx.TRUE() != undefined) {
         expr = new ValueExpr(true);
@@ -351,6 +370,14 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
     }
     return expr;
   };
+
+
+  /**
+   * Visits a JSON object context and returns an Expression.
+   * 
+   * @param ctx The JSON object context to visit.
+   * @returns The Expression representing the visited JSON object.
+   */
   override visitJson_object = (ctx: Json_objectContext): Expression => {
     let expr: Expression;
     let tmp_expr: JsonExpr = new JsonExpr(new Map<string, Expression>());
@@ -372,4 +399,24 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
     expr = tmp_expr;
     return expr;
   };
+
+  /**
+   * Visits an array list context and returns the corresponding Expression.
+   * @param ctx The array list context to visit.
+   * @returns The Expression representing the array list.
+   * @throws Error if there is an error parsing the array.
+   */
+  override visitArray_list = (ctx: Array_listContext): Expression => {
+    let expr: Expression;
+    let tmp_array = []
+    for (let expr_stmt of ctx.expression()) {
+      let expr = this.visitExpression(expr_stmt);
+      if (expr == undefined) {
+        throw new Error("Array parse error");
+      }
+      tmp_array.push(expr)
+    }
+    expr = new ArrayExpr(tmp_array)
+    return expr;
+  }
 }

@@ -14,7 +14,7 @@ export class PostfixExpr implements Expression {
   private item_: boolean | number | string | JsonObj | undefined;
   private id_: string;
   private type_: PostfixExprType;
-  private postfix_: string | number;
+  private postfix_: string | Expression;
 
   /**
    * Constructs a new PostfixExpr object.
@@ -25,7 +25,7 @@ export class PostfixExpr implements Expression {
   constructor(
     id: string,
     type: PostfixExprType,
-    postfix: string | number = ""
+    postfix: string | Expression = ""
   ) {
     this.id_ = id;
     this.type_ = type;
@@ -58,9 +58,26 @@ export class PostfixExpr implements Expression {
       this.item_ = context.get_symbol(this.id_);
     } else if (this.type_ == PostfixExprType.MEMBER_ACCESS) {
       let obj = context.get_symbol(this.id_) as JsonObj;
-      this.item_ = obj[this.postfix_];
+      if (typeof this.postfix_ == "string") {
+        this.item_ = obj[this.postfix_];
+      } else {
+        throw new Error("Expected string after dot.")
+      }
+      
     } else if (this.type_ == PostfixExprType.ARRAY_ACCESS) {
-      throw new Error("Not implemented.");
+      let obj = context.get_symbol(this.id_) as Array<any>;
+      if (typeof this.postfix_ == "string") {
+        throw new Error("Expected number in array access.")
+      }
+      let index = this.postfix_.get_value(context)
+      if (typeof index == "number") {
+        if (index < 0 || index >= obj.length) {
+          throw new Error("Array index out of bounds.")
+        }
+        this.item_ = obj[index];
+      } else {
+        throw new Error("Expected number in array access.")
+      }
     }
     return this.item_;
   }

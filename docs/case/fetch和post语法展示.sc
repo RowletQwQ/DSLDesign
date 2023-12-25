@@ -28,6 +28,7 @@ topic test_post {
         "name": "Daming",
         "You": 56
    }
+    say `Name is ${json.name}`
     post json => "http://localhost:8080/api/test"
     say `POST成功, 返回${json}`
     goto chatbox
@@ -38,5 +39,12 @@ topic weather {
     input api_key
     fetch `https://restapi.amap.com/v3/weather/weatherInfo?city=110101&key=${api_key}` => result
     say result
+    if (result.status = 1) => {
+        say `现在的天气情况为${result.lives}`
+        set tmp := result.lives
+        set info := tmp[0]
+        set temp := info.temperature
+        say `现在的温度为${temp}`
+    }
     goto chatbox
 }

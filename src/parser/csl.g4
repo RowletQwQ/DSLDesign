@@ -203,11 +203,12 @@ primary_expression: ID
                   | value
                   | LPAREN expression RPAREN;
                   
-
+array_list: expression (COMMA expression)*;
 
 value: INTS
     | FLOATS
     | STRING
     | LBRACE json_object RBRACE
+    | LBRACK array_list RBRACK
     | TRUE
     | FALSE;

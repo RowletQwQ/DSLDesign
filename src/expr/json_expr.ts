@@ -1,8 +1,12 @@
 import { Context, JsonObj } from "../context/context.js";
 import { ExprType, Expression } from "./expression.js";
 
+/**
+ * Represents a JSON expression.
+ */
 export class JsonExpr implements Expression {
   private json_map_: Map<string, Expression>;
+  private item_: JsonObj | undefined;
 
   /**
    * The constructor of the JsonExpr class.
@@ -10,6 +14,7 @@ export class JsonExpr implements Expression {
    */
   constructor(json_map: Map<string, Expression>) {
     this.json_map_ = json_map;
+    this.item_ = undefined;
   }
 
   /**
@@ -42,10 +47,14 @@ export class JsonExpr implements Expression {
    * @returns The JSON object.
    */
   get_value(context: Context): JsonObj {
+    if(this.item_) {
+      return this.item_;
+    }
     let result: JsonObj = {};
     for (let [key, value] of this.json_map_) {
       result[key] = value.get_value(context);
     }
+    this.item_ = result;
     return result;
   }
 
@@ -54,10 +63,14 @@ export class JsonExpr implements Expression {
    * @returns The JSON object value.
    */
   try_get_value(): JsonObj {
+    if(this.item_) {
+      return this.item_;
+    }
     let result: { [key: string]: any } = {};
     for (let [key, value] of this.json_map_) {
       result[key] = value.try_get_value();
     }
+    this.item_ = result;
     return result;
   }
 

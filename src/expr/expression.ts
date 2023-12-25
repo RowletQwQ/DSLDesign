@@ -10,6 +10,7 @@ export enum ExprType {
   UNARY,            //< 一元表达式,包括not和负号
   POSTFIX,          //< 后缀表达式,包括成员访问和数组下标访问
   JSON,             //< JSON表达式
+  ARRAY,            //< 数组表达式
   TEMPLATE_STRING,  //< 模板字符串表达式
 }
 
@@ -22,13 +23,13 @@ export interface Expression {
    * @param context 应用上下文
    * @returns 表达式的值
    */
-  get_value(context: Context): string | number | boolean | object | undefined;
+  get_value(context: Context): string | number | boolean | object | undefined | Array<any>;
 
   /**
    * 不利用上下文，直接计算表达式的值，用于表达式优化
    * @returns 表达式的值
    */
-  try_get_value(): string | number | boolean | object | undefined;
+  try_get_value(): string | number | boolean | object | undefined | Array<any>;
 
   /**
    * 获取表达式的类型
