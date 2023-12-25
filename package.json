@@ -10,12 +10,10 @@
   "type": "module",
   "scripts": {
     "start": "tsc && ts-node lib/src/index.js",
-    "show_grammar": "echo \"请输入你需要解析的语法文件，以Ctrl+Z结尾\" && antlr4-parse src/parser/csl.g4 script -gui",
+    "test:ast": "echo \"请输入你需要解析的语法文件，以Ctrl+Z结尾\" && antlr4-parse src/parser/csl.g4 script -gui",
     "antlr4": "antlr4ng -Dlanguage=TypeScript -Werror -visitor -listener -o src/parser  src/parser/csl.g4",
-    "test_grammar": "cd test && tsc && cd ../ && ts-node lib/test/printAST.js1",
-    "local": "tsc && node lib/src/exec.js doc/example.sc",
-    "test_expr": "cd test && tsc && cd ../ && node lib/test/expr_test.js",
-    "calc_expr": "cd test && tsc && cd ../ && node lib/src/calc_test.js",
+    "cli": "tsc && node lib/src/exec.js doc/example.sc",
+    "test:calc": "cd test && tsc && cd ../ && node lib/src/calc_test.js",
     "test": "tsc && ava",
     "doc": "typedoc --tsconfig ./tsconfig.json"
   },
