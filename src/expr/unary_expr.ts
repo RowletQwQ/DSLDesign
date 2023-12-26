@@ -7,7 +7,7 @@ export enum UnaryExprType {
 /**
  * Represents a unary expression.
  */
-export class UnaryExpression implements Expression {
+export class UnaryExpr implements Expression {
   private expr_: Expression;
   private type_: UnaryExprType;
   private value_type_: string;

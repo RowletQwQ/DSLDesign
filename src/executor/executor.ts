@@ -63,20 +63,21 @@ export interface Executor {
  * Mock executor for testing.
  */
 export class ExecutorMock implements Executor {
+  // Mock implementation
   open(context: Context): void {
-    // Mock implementation
+    
   }
 
+  // Mock implementation
   next(input: ScriptInputEvent): ResultEvent {
-    // Mock implementation
     return new ResultEvent(0, "", ResultType.END);
   }
-
+  // Mock implementation
   close(): void {
-    // Mock implementation
+    
   }
-
+  // Mock implementation
   get_executor_type(): ExecutorType {
-    return ExecutorType.SCRIPT; // Mock implementation
+    return ExecutorType.MOCK; 
   }
 }

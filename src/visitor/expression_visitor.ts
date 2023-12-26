@@ -9,7 +9,7 @@ import { Expression } from "../expr/expression.js";
 import { FieldExpr } from "../expr/field_expr.js";
 import { JsonExpr } from "../expr/json_expr.js";
 import { PostfixExpr, PostfixExprType } from "../expr/postfix_expr.js";
-import { UnaryExprType, UnaryExpression } from "../expr/unary_expr.js";
+import { UnaryExprType, UnaryExpr } from "../expr/unary_expr.js";
 import { ValueExpr } from "../expr/value_expr.js";
 import {
   ExpressionContext,
@@ -259,7 +259,7 @@ export class ExpressionVisitor extends cslVisitor<Expression> {
                 ${ctx.MINUS() != null ? "-" : "!"}`);
       }
       let unary_expr = this.visitUnary_expression(unary_stmt);
-      expr = new UnaryExpression(unary_expr, type);
+      expr = new UnaryExpr(unary_expr, type);
     }
     return expr;
   };

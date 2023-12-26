@@ -3,7 +3,7 @@ import test from 'ava';
 import { ExecutorType } from '../../../src/executor/executor.js';
 import { CommandExecutor } from '../../../src/executor/command_executor.js';
 import { CaseStmt } from '../../../src/stmt/command/case_stmt.js';
-import { Context, MockContext } from '../../../src/context/context.js';
+import { Context, ContextMock } from '../../../src/context/context.js';
 import { CommandStmtMock, CommandStmtType } from '../../../src/stmt/command_stmt.js';
 import { StmtMock, StmtType } from '../../../src/stmt/stmt.js';
 import { CaseExecutor } from '../../../src/executor/command/case_executor.js';
@@ -23,7 +23,7 @@ test('CaseExecutor should initialize the local context and open the first comman
     const command2 = new BreakStmt();
     const stmt = new CaseStmt([command1, command2]);
     const executor = new CaseExecutor(stmt);
-    const context = new MockContext();
+    const context = new ContextMock();
     executor.open(context);
     t.is(executor.get_executor_type(), ExecutorType.CASE);
     t.is(executor.get_current_index(), 0);
@@ -51,7 +51,7 @@ test('CaseExecutor should return the end result if all commands have been execut
     const command1  = new CommandStmtMock();
     const stmt = new CaseStmt([command1]);
     const executor = new CaseExecutor(stmt);
-    const context = new MockContext();
+    const context = new ContextMock();
     executor.open(context);
     const input = new ScriptInputEvent('test input');
     const result1 = new ResultEvent(0, "", ResultType.END);
@@ -65,7 +65,7 @@ test('CaseExecutor should close the executor and exit the current scope', (t) =>
     const command1  = new CommandStmtMock();
     const stmt = new CaseStmt([command1]);
     const executor = new CaseExecutor(stmt);
-    const context = new MockContext();
+    const context = new ContextMock();
     executor.open(context);
 
     executor.close();

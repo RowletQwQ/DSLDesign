@@ -6,11 +6,18 @@ import { WebSocketServer, WebSocket } from "ws";
 import { InterruptEvent } from "../event/interrupt_event.js";
 import { assert } from "console";
 
+/**
+ * Represents the type of WebSocket message.
+ */
 enum WsMessageType {
   NormalMsg,
   ErrorMsg,
   Menu,
 }
+
+/**
+ * Represents a WebSocket message.
+ */
 interface WsMessage {
   type: WsMessageType;
   content: string;
@@ -49,14 +56,14 @@ export class WsSession {
     // Register the event handler
     this.ws_.on("connection", (ws) => {
       ws.onmessage = (message) => {
-        this.onWsMessage(message.data.toString());
+        this.on_ws_message(message.data.toString());
       };
       ws.onclose = () => {
-        this.onWsClose();
+        this.on_ws_close();
       };
       ws.onerror = (error) => {
         console.log(error);
-        this.onWsClose();
+        this.on_ws_close();
       };
       if (this.instance_ == null) {
         console.log("实例不存在，请检查脚本是否正确");
@@ -64,7 +71,7 @@ export class WsSession {
         return;
       }
       this.ws_conn = ws;
-      this.onWsConnection.bind(this)();
+      this.on_ws_connection.bind(this)();
     });
     if (this.ws_conn != undefined) {
       console.log(`WebSocket server is listening on ${this.get_ws_addr()}`);
@@ -108,13 +115,13 @@ export class WsSession {
   /**
    * Handles a WebSocket connection.
    */
-  onWsConnection() {
+  on_ws_connection() {
     // Initialize the instance
     if (this.instance_ == null) {
       throw new Error("instance is null");
     }
     this.instance_.start();
-    this.instance_.run(this.onInterruptEvent.bind(this));
+    this.instance_.run(this.on_interrupt_event.bind(this));
   }
 
   /**
@@ -122,7 +129,7 @@ export class WsSession {
    * @param message - The WebSocket message.
    * @throws Error if the instance is null or not running.
    */
-  onWsMessage(message: string) {
+  on_ws_message(message: string) {
     if (this.instance_ == null) {
       throw new Error("instance is null");
     }
@@ -136,14 +143,18 @@ export class WsSession {
   /**
    * Closes the WebSocket connection and performs additional cleanup if necessary.
    */
-  onWsClose() {
+  on_ws_close() {
     this.ws_.close();
     if (this.instance_ != null) {
       this.instance_.close();
     }
   }
 
-  sendMsgToClient(message: string) {
+  /**
+   * Sends a message to the client.
+   * @param message The message to send.
+   */
+  send_msg_to_client(message: string) {
     const ws_message: WsMessage = {
       type: WsMessageType.NormalMsg,
       content: message,
@@ -151,7 +162,11 @@ export class WsSession {
     this.ws_conn.send(JSON.stringify(ws_message));
   }
 
-  sendErrorMsgToClient(message: string) {
+  /**
+   * Sends an error message to the client.
+   * @param message The error message to send.
+   */
+  send_error_msg_to_client(message: string) {
     const ws_message: WsMessage = {
       type: WsMessageType.ErrorMsg,
       content: message,
@@ -159,7 +174,12 @@ export class WsSession {
     this.ws_conn.send(JSON.stringify(ws_message));
   }
 
-  sendMenuToClient(message: string, menu: string[]) {
+  /**
+   * Sends a menu to the client.
+   * @param message - The message to be sent along with the menu.
+   * @param menu - The array of menu items.
+   */
+  send_menu_to_client(message: string, menu: string[]) {
     const ws_message: WsMessage = {
       type: WsMessageType.Menu,
       content: message,
@@ -168,7 +188,13 @@ export class WsSession {
     this.ws_conn.send(JSON.stringify(ws_message));
   }
 
-  waitInput(timer: number) {
+  /**
+   * Waits for input from the message queue for a specified amount of time.
+   * @param timer The time in seconds to wait for input. If set to 0, it will wait indefinitely.
+   * @returns A promise that resolves with the input message received from the queue.
+   * @throws {Error} If the message is undefined or the instance is null.
+   */
+  wait_input(timer: number) {
     return new Promise<string>((resolve) => {
       let checkQueueTimeoutId: NodeJS.Timeout | null = null;
       let timeoutId: NodeJS.Timeout | null = null;
@@ -228,26 +254,26 @@ export class WsSession {
    * @param timer - The timer value in seconds.
    * @returns A promise that resolves when the interrupt event is handled.
    */
-  async onInterruptEvent(
+  async on_interrupt_event(
     interrupt_event: InterruptEvent,
     timer: number
   ): Promise<void> {
     try {
       if (interrupt_event.is_output()) {
-        this.sendMsgToClient(interrupt_event.get_description());
+        this.send_msg_to_client(interrupt_event.get_description());
       } else if (interrupt_event.is_error()) {
-        this.sendErrorMsgToClient(interrupt_event.get_description());
+        this.send_error_msg_to_client(interrupt_event.get_description());
         throw new Error(interrupt_event.get_description());
       } else if (interrupt_event.is_exit()) {
         this.ws_conn.close();
       } else if (interrupt_event.is_show_menu()) {
-        this.sendMenuToClient(
+        this.send_menu_to_client(
           interrupt_event.get_description(),
           interrupt_event.get_menu()
         );
-        await this.waitInput(0);
+        await this.wait_input(0);
       } else if (interrupt_event.is_input()) {
-        await this.waitInput(timer);
+        await this.wait_input(timer);
       }
     } catch (error) {
       console.log(error);

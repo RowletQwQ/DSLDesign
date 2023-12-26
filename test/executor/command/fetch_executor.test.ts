@@ -2,7 +2,7 @@ import test from 'ava';
 import { FetchExecutor } from '../../../src/executor/command/fetch_executor.js';
 import { FetchStmt } from '../../../src/stmt/command/fetch_stmt.js';
 import { ExecutorType } from '../../../src/executor/executor.js';
-import { MockContext } from '../../../src/context/context.js';
+import { ContextMock } from '../../../src/context/context.js';
 import { AsycOp, ResultEvent, ResultType } from '../../../src/event/result_event.js';
 import { ScriptInputEvent } from '../../../src/event/script_input_event.js';
 
@@ -18,7 +18,7 @@ test('FetchExecutor - get_executor_type', (t) => {
 test('FetchExecutor - fetch value', (t) => {
     const stmt = new FetchStmt('http://localhost:8080','test');
     const executor = new FetchExecutor(stmt);
-    const context = new MockContext();
+    const context = new ContextMock();
     context.enter_new_scope();
     executor.open(context);
     const input = new ScriptInputEvent(undefined);

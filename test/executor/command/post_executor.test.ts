@@ -1,7 +1,7 @@
 import test from 'ava';
 import { PostExecutor } from '../../../src/executor/command/post_executor.js';
 import { PostStmt } from '../../../src/stmt/command/post_stmt.js';
-import { Context, MockContext } from '../../../src/context/context.js';
+import { Context, ContextMock } from '../../../src/context/context.js';
 import { ScriptInputEvent } from '../../../src/event/script_input_event.js';
 import { AsycOp, ResultEvent, ResultType } from '../../../src/event/result_event.js';
 import { TemplateStringExpr } from '../../../src/expr/template_string_expr.js';
@@ -13,7 +13,7 @@ test('open should generate target URL based on URL expression', (t) => {
   const stmt = new PostStmt('source', 'https://example.com/api/123');
   const executor = new PostExecutor(stmt);
 
-  const context = new MockContext();
+  const context = new ContextMock();
   context.enter_new_scope();
   context.set_local_symbol('source', { id: 123 });
 
@@ -27,7 +27,7 @@ test('next should send a POST request and return a ResultEvent', async (t) => {
   const stmt = new PostStmt('source', 'https://example.com/api');
   const executor = new PostExecutor(stmt);
 
-  const context = new MockContext();
+  const context = new ContextMock();
   context.enter_new_scope();
   context.set_local_symbol('source', { id: 123 });
 

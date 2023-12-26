@@ -2,7 +2,7 @@ import test from 'ava';
 import { SetExecutor } from '../../../src/executor/command/set_executor.js';
 import { SetStmt } from '../../../src/stmt/command/set_stmt.js';
 import { ExecutorType } from '../../../src/executor/executor.js';
-import { Context, MockContext } from '../../../src/context/context.js';
+import { Context, ContextMock } from '../../../src/context/context.js';
 import { AsycOp, ResultEvent, ResultType } from '../../../src/event/result_event.js';
 import { ScriptInputEvent } from '../../../src/event/script_input_event.js';
 import { ValueExpr } from '../../../src/expr/value_expr.js';
@@ -18,7 +18,7 @@ test('SetExecutor - next - need_declare, global', (t) => {
   const value = new ValueExpr('value');
   const stmt = new SetStmt('x', value, true, true); // Fix constructor call
   const executor = new SetExecutor(stmt);
-  const context = new MockContext();
+  const context = new ContextMock();
   context.enter_new_scope();
   executor.open(context);
   const input = new ScriptInputEvent(undefined);
@@ -33,7 +33,7 @@ test('SetExecutor - next - need_declare, global', (t) => {
 test('SetExecutor - next - no need_declare, global', async (t) => {
   const stmt = new SetStmt('x', new ValueExpr('value'), false, true); // Fix constructor call
   const executor = new SetExecutor(stmt);
-  const context = new MockContext();
+  const context = new ContextMock();
   context.enter_new_scope();
   executor.open(context);
   const input = new ScriptInputEvent(undefined);
@@ -53,7 +53,7 @@ test('SetExecutor - next - no need_declare, global', async (t) => {
 test('SetExecutor - next - need_declare, local', (t) => {
   const stmt = new SetStmt('x', new ValueExpr('value'), true, false); // Fix constructor call
   const executor = new SetExecutor(stmt);
-  const context = new MockContext();
+  const context = new ContextMock();
   context.enter_new_scope();
   executor.open(context);
   const input = new ScriptInputEvent(undefined);
@@ -66,7 +66,7 @@ test('SetExecutor - next - need_declare, local', (t) => {
 test('SetExecutor - next - no need_declare, local',async (t) => {
   const stmt = new SetStmt('x', new ValueExpr('value'), false, false); // Fix constructor call
   const executor = new SetExecutor(stmt);
-  const context = new MockContext();
+  const context = new ContextMock();
   context.enter_new_scope();
   executor.open(context);
   const input = new ScriptInputEvent(undefined);
@@ -83,7 +83,7 @@ test('SetExecutor - next - no need_declare, local',async (t) => {
 test('SetExecutor - close', (t) => {
   const stmt = new SetStmt('', new ValueExpr('value'), false); // Fix constructor call
   const executor = new SetExecutor(stmt);
-  const context = new MockContext();
+  const context = new ContextMock();
   context.enter_new_scope();
   executor.open(context);
   executor.close();

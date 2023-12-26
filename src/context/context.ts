@@ -132,7 +132,7 @@ export class Context {
         return this.symbol_table_stack_.length > 0;
     }
 }
-export class MockContext extends Context{
+export class ContextMock extends Context{
 
     constructor() {
         super(new Map<string, any>());

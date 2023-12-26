@@ -7,7 +7,6 @@ import { Executor } from "../executor/executor.js";
 /**
  * @brief instance.js 实例
  * 表示一个脚本文件的运行实例
- * 一个脚本文件可能会被多个用户同时访问
  */
 export class Instance {
   private main_executor_: Executor;
