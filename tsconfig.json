@@ -33,6 +33,9 @@
     ],
     "typedocOptions": {
         "entryPoints": ["src/**/*.ts"],
+        "commentStyle": "all",
+        "basePath": "src",
+        "includes": "src/docs",
         "out": "docs/api"
     }
     

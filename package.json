@@ -15,7 +15,7 @@
     "cli": "tsc && node lib/src/exec.js doc/example.sc",
     "test:calc": "cd test && tsc && cd ../ && node lib/src/calc_test.js",
     "test": "tsc && ava",
-    "doc": "typedoc --tsconfig ./tsconfig.json"
+    "doc": "typedoc --tsconfig ./tsconfig.json && cp -r image/ docs/api/image"
   },
   "dependencies": {
     "@babel/core": "^7.23.3",
