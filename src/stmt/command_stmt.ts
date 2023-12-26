@@ -24,8 +24,14 @@ export enum CommandStmtType {
   MOCK_STMT, //< mock,用于测试
 }
 
+/**
+ * Represents a command statement.
+ */
 export interface CommandStmt extends Stmt {
-  // 获取命令类型
+  /**
+   * Gets the command type.
+   * @returns The command statement type.
+   */
   get_cmd_type(): CommandStmtType;
 }
 

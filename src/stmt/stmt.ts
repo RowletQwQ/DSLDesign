@@ -13,7 +13,7 @@ export enum StmtType {
 /**
  * @brief  Stmt for Statment
  * @ingroup statement
- * @details 用于描述一个语句块，经过ANTLR解析的雨具会被进一步解析为stmt,
+ * @details 用于描述一个语句块，经过ANTLR解析的语句会被进一步解析为stmt,
  * 利用内部的数据结构进行表示
  */
 
