@@ -44,7 +44,7 @@ topic looping {
                     }
                     set i = i + 1
                 }
-                if (i == prime) => {
+                if (i = prime) => {
                     say `大于${num}的第一个素数是${prime}`
                     break
                 }
